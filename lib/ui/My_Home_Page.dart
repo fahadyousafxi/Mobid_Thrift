@@ -12,11 +12,23 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+       body: Stack(
+         children: [
+           Container(
+             width: double.infinity,
+             height: double.infinity,
+             child: Image(
+               image: AssetImage("assets/images/backgroundimage.png"),
+               fit: BoxFit.cover,
+             ),
+           ),
 
-        title: Text('j'),
-      ),
-       body: MyAppbar()
+           Center(
+             child: Text('Home Page'),
+           )
+
+         ],
+       ),
     );
   }
 }

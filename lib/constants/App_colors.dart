@@ -7,8 +7,10 @@ class AppColors {
   static Color appBarTitleColor = Colors.white;
   static Color appBarIconColor = Colors.white;
   static Color scaffoldColor = Colors.white;
+
   static Color normalTextColor = Colors.black;
   static Color headingTextColor = Colors.black;
+
   static Color textButtonColor = Colors.blue;
   static Color elevatedButtonColor = Colors.black;
   static Color otherButtonColor = Colors.red;

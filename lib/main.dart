@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/ui/My_Home_Page.dart';
+import 'package:mobidthrift/ui/login/First_Page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,11 +16,10 @@ class MyApp extends StatelessWidget {
       title: 'Mobid Thrift',
       theme: ThemeData.dark(
 
-
         // primarySwatch: Colors.blue,
 
       ).copyWith(scaffoldBackgroundColor: Colors.white),
-      home: const MyHomePage(),
+      home: const FirstPage(),
     );
   }
 }

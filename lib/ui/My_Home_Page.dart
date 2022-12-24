@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobidthrift/constants/App_colors.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -12,16 +13,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       body: Stack(
+      appBar: AppBar(backgroundColor: AppColors.appBarColor,),
+       body: Column(
          children: [
-           Container(
-             width: double.infinity,
-             height: double.infinity,
-             child: Image(
-               image: AssetImage("assets/images/backgroundimage.png"),
-               fit: BoxFit.cover,
-             ),
-           ),
+
 
            Center(
              child: Text('Home Page'),

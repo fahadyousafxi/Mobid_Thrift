@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobidthrift/constants/App_button.dart';
+import 'package:mobidthrift/constants/App_widgets.dart';
+import 'package:mobidthrift/ui/login/Login_page.dart';
 
 import '../../constants/App_texts.dart';
 
@@ -42,9 +43,22 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 children: [
                   Text('Enter your Email!'),
                   SizedBox(height: 20,),
-                  AppButton().myTextFormField(hintText: 'Enter Email', labelText: 'Email'),
+                  AppWidgets().myTextFormField(hintText: 'Enter Email', labelText: 'Email'),
                   SizedBox(height: 20,),
-                  AppButton().myElevatedBTN(onPressed: (){}, btnText: 'Send Varification')
+                  AppWidgets().myElevatedBTN(onPressed: (){}, btnText: 'Send Varification'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Already have an Account?'),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage()));
+                          }, child: Text('LogIn Now'))
+                    ],
+                  )
                 ],
               ),
             ),

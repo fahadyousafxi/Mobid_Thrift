@@ -13,6 +13,7 @@ class _MyAppbarState extends State<MyAppbar> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("MobidThrift"),
+
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(20),

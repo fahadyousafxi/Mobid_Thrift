@@ -4,6 +4,7 @@ import 'package:mobidthrift/ui/My_Home_Page.dart';
 import 'package:mobidthrift/ui/login/Login_page.dart';
 import 'package:mobidthrift/ui/login/Signup_page.dart';
 
+import '../../constants/App_widgets.dart';
 import '../../constants/App_texts.dart';
 
 class FirstPage extends StatefulWidget {
@@ -49,25 +50,32 @@ class _FirstPageState extends State<FirstPage> {
                   SizedBox(
                     height: 33,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MyHomePage()));
-                    },
-                    child: Text('Continue without Login'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.elevatedButtonColor,
-                      minimumSize: Size(200, 40),
-                    ),
-                  ),
+                  AppWidgets().myElevatedBTN(onPressed: (){
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyHomePage()));
+                  }, btnText: 'Continue without Login'),
+
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     Navigator.pushReplacement(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //             builder: (context) => MyHomePage()));
+                  //   },
+                  //   child: Text('Continue without Login'),
+                  //   style: ElevatedButton.styleFrom(
+                  //     backgroundColor: AppColors.elevatedButtonColor,
+                  //     minimumSize: Size(200, 40),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 5,
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context,
+                      Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => LoginPage()));
                     },
                     child: Text('Login'),

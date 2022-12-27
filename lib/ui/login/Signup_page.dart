@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobidthrift/constants/App_widgets.dart';
+import 'package:mobidthrift/ui/login/Login_page.dart';
 
 import '../../constants/App_texts.dart';
 
@@ -33,8 +35,61 @@ class _SignupPageState extends State<SignupPage> {
             ),
           ),
 
-          Center(
-            child: Text('SignUp Page'),
+          Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Center(
+              child: Form(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 100,),
+                      Text('Create New Account'),
+                      Text('Fill the form to continue'),
+
+                      SizedBox(height: 20,),
+                      AppWidgets().myTextFormField(hintText: 'Enter your Full Name', labelText: 'Full Name'),
+                      SizedBox(height: 20,),
+
+                      AppWidgets().myTextFormField(hintText: 'Enter your Email', labelText: 'Email'),
+                      SizedBox(height: 20,),
+
+                      AppWidgets().myTextFormField(hintText: 'Enter your Address', labelText: 'Address'),
+                      SizedBox(height: 20,),
+
+                      AppWidgets().myTextFormField(hintText: 'Enter your Phone Number', labelText: 'Phone Number'),
+                      SizedBox(height: 20,),
+
+                      AppWidgets().myTextFormField(hintText: 'Enter your Password', labelText: 'Password'),
+                      SizedBox(height: 20,),
+
+                      AppWidgets().myElevatedBTN(onPressed: (){
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()));
+                      }, btnText: "SignUp"),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('Already have an Account?'),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginPage()));
+                              }, child: Text('LogIn Now'))
+                        ],
+                      )
+
+
+
+                    ],
+                  ),
+                ),
+              ),
+            ),
           )
 
         ],

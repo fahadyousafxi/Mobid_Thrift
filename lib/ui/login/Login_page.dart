@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobidthrift/constants/App_button.dart';
+import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/ui/My_Home_Page.dart';
 import 'package:mobidthrift/ui/login/Forgot_password_page.dart';
+import 'package:mobidthrift/ui/login/Signup_page.dart';
 
 import '../../constants/App_texts.dart';
 
@@ -58,12 +59,12 @@ class _LoginPageState extends State<LoginPage> {
                   Form(
                       child: Column(
                     children: [
-                      AppButton().myTextFormField(
+                      AppWidgets().myTextFormField(
                           hintText: 'Enter Email', labelText: 'Email'),
                       SizedBox(
                         height: 20,
                       ),
-                      AppButton().myTextFormField(
+                      AppWidgets().myTextFormField(
                           hintText: 'Enter Password', labelText: 'Password'),
 
                       Row(
@@ -75,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                               }, child: Text('Forgot Password'))
                         ],
                       ),
-                      AppButton().myElevatedBTN(
+                      AppWidgets().myElevatedBTN(
                           onPressed: () {
                             Navigator.pushReplacement(
                                 context,
@@ -89,7 +90,12 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           Text('Don’t have an Account?'),
                           TextButton(
-                              onPressed: () {}, child: Text('SignUp Now'))
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignupPage()));
+                              }, child: Text('SignUp Now'))
                         ],
                       )
                     ],

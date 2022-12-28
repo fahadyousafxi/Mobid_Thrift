@@ -15,39 +15,56 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppWidgets().myAppBar(),
-      drawer: AppWidgets().myDrawer(),
+      appBar: MyAppbar().myAppBar(),
+      drawer: MyAppbar().myDrawer(context),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.filter_list),
-              color: AppColors.myIconColor,
-            ),
-            // Center(
-            //   child: Text(
-            //     'Home Page',
-            //     style: TextStyle(color: Colors.black),
-            //   ),
-            // ),
-            AppWidgets().myAddBannerContainer(height: size.height / 4.2),
-            AppWidgets().categoryRow(categoryText: 'Cell Phones', textButtonText: 'More Cell Phones'),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Cell Phones',
-                  style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                TextButton(onPressed: (){}, child: Text('More Cell Phones', style: TextStyle(fontSize: 16),)),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.filter_list),
+                color: AppColors.myIconColor,
+              ),
 
-              ],
-            )
-          ],
+              AppWidgets().myAddBannerContainer(height: size.height / 4.2),
+
+              SizedBox(height: 15,),
+              AppWidgets().categoryRow(categoryText: 'Cell Phones', textButtonText: 'More Cell Phones'),
+              SizedBox(height: size.height / 4.8, width: double.infinity, child: AppWidgets().myList(context)),
+
+              SizedBox(height: 15,),
+              AppWidgets().categoryRow(categoryText: 'Pads/Tablets', textButtonText: 'More Pads/Tablets'),
+              SizedBox(height: size.height / 4.8, width: double.infinity, child: AppWidgets().myList(context)),
+
+              SizedBox(height: 15,),
+              AppWidgets().categoryRow(categoryText: 'Smart Watches', textButtonText: 'More Smart Watches'),
+              SizedBox(height: size.height / 4.8, width: double.infinity, child: AppWidgets().myList(context)),
+
+              SizedBox(height: 15,),
+              AppWidgets().categoryRow(categoryText: 'Laptops', textButtonText: 'More Laptops'),
+              SizedBox(height: size.height / 4.8, width: double.infinity, child: AppWidgets().myList(context)),
+
+              SizedBox(height: 15,),
+              AppWidgets().categoryRow(categoryText: 'Desktops', textButtonText: 'More Desktops'),
+              SizedBox(height: size.height / 4.8, width: double.infinity, child: AppWidgets().myList(context)),
+
+              SizedBox(height: 15,),
+              AppWidgets().categoryRow(categoryText: 'Accessories', textButtonText: 'More Accessories'),
+              SizedBox(height: size.height / 4.8, width: double.infinity, child: AppWidgets().myList(context)),
+
+              SizedBox(height: 15,),
+              AppWidgets().categoryRow(categoryText: 'Parts', textButtonText: 'More Parts'),
+              SizedBox(height: size.height / 4.8, width: double.infinity, child: AppWidgets().myList(context)),
+
+              SizedBox(height: 15,),
+
+
+            ],
+          ),
         ),
       ),
     );

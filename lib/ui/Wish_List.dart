@@ -13,7 +13,7 @@ class _WishListState extends State<WishList> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      appBar: MyAppbar().mySimpleAppBar(title: "Wish List"),
+      appBar: MyAppbar().mySimpleAppBar(context, title: "Wish List"),
       body: Center(child: Text('Empty Wish List'),),
     );
   }

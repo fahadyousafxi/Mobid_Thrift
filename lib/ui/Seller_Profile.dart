@@ -23,7 +23,7 @@ class _SellerProfileState extends State<SellerProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppbar().mySimpleAppBar(title: 'MobidThrift'),
+      appBar: MyAppbar().mySimpleAppBar(context, title: 'MobidThrift'),
       floatingActionButton: CircleAvatar( backgroundColor: Colors.transparent, radius: 50, child: IconButton(onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage())); }, icon: Icon(Icons.chat, size: 35,color: AppColors.myIconColor,))),
       body: SingleChildScrollView(
         child: Column(

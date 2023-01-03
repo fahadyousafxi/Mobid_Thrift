@@ -7,7 +7,7 @@ class AboutUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppbar().mySimpleAppBar(title: 'About Us'),
+      appBar: MyAppbar().mySimpleAppBar(context, title: 'About Us'),
       body: Center(child: Text('Discribes the information about'),),
     );
   }

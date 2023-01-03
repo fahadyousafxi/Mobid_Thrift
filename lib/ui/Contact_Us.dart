@@ -12,7 +12,7 @@ class _ContactUsState extends State<ContactUs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppbar().mySimpleAppBar(title: 'Contact Us'),
+      appBar: MyAppbar().mySimpleAppBar(context, title: 'Contact Us'),
       body: Center(child: Text('Contact information of the Business'),),
     );
   }

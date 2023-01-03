@@ -11,7 +11,6 @@ import 'package:mobidthrift/ui/Your_Cart.dart';
 import 'package:mobidthrift/ui/login/Login_page.dart';
 
 class MyAppbar {
-
   /// My App Bar
   PreferredSizeWidget myAppBar(context) {
     return AppBar(
@@ -19,8 +18,20 @@ class MyAppbar {
       title: const Text("MobidThrift"),
       centerTitle: true,
       actions: [
-        IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-        IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => YourCart()));}, icon: Icon(Icons.shopping_cart)),
+        IconButton(
+            onPressed: () {
+              // showSearch(context: context, delegate: SearchPage()),
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SearchPage()));
+            },
+            icon: Hero(tag: 'forSearch',
+            child: Icon(Icons.search))),
+        IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => YourCart()));
+            },
+            icon: Icon(Icons.shopping_cart)),
       ],
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -31,7 +42,8 @@ class MyAppbar {
   }
 
   /// My Simple App Bar
-  PreferredSizeWidget mySimpleAppBar({required String title, Widget myicon = const SizedBox()}) {
+  PreferredSizeWidget mySimpleAppBar(context,
+      {required String title, Widget myicon = const SizedBox()}) {
     return AppBar(
       backgroundColor: Colors.black,
       title: Text(title),
@@ -48,13 +60,11 @@ class MyAppbar {
     );
   }
 
-
   /// My Drawer
   Widget myDrawer(BuildContext context) {
     bool _yes = false;
     return Drawer(
-
-      backgroundColor: AppColors.drawerColor,
+        backgroundColor: AppColors.drawerColor,
         child: ListView(
           children: [
             DrawerHeader(
@@ -65,7 +75,8 @@ class MyAppbar {
                         height: 85,
                         child: CircleAvatar(
                           radius: 48, // Image radius
-                          backgroundImage: AssetImage('assets/images/phone.png'),
+                          backgroundImage:
+                              AssetImage('assets/images/phone.png'),
                         )),
                     TextButton(
                       onPressed: () {},
@@ -88,19 +99,30 @@ class MyAppbar {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text('Switch to seller', style: TextStyle(color: AppColors.drawerTextColor,),),
-                  Switch(value: _yes, onChanged: (bool newValue) {},),
+                  Text(
+                    'Switch to seller',
+                    style: TextStyle(
+                      color: AppColors.drawerTextColor,
+                    ),
+                  ),
+                  Switch(
+                    value: _yes,
+                    onChanged: (bool newValue) {},
+                  ),
                 ],
               ),
             ),
             ListTile(
               textColor: AppColors.drawerTextColor,
               iconColor: AppColors.drawerIconColor,
-              leading: Icon(Icons.home_filled,),
+              leading: Icon(
+                Icons.home_filled,
+              ),
               title: Text('Home Page'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MyHomePage()));
               },
             ),
             Divider(
@@ -115,7 +137,10 @@ class MyAppbar {
               title: Text('Trade Your Product'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TradeYourProduct()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TradeYourProduct()));
               },
             ),
             Divider(
@@ -130,7 +155,8 @@ class MyAppbar {
               title: Text('Search'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SearchPage()));
               },
             ),
             Divider(
@@ -145,7 +171,8 @@ class MyAppbar {
               title: Text('Cart'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => YourCart()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => YourCart()));
               },
             ),
             Divider(
@@ -160,8 +187,8 @@ class MyAppbar {
               title: Text('Wish List'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => WishList()));
-
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => WishList()));
               },
             ),
             Divider(
@@ -169,7 +196,6 @@ class MyAppbar {
               height: 1,
               thickness: 2,
             ),
-
             ListTile(
               textColor: AppColors.drawerTextColor,
               iconColor: AppColors.drawerIconColor,
@@ -177,7 +203,8 @@ class MyAppbar {
               title: Text('Sold Products'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SoldProducts()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SoldProducts()));
               },
             ),
             Divider(
@@ -192,7 +219,8 @@ class MyAppbar {
               title: Text('About Us'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUs()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AboutUs()));
               },
             ),
             Divider(
@@ -207,7 +235,8 @@ class MyAppbar {
               title: Text('Contact Us'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUs()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ContactUs()));
               },
             ),
             Divider(
@@ -222,7 +251,8 @@ class MyAppbar {
               title: Text('Log Out'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pop(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                Navigator.pop(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
               },
             ),
             Divider(
@@ -233,5 +263,4 @@ class MyAppbar {
           ],
         ));
   }
-
 }

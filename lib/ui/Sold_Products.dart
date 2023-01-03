@@ -12,7 +12,7 @@ class _SoldProductsState extends State<SoldProducts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppbar().mySimpleAppBar(title: 'Sold Products'),
+      appBar: MyAppbar().mySimpleAppBar(context, title: 'Sold Products'),
     );
   }
 }

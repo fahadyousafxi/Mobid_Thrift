@@ -14,7 +14,7 @@ class _YourCartState extends State<YourCart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppbar().mySimpleAppBar(title: 'Your Cart'),
+      appBar: MyAppbar().mySimpleAppBar(context, title: 'Your Cart'),
       body: Center(
         child: Text('Your Cart is Empty'),
       ),

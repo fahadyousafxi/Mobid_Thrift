@@ -15,7 +15,7 @@ class _TradeYourProductState extends State<TradeYourProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppbar().mySimpleAppBar(title: 'Trade Your Product'),
+      appBar: MyAppbar().mySimpleAppBar(context, title: 'Trade Your Product'),
       body: Center(child: Text('Empty')),
       bottomNavigationBar: Container(
         height: 60,

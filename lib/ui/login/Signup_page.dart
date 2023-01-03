@@ -18,6 +18,7 @@ class _SignupPageState extends State<SignupPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        centerTitle: true,
         title: Text(
           "${AppTexts.appName}",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),

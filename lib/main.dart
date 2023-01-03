@@ -14,11 +14,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Mobid Thrift',
-      theme: ThemeData.dark(
-
-        // primarySwatch: Colors.blue,
-
-      ).copyWith(scaffoldBackgroundColor: Colors.white),
+      // theme: ThemeData.dark(
+      //
+      //   // primarySwatch: Colors.blue,
+      //
+      // ).copyWith(scaffoldBackgroundColor: Colors.white, primaryColor: Colors.white),
+      theme: ThemeData(
+          primaryColor: Colors.black
+      ),
       home: const FirstPage(),
     );
   }

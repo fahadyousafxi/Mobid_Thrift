@@ -15,8 +15,7 @@ class _SearchPageState extends State<SearchPage> {
       appBar: MyAppbar().mySimpleAppBar(context, title: 'Search Item'),
       body: Container(
         padding: EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 1),
-        child:
-        TextField(
+        child: TextField(
           decoration: InputDecoration(
               isDense: true,
               prefixIcon: Hero(tag: 'forSearch',

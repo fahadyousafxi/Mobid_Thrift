@@ -26,9 +26,10 @@ class _TradeYourProductState extends State<TradeYourProduct> {
           children: [
             AppWidgets().myElevatedBTN(
                 onPressed: () {},
-                btnText: 'Checkout',
+                btnText: 'Add Product',
                 btnColor: AppColors.myRedColor)
           ],
+
         ),
       ),
     );

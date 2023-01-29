@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobidthrift/ui/My_Home_Page.dart';
 import 'package:mobidthrift/ui/login/First_Page.dart';
 
 void main() {

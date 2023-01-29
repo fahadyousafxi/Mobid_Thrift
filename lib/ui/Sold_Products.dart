@@ -13,6 +13,7 @@ class _SoldProductsState extends State<SoldProducts> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppbar().mySimpleAppBar(context, title: 'Sold Products'),
+      body: Center(child: Text('Empty List of Sold Products'),),
     );
   }
 }

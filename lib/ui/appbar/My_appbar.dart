@@ -24,8 +24,7 @@ class MyAppbar {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SearchPage()));
             },
-            icon: Hero(tag: 'forSearch',
-            child: Icon(Icons.search))),
+            icon: Hero(tag: 'forSearch', child: Icon(Icons.search))),
         IconButton(
             onPressed: () {
               Navigator.push(
@@ -50,7 +49,12 @@ class MyAppbar {
       centerTitle: true,
       actions: [
         myicon ?? SizedBox(),
-        IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart)),
+        IconButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => YourCart()));
+            },
+            icon: Icon(Icons.shopping_cart)),
       ],
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -87,31 +91,31 @@ class MyAppbar {
                     ),
                   ],
                 )),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 22, vertical: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                border: Border.all(
-                  color: Colors.white,
-                ),
-                color: Colors.black,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    'Switch to seller',
-                    style: TextStyle(
-                      color: AppColors.drawerTextColor,
-                    ),
-                  ),
-                  Switch(
-                    value: _yes,
-                    onChanged: (bool newValue) {},
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   margin: EdgeInsets.symmetric(horizontal: 22, vertical: 5),
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.all(Radius.circular(20)),
+            //     border: Border.all(
+            //       color: Colors.white,
+            //     ),
+            //     color: Colors.black,
+            //   ),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //     children: [
+            //       Text(
+            //         'Switch to seller',
+            //         style: TextStyle(
+            //           color: AppColors.drawerTextColor,
+            //         ),
+            //       ),
+            //       Switch(
+            //         value: _yes,
+            //         onChanged: (bool newValue) {},
+            //       ),
+            //     ],
+            //   ),
+            // ),
             ListTile(
               textColor: AppColors.drawerTextColor,
               iconColor: AppColors.drawerIconColor,

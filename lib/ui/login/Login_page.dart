@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/ui/My_Home_Page.dart';
@@ -5,6 +7,8 @@ import 'package:mobidthrift/ui/login/Forgot_password_page.dart';
 import 'package:mobidthrift/ui/login/Signup_page.dart';
 
 import '../../constants/App_texts.dart';
+import '../../utils/utils.dart';
+import 'Verify_Page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,6 +18,25 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final  _fireStore = FirebaseFirestore.instance.collection('users');
+
+  late bool _loading = false;
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  var _myFormKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,28 +68,53 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Text(
                     'Welcome Back',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                    style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold, fontSize: 22),
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   Text(
                     'Login to your Account',
-                    style: TextStyle(color: Colors.white38),
+                    style: TextStyle(color: Colors.white70),
                   ),
                   SizedBox(
                     height: 20,
                   ),
                   Form(
+                    key: _myFormKey,
                       child: Column(
-                    children: [
+                        children: [
                       AppWidgets().myTextFormField(
-                          hintText: 'Enter Email', labelText: 'Email'),
+                          hintText: 'Enter Email', myType: TextInputType.emailAddress, labelText: 'Email', controller: _emailController,
+                        validator:
+                            (String? txt) {
+                          bool emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$').hasMatch(txt!);
+                          if (txt == null || txt.isEmpty) {
+
+                            return "Please provide your Email";
+
+                          }
+                          if(emailValid){
+                            return null;
+
+                          }
+                          return "Your Email is Wrong";
+                        },
+                      ),
                       SizedBox(
                         height: 20,
                       ),
                       AppWidgets().myTextFormField(
-                          hintText: 'Enter Password', labelText: 'Password'),
+                          obscureText: true, hintText: 'Enter Password', labelText: 'Password', controller: _passwordController,
+                        validator:
+                            (String? txt) {
+                          if (txt == null || txt.isEmpty) {
+                            return "Please provide password";
+                          }
+
+                          return null;
+                        },
+                      ),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -78,18 +126,20 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                       AppWidgets().myElevatedBTN(
+                        loading: _loading,
                           onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MyHomePage()));
+                            if(_myFormKey.currentState!.validate()){
+
+                              myLogin();
+
+                            }
                           },
                           btnText: 'Login'),
                       // AppButton().myElevatedBTN(onPressed: (){}, btnText: 'login With Google'),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Don’t have an Account?'),
+                          Text('Don’t have an Account?', style: TextStyle(color: Colors.white70)),
                           TextButton(
                               onPressed: () {
                                 Navigator.pushReplacement(
@@ -109,4 +159,41 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  myLogin(){
+    setState(() {
+      _loading = true;
+    });
+
+    _firebaseAuth.signInWithEmailAndPassword(
+        email: _emailController.text.toString().trim(),
+        password: _passwordController.text.toString()).then((value){
+      setState(() {
+        _loading = false;
+      });
+      if(_firebaseAuth.currentUser!.emailVerified){
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MyHomePage()));
+      } else {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => VerifyPage()));
+      }
+
+    }).onError((error, stackTrace){
+      Utils.flutterToast(error.toString());
+      setState(() {
+        _loading = false;
+      });
+    });
+
+
+
+
+  }
 }
+
+

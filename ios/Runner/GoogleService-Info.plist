@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>180059824746-p63v1b2it2fk5v92oa0q25q9r2rns156.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.180059824746-p63v1b2it2fk5v92oa0q25q9r2rns156</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAwDfiAUf222AVAiqjLRAvi2Kp1YZxYmfY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>180059824746</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.mobidthrift.ecommerce.mobidthrift</string>
+	<key>PROJECT_ID</key>
+	<string>mobidthrift</string>
+	<key>STORAGE_BUCKET</key>
+	<string>mobidthrift.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:180059824746:ios:0927e1e33fc074b9486013</string>
+</dict>
+</plist>

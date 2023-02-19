@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "180059824746",
+    "project_id": "mobidthrift",
+    "storage_bucket": "mobidthrift.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180059824746:android:bf3db79eedc8827e486013",
+        "android_client_info": {
+          "package_name": "com.mobidthrift.ecommerce.mobidthrift"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "180059824746-ld1r0747lentq2si7omtg8t4rfo8tqnv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARBT7145tMi6x9hru5fakYKU-CMcKwDik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "180059824746-ld1r0747lentq2si7omtg8t4rfo8tqnv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

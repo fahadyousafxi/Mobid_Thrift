@@ -112,7 +112,7 @@ class _SignupPageState extends State<SignupPage> {
                         validator:
                             (String? txt) {
                           if (txt == null || txt.isEmpty) {
-                            return "Please provide islamiat marks";
+                            return "Please provide your Address";
                           }
                           return null;
                         },
@@ -136,7 +136,7 @@ class _SignupPageState extends State<SignupPage> {
                           if (txt == null || txt.isEmpty) {
                             return "Please provide Password";
                           }
-                          else if (txt.length > 6 ){
+                          else if (txt.length >= 6 ){
                             return null;
                           }
                           else{

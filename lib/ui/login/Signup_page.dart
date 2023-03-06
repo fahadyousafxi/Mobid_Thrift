@@ -153,7 +153,7 @@ class _SignupPageState extends State<SignupPage> {
                        if(myFormKey.currentState!.validate()){
 //Sign up fucntionI
                          mySignUp();
-                       }
+                       } // try
                       }, btnText: "SignUp"),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -151,12 +151,8 @@ class _SignupPageState extends State<SignupPage> {
                           onPressed: (){
 
                        if(myFormKey.currentState!.validate()){
-
+//Sign up fucntionI
                          mySignUp();
-
-
-
-
                        }
                       }, btnText: "SignUp"),
                       Row(

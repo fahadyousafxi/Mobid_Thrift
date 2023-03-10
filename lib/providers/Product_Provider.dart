@@ -3,34 +3,33 @@ import 'package:flutter/cupertino.dart';
 import 'package:mobidthrift/models/Product_Model.dart';
 
 class ProductsProvider with ChangeNotifier {
-
   ProductModel? productModel;
 
   List<ProductModel> searchProductsList = [];
 
-  productModels(QueryDocumentSnapshot element){
+  productModels(QueryDocumentSnapshot element) {
     productModel = ProductModel(
-      productImage1: element.get("productImage1"),
-      productName: element.get("productName"),
-      productDescription: element.get("productDescription"),
-      productCurrentBid: element.get("productCurrentBid"),
-      productUid: element.get("productUid"),
-      productCollectionName: element.get("productCollectionName")
-      // bidDateTimeLeft: element.get("bidDateTimeLeft"),
-    );
+        productImage1: element.get("productImage1"),
+        productShopkeeperUid: element.get("productShopkeeperUid"),
+        productName: element.get("productName"),
+        productDescription: element.get("productDescription"),
+        productCurrentBid: element.get("productCurrentBid"),
+        productUid: element.get("productUid"),
+        productCollectionName: element.get("productCollectionName")
+        // bidDateTimeLeft: element.get("bidDateTimeLeft"),
+        );
     searchProductsList.add(productModel!);
   }
-
 
   ///********************** Cell Phones Products *********************///
 
   List<ProductModel> cellPhonesProductsList = [];
   fitchCellPhonesProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("CellPhonesProducts").get();
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection("CellPhonesProducts").get();
 
     for (var element in snapshot.docs) {
-
       productModels(element);
       // productModel = ProductModel(
       //   productImage1: element.get("productImage1"),
@@ -44,6 +43,7 @@ class ProductsProvider with ChangeNotifier {
     cellPhonesProductsList = newList;
     notifyListeners();
   }
+
   List<ProductModel> get getCellPhonesProductsList {
     return cellPhonesProductsList;
   }
@@ -52,10 +52,11 @@ class ProductsProvider with ChangeNotifier {
 
   List<ProductModel> padsTabletsProductsList = [];
 
-
   fitchPadsTabletsProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("PadsAndTabletsProducts").get();
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection("PadsAndTabletsProducts")
+        .get();
 
     for (var element in snapshot.docs) {
       productModels(element);
@@ -73,10 +74,10 @@ class ProductsProvider with ChangeNotifier {
 
   List<ProductModel> laptopsProductsList = [];
 
-
   fitchLaptopsProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("LaptopsProducts").get();
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection("LaptopsProducts").get();
 
     for (var element in snapshot.docs) {
       productModels(element);
@@ -95,10 +96,10 @@ class ProductsProvider with ChangeNotifier {
 
   List<ProductModel> smartWatchesProductsList = [];
 
-
   fitchSmartWatchesProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("SmartWatches").get();
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection("SmartWatches").get();
 
     for (var element in snapshot.docs) {
       productModels(element);
@@ -116,10 +117,10 @@ class ProductsProvider with ChangeNotifier {
 
   List<ProductModel> desktopsProductsList = [];
 
-
   fitchDesktopsProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("Desktops").get();
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection("Desktops").get();
 
     for (var element in snapshot.docs) {
       productModels(element);
@@ -137,10 +138,10 @@ class ProductsProvider with ChangeNotifier {
 
   List<ProductModel> accessoriesProductsList = [];
 
-
   fitchAccessoriesProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("Accessories").get();
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection("Accessories").get();
 
     for (var element in snapshot.docs) {
       productModels(element);
@@ -158,10 +159,10 @@ class ProductsProvider with ChangeNotifier {
 
   List<ProductModel> partsProductsList = [];
 
-
   fitchPartsProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("Parts").get();
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection("Parts").get();
 
     for (var element in snapshot.docs) {
       productModels(element);
@@ -175,12 +176,9 @@ class ProductsProvider with ChangeNotifier {
     return partsProductsList;
   }
 
-
-
   ///********************** Search Products *********************///
 
   List<ProductModel> get getSearchProductsList {
     return searchProductsList;
   }
-
 }

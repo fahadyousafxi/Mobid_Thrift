@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/providers/Product_Provider.dart';
-import 'package:mobidthrift/ui/pages_of_view_more/More_Accessories.dart';
-import 'package:mobidthrift/ui/pages_of_view_more/More_Cell_Phones.dart';
 import 'package:mobidthrift/ui/appbar/My_Drawer.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
+import 'package:mobidthrift/ui/pages_of_view_more/More_Accessories.dart';
+import 'package:mobidthrift/ui/pages_of_view_more/More_Cell_Phones.dart';
 import 'package:mobidthrift/ui/pages_of_view_more/More_Desktops.dart';
 import 'package:mobidthrift/ui/pages_of_view_more/More_Laptops.dart';
 import 'package:mobidthrift/ui/pages_of_view_more/More_Pads_Tablets.dart';
@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       return Center(child: Text('Some Error'));
 
                     return AspectRatio(
-                      aspectRatio: 10/6,
+                      aspectRatio: 10 / 6,
                       child: Container(
                         margin: EdgeInsets.only(left: 0, bottom: 0, right: 0),
                         decoration: BoxDecoration(
@@ -95,7 +95,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: Colors.white,
                           image: DecorationImage(
                             // The Data will be loaded from firebse
-                            image: NetworkImage(snapshot.data!['Banner_Ad'] ?? "assets/images/adbanner.png"),
+                            image: NetworkImage(snapshot.data!['Banner_Ad'] ??
+                                "assets/images/adbanner.png"),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -103,21 +104,30 @@ class _MyHomePageState extends State<MyHomePage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('    ' + snapshot.data!['Title'], maxLines: 1, overflow: TextOverflow.ellipsis,style: const TextStyle( fontSize: 22, fontWeight: FontWeight.bold,
-                              shadows: <Shadow>[
-                                Shadow(
-                                  offset: Offset(0.2, 0.2),
-                                  blurRadius: 5.0,
-                                  color: Colors.white,
-                                ),
-                                // Shadow(
-                                //   offset: Offset(0.1, 0.1),
-                                //   blurRadius: 8.0,
-                                //   color: Color.fromARGB(125, 0, 0, 255),
-                                // ),
-                              ],
-                            ),),
-                            SizedBox(height: 22,)
+                            Text(
+                              '    ' + snapshot.data!['Title'],
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(0.2, 0.2),
+                                    blurRadius: 5.0,
+                                    color: Colors.white,
+                                  ),
+                                  // Shadow(
+                                  //   offset: Offset(0.1, 0.1),
+                                  //   blurRadius: 8.0,
+                                  //   color: Color.fromARGB(125, 0, 0, 255),
+                                  // ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 22,
+                            )
                           ],
                         ),
                       ),
@@ -360,10 +370,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                           SizedBox(
                                             height: 2,
                                           ),
-                                          Text(data.productDescription
-                                                  .toString()
-                                                  .substring(0, 24) +
-                                              '....'),
+                                          Text(
+                                            data.productDescription.toString(),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                           Text(
                                               'Rs.${data.productCurrentBid.toString()}  is current bid '),
                                           Text('1 Day time left '),

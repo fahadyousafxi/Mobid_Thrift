@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:mobidthrift/providers/Cart_Provider.dart';
 import 'package:mobidthrift/providers/Product_Provider.dart';
 import 'package:mobidthrift/providers/Wish_List_Provider.dart';
+import 'package:mobidthrift/providers/seller_provider.dart';
 import 'package:mobidthrift/ui/Splash_Screen.dart';
-import 'package:mobidthrift/ui/login/First_Page.dart';
 import 'package:provider/provider.dart';
-
-import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +13,7 @@ void main() async {
       // options: DefaultFirebaseOptions.currentPlatform,
       );
   runApp(const MyApp());
-}
+}// comment for git
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -34,7 +32,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<WishListProvider>(
           create: (context) => WishListProvider(),
         ),
-
+        ChangeNotifierProvider<SellerProvider>(
+          create: (context) => SellerProvider(),
+        ),
       ],
       child: MaterialApp(
         title: 'Mobid Thrift',

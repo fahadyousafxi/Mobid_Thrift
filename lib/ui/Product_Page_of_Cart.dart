@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/providers/Cart_Provider.dart';
-import 'package:mobidthrift/ui/Seller_Profile.dart';
 import 'package:mobidthrift/ui/appbar/My_Drawer.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
 import 'package:mobidthrift/utils/utils.dart';
@@ -31,26 +30,25 @@ class ProductPageOfCart extends StatefulWidget {
   bool? cartPTAApproved;
   ProductPageOfCart(
       {this.cartImage1,
-        this.cartImage2,
-        this.cartImage3,
-        this.cartImage4,
-        this.cartImage5,
-        this.cartImage6,
-        this.cartCollectionName,
-        this.cartName,
-        this.cartDescription,
-        this.cartSpecification,
-        this.cartUid,
-        this.cartShopkeeperUid,
-        this.cartCurrentBid,
-        this.cartShipping,
-        this.cartPrice,
-        this.cartDateTime,
-        this.bidDateTimeLeft,
-        this.cartPTAApproved,
+      this.cartImage2,
+      this.cartImage3,
+      this.cartImage4,
+      this.cartImage5,
+      this.cartImage6,
+      this.cartCollectionName,
+      this.cartName,
+      this.cartDescription,
+      this.cartSpecification,
+      this.cartUid,
+      this.cartShopkeeperUid,
+      this.cartCurrentBid,
+      this.cartShipping,
+      this.cartPrice,
+      this.cartDateTime,
+      this.bidDateTimeLeft,
+      this.cartPTAApproved,
       Key? key})
       : super(key: key);
-
 
   @override
   State<ProductPageOfCart> createState() => _ProductPageOfCartState();
@@ -58,7 +56,6 @@ class ProductPageOfCart extends StatefulWidget {
 
 class _ProductPageOfCartState extends State<ProductPageOfCart> {
   TextEditingController bidAmount = TextEditingController();
-
 
   CartProvider cartProvider = CartProvider();
 
@@ -71,6 +68,7 @@ class _ProductPageOfCartState extends State<ProductPageOfCart> {
     bidAmount.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     cartProvider = Provider.of(context);
@@ -91,10 +89,10 @@ class _ProductPageOfCartState extends State<ProductPageOfCart> {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SellerProfile()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => SellerProfile()));
                     },
                     child: CircleAvatar(
                       radius: 33,
@@ -109,10 +107,10 @@ class _ProductPageOfCartState extends State<ProductPageOfCart> {
                     children: [
                       InkWell(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SellerProfile()));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => SellerProfile()));
                           },
                           child:
                               AppWidgets().myHeading1Text("Shopkeeper's Name")),
@@ -148,7 +146,10 @@ class _ProductPageOfCartState extends State<ProductPageOfCart> {
                       height: 255,
                     ),
                   ),
-                  Text(widget.cartName!, style: TextStyle(fontWeight: FontWeight.bold),),
+                  Text(
+                    widget.cartName!,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
             ),
@@ -170,8 +171,12 @@ class _ProductPageOfCartState extends State<ProductPageOfCart> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('Rs.${currentBid!.toInt()} Current Bid'),
-                            myBid == 0 ? SizedBox() : Text('Rs.${myBid.toInt()} your Bid'),
-                            SizedBox(height: 5,),
+                            myBid == 0
+                                ? SizedBox()
+                                : Text('Rs.${myBid.toInt()} your Bid'),
+                            SizedBox(
+                              height: 5,
+                            ),
                             Text('4d 3h Time Left'),
                           ],
                         ),
@@ -183,15 +188,15 @@ class _ProductPageOfCartState extends State<ProductPageOfCart> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text('PTA Aproved'),
-                                widget.cartPTAApproved == true ?
-                                Icon(
-                                  Icons.done_rounded,
-                                  color: Colors.green,
-                                ):
-                                Icon(
-                                  Icons.cancel_rounded,
-                                  color: Colors.red,
-                                )
+                                widget.cartPTAApproved == true
+                                    ? Icon(
+                                        Icons.done_rounded,
+                                        color: Colors.green,
+                                      )
+                                    : Icon(
+                                        Icons.cancel_rounded,
+                                        color: Colors.red,
+                                      )
                               ],
                             ),
                             Text('Shipping: Rs.${widget.cartShipping}'),
@@ -228,7 +233,7 @@ class _ProductPageOfCartState extends State<ProductPageOfCart> {
                         onPressed: () {
                           int bid = int.parse(bidAmount.text.toString());
                           print(bid);
-                          if(bid > 9999999){
+                          if (bid > 9999999) {
                             Utils.flutterToast('Your Bid Amount is too high');
                             return;
                           }
@@ -239,8 +244,6 @@ class _ProductPageOfCartState extends State<ProductPageOfCart> {
                             currentBid = bid;
                             bidAmount.clear();
 
-
-
                             ProgressDialog progressDialog2 = ProgressDialog(
                               context,
                               title: const Text('Creating Your Bid !!!'),
@@ -248,25 +251,25 @@ class _ProductPageOfCartState extends State<ProductPageOfCart> {
                             );
                             setState(() {});
                             progressDialog2.show();
-                            try{
-                            cartProvider.addCartData(
-                              cartImage1: widget.cartImage1,
-                              cartDescription: widget.cartDescription,
-                              cartPTAApproved: widget.cartPTAApproved,
-                              cartName: widget.cartName,
-                              cartCurrentBid: currentBid,
-                              cartUid: widget.cartUid,
-                            );
-                            FirebaseFirestore.instance.collection(widget.cartCollectionName.toString()).doc(widget.cartUid).update(
-                                {
-                                  "productCurrentBid" : currentBid
-                                });
-                            progressDialog2.dismiss();
-                            Utils.flutterToast('Your Bid is Created!');
-                            } catch(e){
+                            try {
+                              cartProvider.addCartData(
+                                cartImage1: widget.cartImage1,
+                                cartDescription: widget.cartDescription,
+                                cartPTAApproved: widget.cartPTAApproved,
+                                cartName: widget.cartName,
+                                cartCurrentBid: currentBid,
+                                cartUid: widget.cartUid,
+                              );
+                              FirebaseFirestore.instance
+                                  .collection(
+                                      widget.cartCollectionName.toString())
+                                  .doc(widget.cartUid)
+                                  .update({"productCurrentBid": currentBid});
+                              progressDialog2.dismiss();
+                              Utils.flutterToast('Your Bid is Created!');
+                            } catch (e) {
                               progressDialog2.dismiss();
                               Utils.flutterToast(e.toString());
-
                             }
 
                             setState(() {});
@@ -298,15 +301,17 @@ class _ProductPageOfCartState extends State<ProductPageOfCart> {
                       //     btnText: '❤ Add to wish list',
                       //     btnColor: AppColors.buttonColorBlue),
                       AppWidgets().myHeading2Text('Discription: '),
-                      AppWidgets().myNormalText(
-                          '     ${widget.cartDescription}'),
+                      AppWidgets()
+                          .myNormalText('     ${widget.cartDescription}'),
                       SizedBox(
                         height: 12,
                       ),
                       AppWidgets().myHeading2Text('Specification: '),
-                      AppWidgets().myNormalText(
-                          '     ${widget.cartSpecification}'),
-                      SizedBox(height: 5,)
+                      AppWidgets()
+                          .myNormalText('     ${widget.cartSpecification}'),
+                      SizedBox(
+                        height: 5,
+                      )
                     ],
                   ),
                 ],

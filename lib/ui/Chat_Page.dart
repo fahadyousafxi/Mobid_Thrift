@@ -1,7 +1,11 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
 
 class ChatPage extends StatefulWidget {
+  const ChatPage({super.key});
+
   @override
   _ChatPageState createState() => _ChatPageState();
 }
@@ -28,7 +32,7 @@ class _ChatPageState extends State<ChatPage> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: <Widget>[
-            Text('Empty Chat'),
+            const Text('Empty Chat'),
             Flexible(
               child: ListView.builder(
                 reverse: true,
@@ -36,7 +40,7 @@ class _ChatPageState extends State<ChatPage> {
                 itemBuilder: (_, int index) => _messages[index],
               ),
             ),
-            Divider(height: 1.0),
+            const Divider(height: 1.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -44,16 +48,16 @@ class _ChatPageState extends State<ChatPage> {
                   child: TextField(
                     decoration: InputDecoration(
                         border: OutlineInputBorder( borderRadius: BorderRadius.circular(20), ),
-                        contentPadding: EdgeInsets.only(top: 4, left: 6),
+                        contentPadding: const EdgeInsets.only(top: 4, left: 6),
                         hintText: 'Enter a message'
                     ),
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ),
-                IconButton(onPressed: (){}, icon: Icon(Icons.send))
+                IconButton(onPressed: (){}, icon: const Icon(Icons.send))
               ],
             ),
-            SizedBox(height: 8,)
+            const SizedBox(height: 8,)
           ],
         ),
       ),
@@ -63,7 +67,8 @@ class _ChatPageState extends State<ChatPage> {
 }
 
 class ChatMessage extends StatelessWidget {
-  ChatMessage({required this.text});
+  const ChatMessage({super.key, required this.text});
+
 
   final String text;
 

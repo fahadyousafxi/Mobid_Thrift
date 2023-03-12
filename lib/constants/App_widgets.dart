@@ -1,28 +1,27 @@
-
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/ui/Product_page.dart';
 
-import 'App_colors.dart';
-
 class AppWidgets {
-
-
-
   /// My Elevated Button
   Widget myElevatedBTN(
       {required var onPressed,
       required var btnText,
-        final bool loading = false,
+      final bool loading = false,
       Color btnColor = Colors.black,
       var btnWith = 200.0,
       var btnHeight = 40.0}) {
     return ElevatedButton(
       onPressed: onPressed,
-      child: loading == true ? CircularProgressIndicator(strokeWidth: 3, color: Colors.white,) :Text(btnText),
       style: ElevatedButton.styleFrom(
         backgroundColor: btnColor,
         minimumSize: Size(btnWith, btnHeight),
       ),
+      child: loading == true
+          ? const CircularProgressIndicator(
+              strokeWidth: 3,
+              color: Colors.white,
+            )
+          : Text(btnText),
     );
   }
 
@@ -30,10 +29,10 @@ class AppWidgets {
   Widget myTextFormField(
       {required var hintText,
       required var labelText,
-        required TextEditingController controller,
-        TextInputType myType = TextInputType.text,
-        bool obscureText = false,
-        String? Function(String?)? validator,
+      required TextEditingController controller,
+      TextInputType myType = TextInputType.text,
+      bool obscureText = false,
+      String? Function(String?)? validator,
       Color textColor = Colors.white,
       Color enBorderSideColor = Colors.white12,
       Color borderSideColor = Colors.red,
@@ -58,7 +57,7 @@ class AppWidgets {
         hintText: hintText,
         hintStyle: TextStyle(color: hintColor),
         label: Text(labelText),
-        labelStyle: new TextStyle(color: labelColor),
+        labelStyle: TextStyle(color: labelColor),
         border: OutlineInputBorder(
           borderSide: BorderSide(color: borderSideColor, width: 2.0),
           borderRadius: BorderRadius.circular(borderRadius),
@@ -91,7 +90,7 @@ class AppWidgets {
         hintText: hintText,
         hintStyle: TextStyle(color: hintColor),
         label: Text(labelText),
-        labelStyle: new TextStyle(color: labelColor),
+        labelStyle: TextStyle(color: labelColor),
         border: OutlineInputBorder(
           borderSide: BorderSide(color: borderSideColor, width: 2.0),
           borderRadius: BorderRadius.circular(borderRadius),
@@ -100,20 +99,19 @@ class AppWidgets {
     );
   }
 
-
   /// My Add Banner Container
   Widget myAddBannerContainer({required var height}) {
     return Container(
-      margin: EdgeInsets.only(left: 0, bottom: 0, right: 0),
+      margin: const EdgeInsets.only(left: 0, bottom: 0, right: 0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
         border: Border.all(
           color: Colors.black,
         ),
         color: Colors.white,
       ),
       height: height,
-      child: Image(
+      child: const Image(
         // The Data will be loaded from firebse
         image: AssetImage("assets/images/adbanner.png"),
         // fit: BoxFit.cover,
@@ -122,39 +120,50 @@ class AppWidgets {
   }
 
   /// Home Screen Category row
-  Widget categoryRow({required var categoryText, required var textButtonText, required var onPressed}) {
+  Widget categoryRow(
+      {required var categoryText,
+      required var textButtonText,
+      required var onPressed}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           categoryText,
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
         ),
         TextButton(
             onPressed: onPressed,
             child: Text(
               textButtonText,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             )),
       ],
     );
   }
 
-
   /// My Texts
-  Widget myHeading1Text(String txt,{Color color = Colors.black}){
-    return Text(txt, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: color),);
-  }
-  Widget myHeading2Text(String txt,{Color color = Colors.black}){
-    return Text(txt, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color),);
-  }
-  Widget myNormalText(String txt){
-    return Text(txt, style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black),);
+  Widget myHeading1Text(String txt, {Color color = Colors.black}) {
+    return Text(
+      txt,
+      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: color),
+    );
   }
 
+  Widget myHeading2Text(String txt, {Color color = Colors.black}) {
+    return Text(
+      txt,
+      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color),
+    );
+  }
 
-
+  Widget myNormalText(String txt) {
+    return Text(
+      txt,
+      style: const TextStyle(
+          fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black),
+    );
+  }
 
   /// My List view of Static data
   Widget myList(BuildContext context) {
@@ -169,36 +178,34 @@ class AppWidgets {
             borderRadius: BorderRadius.circular(11.0),
           ),
           child: GestureDetector(
-            onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => ProductPage()));},
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Column(
-                children: [
-                  SizedBox(
-
-                    height: 112,
-                    child: Image(
-                    // The Data will be loaded from firebse
-                    image: AssetImage("assets/images/phone.png"),
-                    // fit: BoxFit.cover,
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProductPage()));
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Column(
+                  children: const [
+                    SizedBox(
+                      height: 112,
+                      child: Image(
+                        // The Data will be loaded from firebse
+                        image: AssetImage("assets/images/phone.png"),
+                        // fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                  Text('Product name'),
-                  Text('First line of discription'),
-                  Text('Rs.400  is current bid '),
-                  Text('1 Day time left '),
-                ],
-              ),
-            )
-          ),
+                    Text('Product name'),
+                    Text('First line of discription'),
+                    Text('Rs.400  is current bid '),
+                    Text('1 Day time left '),
+                  ],
+                ),
+              )),
         ),
 
-
-
-        SizedBox(
+        const SizedBox(
           width: 10,
         ),
-
 
         Card(
           clipBehavior: Clip.antiAlias,
@@ -207,13 +214,15 @@ class AppWidgets {
             borderRadius: BorderRadius.circular(11.0),
           ),
           child: GestureDetector(
-              onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => ProductPage()));},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProductPage()));
+              },
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Column(
-                  children: [
+                  children: const [
                     SizedBox(
-
                       height: 112,
                       child: Image(
                         // The Data will be loaded from firebse
@@ -227,16 +236,12 @@ class AppWidgets {
                     Text('2 Day time left '),
                   ],
                 ),
-              )
-          ),
+              )),
         ),
 
-
-
-        SizedBox(
+        const SizedBox(
           width: 10,
         ),
-
 
         Card(
           clipBehavior: Clip.antiAlias,
@@ -245,13 +250,15 @@ class AppWidgets {
             borderRadius: BorderRadius.circular(11.0),
           ),
           child: GestureDetector(
-              onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => ProductPage()));},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProductPage()));
+              },
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Column(
-                  children: [
+                  children: const [
                     SizedBox(
-
                       height: 112,
                       child: Image(
                         // The Data will be loaded from firebse
@@ -265,8 +272,7 @@ class AppWidgets {
                     Text('1 Day time left '),
                   ],
                 ),
-              )
-          ),
+              )),
         ),
         // Container(
         //   padding: EdgeInsets.all(5.0),

@@ -100,26 +100,28 @@ class _ProductPageState extends State<ProductPage> {
     }
     return Scaffold(
       appBar: MyAppbar().myAppBar(context),
-      drawer: MyDrawer(),
+      drawer: const MyDrawer(),
       body: SingleChildScrollView(
         child: FutureBuilder<DocumentSnapshot>(
             future: _fireStoreSnapshot,
             builder: (BuildContext context,
                 AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting)
-                return Center(
-                    child: CircularProgressIndicator(
-                  color: Colors.blue,
-                ));
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.blue,
+                  ),
+                );
+              }
 
-              if (snapshot.hasError) return Center(child: Text('Some Error'));
+              if (snapshot.hasError) {
+                return const Center(child: Text('Some Error'));
+              }
 
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 22,
-                  ),
+                  const SizedBox(height: 22),
                   Container(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -127,39 +129,40 @@ class _ProductPageState extends State<ProductPage> {
                         InkWell(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SellerProfile(
-                                        name: snapshot.data!['Name'],
-                                        profileImage:
-                                            snapshot.data!['Profile_Image'],
-                                        email: snapshot.data!['Email'],
-                                        contactNo:
-                                            snapshot.data!['Phone_Number'],
-                                        reviews: snapshot
-                                            .data!['Total_Review_Rating'],
-                                        totalNoOfReviews: snapshot
-                                            .data!['Total_Number_of_Reviews'],
-                                        uId: snapshot.data!['Uid'])));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SellerProfile(
+                                  name: snapshot.data!['Name'],
+                                  profileImage: snapshot.data!['Profile_Image'],
+                                  email: snapshot.data!['Email'],
+                                  contactNo: snapshot.data!['Phone_Number'],
+                                  reviews:
+                                      snapshot.data!['Total_Review_Rating'],
+                                  totalNoOfReviews:
+                                      snapshot.data!['Total_Number_of_Reviews'],
+                                  uId: snapshot.data!['Uid'],
+                                ),
+                              ),
+                            );
                           },
                           child: CircleAvatar(
                             radius: 33,
                             backgroundImage: snapshot.data!['Profile_Image']
                                         .toString() ==
                                     ''
-                                ? AssetImage('assets/images/img.png')
+                                ? const AssetImage('assets/images/img.png')
                                 : AssetImage(
                                     snapshot.data!['Profile_Image'].toString()),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 15,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 21,
                             ),
                             Container(
@@ -197,11 +200,11 @@ class _ProductPageState extends State<ProductPage> {
                                             "${snapshot.data!['Name']}")),
                                     Row(
                                       children: [
-                                        Text('Review '),
+                                        const Text('Review '),
                                         Row(
                                           children: List.generate(
                                               5,
-                                              (index) => Icon(
+                                              (index) => const Icon(
                                                     Icons.star,
                                                     color: Colors.orange,
                                                     size: 20,
@@ -228,7 +231,7 @@ class _ProductPageState extends State<ProductPage> {
                       children: [
                         InteractiveViewer(
                           panEnabled: false, // Set it to false
-                          boundaryMargin: EdgeInsets.all(100),
+                          boundaryMargin: const EdgeInsets.all(100),
                           minScale: 0.5,
                           maxScale: 2,
                           child: Image.network(
@@ -238,13 +241,13 @@ class _ProductPageState extends State<ProductPage> {
                         ),
                         Text(
                           widget.productName!,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 12, right: 12),
+                    padding: const EdgeInsets.only(left: 12, right: 12),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -263,12 +266,12 @@ class _ProductPageState extends State<ProductPage> {
                                 children: [
                                   Text('Rs.${currentBid!.toInt()} Current Bid'),
                                   myBid == 0
-                                      ? SizedBox()
+                                      ? const SizedBox()
                                       : Text('Rs.${myBid.toInt()} your Bid'),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
-                                  Text('4d 3h Time Left'),
+                                  const Text('4d 3h Time Left'),
                                 ],
                               ),
                               Column(
@@ -279,13 +282,13 @@ class _ProductPageState extends State<ProductPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      Text('PTA Aproved'),
+                                      const Text('PTA Aproved'),
                                       widget.productPTAApproved == true
-                                          ? Icon(
+                                          ? const Icon(
                                               Icons.done_rounded,
                                               color: Colors.green,
                                             )
-                                          : Icon(
+                                          : const Icon(
                                               Icons.cancel_rounded,
                                               color: Colors.red,
                                             )
@@ -312,14 +315,15 @@ class _ProductPageState extends State<ProductPage> {
                                         ? 'Your bid amount is low'
                                         : null,
                                     alignLabelWithHint: false,
-                                    border: OutlineInputBorder(gapPadding: 113),
+                                    border: const OutlineInputBorder(
+                                        gapPadding: 113),
                                     contentPadding:
-                                        EdgeInsets.only(top: 4, left: 6),
+                                        const EdgeInsets.only(top: 4, left: 6),
                                     // labelText: 'Label',
                                     hintText: 'Your Bid Amount'
                                     // height: 60, // Set the height of the text field
                                     ),
-                                style: TextStyle(fontSize: 12),
+                                style: const TextStyle(fontSize: 12),
                               ),
                             ),
                             AppWidgets().myElevatedBTN(
@@ -413,13 +417,13 @@ class _ProductPageState extends State<ProductPage> {
                             AppWidgets().myHeading2Text('Discription: '),
                             AppWidgets().myNormalText(
                                 '     ${widget.productDescription}'),
-                            SizedBox(
+                            const SizedBox(
                               height: 12,
                             ),
                             AppWidgets().myHeading2Text('Specification: '),
                             AppWidgets().myNormalText(
                                 '     ${widget.productSpecification}'),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             )
                           ],

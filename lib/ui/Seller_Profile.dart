@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
-import 'package:mobidthrift/ui/Chat_Page.dart';
 import 'package:mobidthrift/ui/Review_Page.dart';
 import 'package:mobidthrift/ui/Seller_Shop_Products.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
 
+import '../chat_module/screens/chat_screen.dart';
 import '../constants/App_widgets.dart';
 
 const LatLng currentLocation = LatLng(34.0151, 71.5249);
@@ -45,8 +45,16 @@ class _SellerProfileState extends State<SellerProfile> {
           radius: 50,
           child: IconButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ChatPage()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatScreen(
+                      name: widget.name,
+                      uId: widget.uId,
+                      key: widget.key,
+                    ),
+                  ),
+                );
               },
               icon: Icon(
                 Icons.chat,
@@ -56,16 +64,14 @@ class _SellerProfileState extends State<SellerProfile> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: 15,
-            ),
+            const SizedBox(height: 15),
             CircleAvatar(
               radius: 44,
               backgroundImage: widget.profileImage == ''
-                  ? AssetImage('assets/images/img.png')
+                  ? const AssetImage('assets/images/img.png')
                   : AssetImage(widget.profileImage!),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
@@ -74,7 +80,7 @@ class _SellerProfileState extends State<SellerProfile> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AppWidgets().myHeading1Text("${widget.name}"),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   InkWell(
@@ -91,11 +97,11 @@ class _SellerProfileState extends State<SellerProfile> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text('Review '),
+                        const Text('Review '),
                         Row(
                           children: List.generate(
                               5,
-                              (index) => Icon(
+                              (index) => const Icon(
                                     Icons.star,
                                     color: Colors.orange,
                                     size: 20,
@@ -110,18 +116,18 @@ class _SellerProfileState extends State<SellerProfile> {
                       btnText: "Follow",
                       btnColor: Colors.blue,
                       btnHeight: 30.0),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   AppWidgets().myHeading2Text('Phone:    ${widget.contactNo}'),
                   AppWidgets().myHeading2Text('Email:    ${widget.email}'),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.location_on_outlined,
                         color: Colors.red,
                       ),
@@ -132,14 +138,14 @@ class _SellerProfileState extends State<SellerProfile> {
                       height: 200,
                       width: MediaQuery.of(context).size.width / 1.3,
                       child: GoogleMap(
-                        initialCameraPosition:
-                            CameraPosition(target: currentLocation, zoom: 14),
+                        initialCameraPosition: const CameraPosition(
+                            target: currentLocation, zoom: 14),
                         onMapCreated: ((controller) {
                           _mapController = controller;
                           addMarker(id: 'test', location: currentLocation);
                         }),
                       )),
-                  SizedBox(
+                  const SizedBox(
                     height: 22,
                   ),
                   AppWidgets().myElevatedBTN(
@@ -147,7 +153,8 @@ class _SellerProfileState extends State<SellerProfile> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SellerShopProducts()));
+                                builder: (context) =>
+                                    const SellerShopProducts()));
                       },
                       btnText: "View Shop Products",
                       btnColor: Colors.blue,
@@ -163,11 +170,11 @@ class _SellerProfileState extends State<SellerProfile> {
 
   addMarker({required String id, required LatLng location}) async {
     var markerIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(), 'assets/images/phone');
+        const ImageConfiguration(), 'assets/images/phone');
     var marker = Marker(
         markerId: MarkerId(id),
         position: location,
-        infoWindow: InfoWindow(title: 'location'),
+        infoWindow: const InfoWindow(title: 'location'),
         icon: markerIcon);
     _markers[id] = marker;
     setState(() {});

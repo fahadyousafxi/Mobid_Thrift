@@ -13,7 +13,7 @@ void main() async {
       // options: DefaultFirebaseOptions.currentPlatform,
       );
   runApp(const MyApp());
-}// comment for git 16
+} // comment for git 16
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -38,11 +38,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Mobid Thrift',
-        // theme: ThemeData.dark(
-        //
-        //   // primarySwatch: Colors.blue,
-        //
-        // ).copyWith(scaffoldBackgroundColor: Colors.whidte, primaryColor: Colors.white),
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: Colors.black,
         ),

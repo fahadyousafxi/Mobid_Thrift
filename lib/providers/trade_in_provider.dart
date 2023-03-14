@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mobidthrift/models/Product_Model.dart';
 
-class ProductsProvider with ChangeNotifier {
+class TradeInProvider with ChangeNotifier {
   ProductModel? productModel;
 
+  final String _auth = FirebaseAuth.instance.currentUser!.uid.toString();
   List<ProductModel> searchProductsList = [];
 
   productModels(QueryDocumentSnapshot element) {
@@ -31,8 +33,12 @@ class ProductsProvider with ChangeNotifier {
   List<ProductModel> cellPhonesProductsList = [];
   fitchCellPhonesProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection("CellPhonesProducts").get();
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('TradeInProducts')
+        .doc('FrY6ftMAx233dpQTwZac')
+        .collection("CellPhonesProducts")
+        .where('productShopkeeperUid', isEqualTo: _auth)
+        .get();
 
     for (var element in snapshot.docs) {
       productModels(element);
@@ -60,7 +66,10 @@ class ProductsProvider with ChangeNotifier {
   fitchPadsTabletsProducts() async {
     List<ProductModel> newList = [];
     QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('TradeInProducts')
+        .doc('FrY6ftMAx233dpQTwZac')
         .collection("PadsAndTabletsProducts")
+        .where('productShopkeeperUid', isEqualTo: _auth)
         .get();
 
     for (var element in snapshot.docs) {
@@ -81,8 +90,12 @@ class ProductsProvider with ChangeNotifier {
 
   fitchLaptopsProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection("LaptopsProducts").get();
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('TradeInProducts')
+        .doc('FrY6ftMAx233dpQTwZac')
+        .collection("LaptopsProducts")
+        .where('productShopkeeperUid', isEqualTo: _auth)
+        .get();
 
     for (var element in snapshot.docs) {
       productModels(element);
@@ -103,8 +116,12 @@ class ProductsProvider with ChangeNotifier {
 
   fitchSmartWatchesProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection("SmartWatches").get();
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('TradeInProducts')
+        .doc('FrY6ftMAx233dpQTwZac')
+        .collection("SmartWatches")
+        .where('productShopkeeperUid', isEqualTo: _auth)
+        .get();
 
     for (var element in snapshot.docs) {
       productModels(element);
@@ -124,8 +141,12 @@ class ProductsProvider with ChangeNotifier {
 
   fitchDesktopsProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection("Desktops").get();
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('TradeInProducts')
+        .doc('FrY6ftMAx233dpQTwZac')
+        .collection("Desktops")
+        .where('productShopkeeperUid', isEqualTo: _auth)
+        .get();
 
     for (var element in snapshot.docs) {
       productModels(element);
@@ -145,8 +166,12 @@ class ProductsProvider with ChangeNotifier {
 
   fitchAccessoriesProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection("Accessories").get();
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('TradeInProducts')
+        .doc('FrY6ftMAx233dpQTwZac')
+        .collection("Accessories")
+        .where('productShopkeeperUid', isEqualTo: _auth)
+        .get();
 
     for (var element in snapshot.docs) {
       productModels(element);
@@ -166,8 +191,12 @@ class ProductsProvider with ChangeNotifier {
 
   fitchPartsProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection("Parts").get();
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('TradeInProducts')
+        .doc('FrY6ftMAx233dpQTwZac')
+        .collection("Parts")
+        .where('productShopkeeperUid', isEqualTo: _auth)
+        .get();
 
     for (var element in snapshot.docs) {
       productModels(element);

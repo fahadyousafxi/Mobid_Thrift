@@ -24,12 +24,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  ProductsProvider productProvider = ProductsProvider();
-
   final _fireStoreSnapshot = FirebaseFirestore.instance
       .collection('BannerAd')
       .doc('asdfasdfasdfasdf')
       .get();
+
+  ProductsProvider productProvider = ProductsProvider();
 
   @override
   void initState() {
@@ -136,6 +136,16 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(
                 height: 15,
               ),
+              // SizedBox(
+              //   height: 15,
+              // ),
+              // ElevatedButton(onPressed: (){
+              //
+              //   Navigator.push(context, MaterialPageRoute(builder: (context) => Testings()));
+              // }, child: Text('checking')),
+              // SizedBox(
+              //   height: 15,
+              // ),
 
               ///***************************** Cell Phones *****************************///
               AppWidgets().categoryRow(
@@ -204,8 +214,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                           .productPrice,
                                                   productPTAApproved:
                                                       cellPhonesProducts
-                                                              .productPTAApproved =
-                                                          true,
+                                                          .productPTAApproved,
                                                   productShopkeeperUid:
                                                       cellPhonesProducts
                                                           .productShopkeeperUid,
@@ -336,6 +345,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       data.productShopkeeperUid,
                                                   productSpecification:
                                                       data.productSpecification,
+                                                  productCollectionName: data
+                                                      .productCollectionName,
                                                 )));
                                   },
                                   child: Padding(
@@ -495,6 +506,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       data.productShopkeeperUid,
                                                   productSpecification:
                                                       data.productSpecification,
+                                                  productCollectionName: data
+                                                      .productCollectionName,
                                                 )));
                                   },
                                   child: Padding(
@@ -610,6 +623,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       data.productShopkeeperUid,
                                                   productSpecification:
                                                       data.productSpecification,
+                                                  productCollectionName: data
+                                                      .productCollectionName,
                                                 )));
                                   },
                                   child: Padding(
@@ -726,6 +741,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       data.productShopkeeperUid,
                                                   productSpecification:
                                                       data.productSpecification,
+                                                  productCollectionName: data
+                                                      .productCollectionName,
                                                 )));
                                   },
                                   child: Padding(
@@ -821,6 +838,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => ProductPage(
+                                                  productCollectionName: data
+                                                      .productCollectionName,
                                                   productName: data.productName
                                                       .toString(),
                                                   productCurrentBid:
@@ -949,6 +968,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 data.productShopkeeperUid,
                                             productSpecification:
                                                 data.productSpecification,
+                                            productCollectionName:
+                                                data.productCollectionName,
                                           )));
                             },
                             child: Padding(

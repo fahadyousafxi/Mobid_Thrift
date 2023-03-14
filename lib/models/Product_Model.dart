@@ -18,8 +18,10 @@ class ProductModel {
   DateTime? productDateTime;
   DateTime? bidDateTimeLeft;
   bool? productPTAApproved;
+  List<String>? imagesList;
 
   ProductModel({
+    this.imagesList,
     this.productCollectionName,
       this.productImage1,
       this.productImage2,

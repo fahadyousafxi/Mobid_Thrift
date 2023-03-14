@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
@@ -264,7 +265,12 @@ class _ProductPageOfCartState extends State<ProductPageOfCart> {
                                   .collection(
                                       widget.cartCollectionName.toString())
                                   .doc(widget.cartUid)
-                                  .update({"productCurrentBid": currentBid});
+                                  .update({
+                                "productCurrentBid": currentBid,
+                                "higherBidder": FirebaseAuth
+                                    .instance.currentUser!.uid
+                                    .toString()
+                              });
                               progressDialog2.dismiss();
                               Utils.flutterToast('Your Bid is Created!');
                             } catch (e) {

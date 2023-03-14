@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
-import 'package:mobidthrift/ui/Review_Page.dart';
 import 'package:mobidthrift/ui/Seller_Shop_Products.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
 
@@ -65,12 +64,14 @@ class _SellerProfileState extends State<SellerProfile> {
         child: Column(
           children: [
             const SizedBox(height: 15),
-            CircleAvatar(
-              radius: 44,
-              backgroundImage: widget.profileImage == ''
-                  ? const AssetImage('assets/images/img.png')
-                  : AssetImage(widget.profileImage!),
-            ),
+            widget.profileImage == ''
+                ? CircleAvatar(
+                    radius: 44,
+                    backgroundImage: const AssetImage('assets/images/img.png'))
+                : CircleAvatar(
+                    radius: 44,
+                    backgroundImage: NetworkImage(widget.profileImage!),
+                  ),
             const SizedBox(
               height: 10,
             ),
@@ -85,13 +86,13 @@ class _SellerProfileState extends State<SellerProfile> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ReviewPage(
-                                  reviews: widget.reviews,
-                                  totalNoOfReviews: widget.totalNoOfReviews,
-                                  uId: widget.uId)));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => ReviewPage(
+                      //             reviews: widget.reviews,
+                      //             totalNoOfReviews: widget.totalNoOfReviews,
+                      //             uId: widget.uId)));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -107,7 +108,10 @@ class _SellerProfileState extends State<SellerProfile> {
                                     size: 20,
                                   )),
                         ),
-                        Text(' (${widget.reviews.toString().substring(0, 1)})'),
+                        Text(' (${widget.reviews}.000'
+                                .toString()
+                                .substring(0, 5) +
+                            ')'),
                       ],
                     ),
                   ),

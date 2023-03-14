@@ -126,10 +126,15 @@ class _ReviewPageState extends State<ReviewPage> {
                     setState(() {
                       btn = true;
                     });
+                    double reviews;
                     double a =
-                        review + double.parse(widget.reviews!.toString());
+                        review + widget.reviews!;
                     int b = widget.totalNoOfReviews! + 1;
-                    double reviews = a / 2;
+                    if(b>=1){
+                       reviews = a / b;
+                    } else{
+                       reviews = a / 2;
+                    }
 
                     await _firebaseInstance.doc(widget.uId).update({
                       'Total_Number_of_Reviews': widget.totalNoOfReviews! + 1,

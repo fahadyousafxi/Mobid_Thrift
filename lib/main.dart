@@ -4,6 +4,7 @@ import 'package:mobidthrift/providers/Cart_Provider.dart';
 import 'package:mobidthrift/providers/Product_Provider.dart';
 import 'package:mobidthrift/providers/Wish_List_Provider.dart';
 import 'package:mobidthrift/providers/seller_provider.dart';
+import 'package:mobidthrift/providers/shop_keeper_products_provider.dart';
 import 'package:mobidthrift/providers/trade_in_provider.dart';
 import 'package:mobidthrift/ui/Splash_Screen.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<TradeInProvider>(
           create: (context) => TradeInProvider(),
+        ),
+        ChangeNotifierProvider<ShopKeeperProductsProvider>(
+          create: (context) => ShopKeeperProductsProvider(),
         ),
       ],
       child: MaterialApp(

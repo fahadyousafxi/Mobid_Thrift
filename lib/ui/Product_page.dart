@@ -93,11 +93,10 @@ class _ProductPageState extends State<ProductPage> {
         .get();
     _sellerProvider = Provider.of(context);
     // _sellerProvider.getSellerData(widget.productShopkeeperUid.toString());
-    if (auth != null) {
-      cartProvider = Provider.of(context);
-      wishListProvider = Provider.of(context);
-      currentBid = widget.productCurrentBid!.toInt();
-    }
+
+    cartProvider = Provider.of(context);
+    wishListProvider = Provider.of(context);
+    currentBid = widget.productCurrentBid!.toInt();
     return Scaffold(
       appBar: MyAppbar().myAppBar(context),
       drawer: MyDrawer(),
@@ -135,8 +134,9 @@ class _ProductPageState extends State<ProductPage> {
                                           snapshot.data!['Profile_Image'],
                                       email: snapshot.data!['Email'],
                                       contactNo: snapshot.data!['Phone_Number'],
-                                      reviews:
-                                          snapshot.data!['Total_Review_Rating'],
+                                      reviews: double.parse(snapshot
+                                          .data!['Total_Review_Rating']
+                                          .toString()),
                                       totalNoOfReviews: snapshot
                                           .data!['Total_Number_of_Reviews'],
                                       uId: snapshot.data!['Uid'])));

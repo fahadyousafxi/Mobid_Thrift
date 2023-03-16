@@ -1,13 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/providers/Cart_Provider.dart';
 import 'package:mobidthrift/ui/appbar/My_Drawer.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
-import 'package:mobidthrift/utils/utils.dart';
-import 'package:ndialog/ndialog.dart';
 import 'package:provider/provider.dart';
 
 class ProductPageOfCart extends StatefulWidget {
@@ -206,91 +202,91 @@ class _ProductPageOfCartState extends State<ProductPageOfCart> {
                       ],
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        height: _validate ? 49 : 35,
-                        width: MediaQuery.of(context).size.width / 2.2,
-                        child: TextField(
-                          controller: bidAmount,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                              errorText:
-                                  _validate ? 'Your bid amount is low' : null,
-                              alignLabelWithHint: false,
-                              border: OutlineInputBorder(gapPadding: 113),
-                              contentPadding: EdgeInsets.only(top: 4, left: 6),
-                              // labelText: 'Label',
-                              hintText: 'Your Bid Amount'
-                              // height: 60, // Set the height of the text field
-                              ),
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ),
-                      AppWidgets().myElevatedBTN(
-                        btnWith: MediaQuery.of(context).size.width / 2.5,
-                        btnHeight: 35.0,
-                        onPressed: () {
-                          int bid = int.parse(bidAmount.text.toString());
-                          print(bid);
-                          if (bid > 9999999) {
-                            Utils.flutterToast('Your Bid Amount is too high');
-                            return;
-                          }
-                          if (bid > currentBid!) {
-                            // bidAmount.text.isEmpty || bid < currentBid ? _validate = true : _validate = false;
-                            _validate = false;
-                            myBid = bid;
-                            currentBid = bid;
-                            bidAmount.clear();
-
-                            ProgressDialog progressDialog2 = ProgressDialog(
-                              context,
-                              title: const Text('Creating Your Bid !!!'),
-                              message: const Text('Please wait'),
-                            );
-                            setState(() {});
-                            progressDialog2.show();
-                            try {
-                              cartProvider.addCartData(
-                                cartImage1: widget.cartImage1,
-                                cartDescription: widget.cartDescription,
-                                cartPTAApproved: widget.cartPTAApproved,
-                                cartName: widget.cartName,
-                                cartCurrentBid: currentBid,
-                                cartUid: widget.cartUid,
-                              );
-                              FirebaseFirestore.instance
-                                  .collection(
-                                      widget.cartCollectionName.toString())
-                                  .doc(widget.cartUid)
-                                  .update({
-                                "productCurrentBid": currentBid,
-                                "higherBidder": FirebaseAuth
-                                    .instance.currentUser!.uid
-                                    .toString()
-                              });
-                              progressDialog2.dismiss();
-                              Utils.flutterToast('Your Bid is Created!');
-                            } catch (e) {
-                              progressDialog2.dismiss();
-                              Utils.flutterToast(e.toString());
-                            }
-
-                            setState(() {});
-                          } else {
-                            bidAmount.text.isEmpty || bid <= currentBid!
-                                ? _validate = true
-                                : _validate = false;
-                            setState(() {});
-                          }
-                        },
-                        btnText: 'Bid',
-                        btnColor: AppColors.buttonColorBlue,
-                      )
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     SizedBox(
+                  //       height: _validate ? 49 : 35,
+                  //       width: MediaQuery.of(context).size.width / 2.2,
+                  //       child: TextField(
+                  //         controller: bidAmount,
+                  //         keyboardType: TextInputType.number,
+                  //         decoration: InputDecoration(
+                  //             errorText:
+                  //                 _validate ? 'Your bid amount is low' : null,
+                  //             alignLabelWithHint: false,
+                  //             border: OutlineInputBorder(gapPadding: 113),
+                  //             contentPadding: EdgeInsets.only(top: 4, left: 6),
+                  //             // labelText: 'Label',
+                  //             hintText: 'Your Bid Amount'
+                  //             // height: 60, // Set the height of the text field
+                  //             ),
+                  //         style: TextStyle(fontSize: 12),
+                  //       ),
+                  //     ),
+                  //     AppWidgets().myElevatedBTN(
+                  //       btnWith: MediaQuery.of(context).size.width / 2.5,
+                  //       btnHeight: 35.0,
+                  //       onPressed: () {
+                  //         int bid = int.parse(bidAmount.text.toString());
+                  //         print(bid);
+                  //         if (bid > 9999999) {
+                  //           Utils.flutterToast('Your Bid Amount is too high');
+                  //           return;
+                  //         }
+                  //         if (bid > currentBid!) {
+                  //           // bidAmount.text.isEmpty || bid < currentBid ? _validate = true : _validate = false;
+                  //           _validate = false;
+                  //           myBid = bid;
+                  //           currentBid = bid;
+                  //           bidAmount.clear();
+                  //
+                  //           ProgressDialog progressDialog2 = ProgressDialog(
+                  //             context,
+                  //             title: const Text('Creating Your Bid !!!'),
+                  //             message: const Text('Please wait'),
+                  //           );
+                  //           setState(() {});
+                  //           progressDialog2.show();
+                  //           try {
+                  //             cartProvider.addCartData(
+                  //               cartImage1: widget.cartImage1,
+                  //               cartDescription: widget.cartDescription,
+                  //               cartPTAApproved: widget.cartPTAApproved,
+                  //               cartName: widget.cartName,
+                  //               cartCurrentBid: currentBid,
+                  //               cartUid: widget.cartUid,
+                  //             );
+                  //             FirebaseFirestore.instance
+                  //                 .collection(
+                  //                     widget.cartCollectionName.toString())
+                  //                 .doc(widget.cartUid)
+                  //                 .update({
+                  //               "productCurrentBid": currentBid,
+                  //               "higherBidder": FirebaseAuth
+                  //                   .instance.currentUser!.uid
+                  //                   .toString()
+                  //             });
+                  //             progressDialog2.dismiss();
+                  //             Utils.flutterToast('Your Bid is Created!');
+                  //           } catch (e) {
+                  //             progressDialog2.dismiss();
+                  //             Utils.flutterToast(e.toString());
+                  //           }
+                  //
+                  //           setState(() {});
+                  //         } else {
+                  //           bidAmount.text.isEmpty || bid <= currentBid!
+                  //               ? _validate = true
+                  //               : _validate = false;
+                  //           setState(() {});
+                  //         }
+                  //       },
+                  //       btnText: 'Bid',
+                  //       btnColor: AppColors.buttonColorBlue,
+                  //     )
+                  //   ],
+                  // ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

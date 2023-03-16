@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/utils/utils.dart';
 
 class ReviewPage extends StatefulWidget {
@@ -25,6 +26,8 @@ class _ReviewPageState extends State<ReviewPage> {
 
   bool btn = false;
 
+  final TextEditingController _reviewController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   bool star1 = true;
   bool star2 = false;
   bool star3 = false;
@@ -36,142 +39,177 @@ class _ReviewPageState extends State<ReviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Give a Review'),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      star2 = false;
-                      star3 = false;
-                      star4 = false;
-                      star5 = false;
-                      setState(() {
-                        review = 1;
-                      });
-                    },
-                    icon: Icon(
-                      Icons.star,
-                      color: star1 == false ? Colors.grey : Colors.amber,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        star2 = true;
+      body: Padding(
+        padding: const EdgeInsets.all(44.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Give a Review'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        star2 = false;
                         star3 = false;
                         star4 = false;
                         star5 = false;
-                        review = 2;
-                      });
-                    },
-                    icon: Icon(
-                      Icons.star,
-                      color: star2 == false ? Colors.grey : Colors.amber,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      star2 = true;
-                      star3 = true;
-                      star4 = false;
-                      star5 = false;
-                      review = 3;
+                        setState(() {
+                          review = 1;
+                        });
+                      },
+                      icon: Icon(
+                        Icons.star,
+                        color: star1 == false ? Colors.grey : Colors.amber,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        setState(() {
+                          star2 = true;
+                          star3 = false;
+                          star4 = false;
+                          star5 = false;
+                          review = 2;
+                        });
+                      },
+                      icon: Icon(
+                        Icons.star,
+                        color: star2 == false ? Colors.grey : Colors.amber,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        star2 = true;
+                        star3 = true;
+                        star4 = false;
+                        star5 = false;
+                        review = 3;
 
-                      setState(() {});
-                    },
-                    icon: Icon(
-                      Icons.star,
-                      color: star3 == false ? Colors.grey : Colors.amber,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      star2 = true;
-                      star3 = true;
-                      star4 = true;
-                      star5 = false;
-                      review = 4;
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.star,
+                        color: star3 == false ? Colors.grey : Colors.amber,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        star2 = true;
+                        star3 = true;
+                        star4 = true;
+                        star5 = false;
+                        review = 4;
 
-                      setState(() {});
-                    },
-                    icon: Icon(
-                      Icons.star,
-                      color: star4 == false ? Colors.grey : Colors.amber,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      star2 = true;
-                      star3 = true;
-                      star4 = true;
-                      star5 = true;
-                      review = 5;
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.star,
+                        color: star4 == false ? Colors.grey : Colors.amber,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        star2 = true;
+                        star3 = true;
+                        star4 = true;
+                        star5 = true;
+                        review = 5;
 
-                      setState(() {});
-                    },
-                    icon: Icon(
-                      Icons.star,
-                      color: star5 == false ? Colors.grey : Colors.amber,
-                    )),
-              ],
-            ),
-            SizedBox(
-              height: 44,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 66.0, right: 66),
-              child: ElevatedButton(
-                  onPressed: () async {
-                    setState(() {
-                      btn = true;
-                    });
-                    double reviews;
-                    double a =
-                        review + widget.reviews!;
-                    int b = widget.totalNoOfReviews! + 1;
-                    if(b>=1){
-                       reviews = a / b;
-                    } else{
-                       reviews = a / 2;
-                    }
-
-                    await _firebaseInstance.doc(widget.uId).update({
-                      'Total_Number_of_Reviews': widget.totalNoOfReviews! + 1,
-                      'Total_Review_Rating': reviews,
-                    }).then((value) {
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.star,
+                        color: star5 == false ? Colors.grey : Colors.amber,
+                      )),
+                ],
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              AppWidgets().myTextFormField(
+                  hintText: 'Please Write a Review',
+                  labelText: 'Review',
+                  controller: _reviewController,
+                  hintColor: Colors.black38,
+                  labelColor: Colors.black,
+                  textColor: Colors.black,
+                  fillColor: Colors.black12),
+              SizedBox(
+                height: 15,
+              ),
+              AppWidgets().myTextFormField(
+                  hintText: 'Please Write Your Name',
+                  labelText: 'Name',
+                  controller: _nameController,
+                  hintColor: Colors.black38,
+                  labelColor: Colors.black,
+                  textColor: Colors.black,
+                  fillColor: Colors.black12),
+              SizedBox(
+                height: 44,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 66.0, right: 66),
+                child: ElevatedButton(
+                    onPressed: () async {
                       setState(() {
-                        btn = false;
+                        btn = true;
                       });
-                      Utils.flutterToast('Thanks for Review');
-                      Navigator.pop(context);
-                    }).onError((error, stackTrace) {
-                      Utils.flutterToast(error.toString());
-                    });
+                      double reviews;
+                      double a = review + widget.reviews!;
+                      int b = widget.totalNoOfReviews! + 1;
+                      if (b <= 1) {
+                        reviews = a / b;
+                      } else {
+                        reviews = a / 2;
+                      }
+                      // print(
+                      //     '#################################### checking #####################');
+                      // print(a);
+                      // print(b);
+                      // print(reviews);
+                      // print(review);
 
-                    // _firebaseInstance
-                    //     .doc(widget.uId)
-                    //     .collection('Reviews')
-                    //     .doc(_firebaseAuth!.uid)
-                    //     .update({
-                    //   'User_Uid': _firebaseAuth!.uid.toString(),
-                    //   'My_Review_Rating': review,
-                    // }).then((value) {
-                    //   setState(() {
-                    //     btn = false;
-                    //   });
-                    //   Utils.flutterToast('Thanks for Review');
-                    // });
-                  },
-                  child: btn == false
-                      ? Text('   Submit Review   ')
-                      : Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                          ),
-                        )),
-            )
-          ],
+                      await _firebaseInstance.doc(widget.uId).update({
+                        'Total_Number_of_Reviews': widget.totalNoOfReviews! + 1,
+                        'Total_Review_Rating': reviews,
+                      }).then((value) async {
+                        await _firebaseInstance
+                            .doc(widget.uId)
+                            .collection('Reviews')
+                            .doc(_firebaseAuth!.uid)
+                            .set({
+                          'User_Uid': _firebaseAuth!.uid.toString(),
+                          'User_Email': _firebaseAuth!.email,
+                          'User_Review': _reviewController.text.toString(),
+                          'User_Name': _nameController.text.toString(),
+                          'My_Review_Rating': review,
+                          'Review_Timing': DateTime.now().toString(),
+                          'Review_Timing_In_Milliseconds':
+                              DateTime.now().millisecondsSinceEpoch.toString(),
+                          'Review_Timing_String':
+                              '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
+                        });
+                        setState(() {
+                          btn = false;
+                        });
+                        Utils.flutterToast('Thanks for Review');
+                        Navigator.pop(context);
+                      }).onError((error, stackTrace) {
+                        Utils.flutterToast(error.toString());
+                      });
+                    },
+                    child: btn == false
+                        ? Text('   Submit Review   ')
+                        : Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          )),
+              ),
+              // ElevatedButton(onPressed: (){
+              //   print(object);
+              // }, child: Text('check'))
+            ],
+          ),
         ),
       ),
     );

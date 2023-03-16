@@ -1,13 +1,15 @@
 import 'dart:io';
-import 'package:mobidthrift/constants/App_widgets.dart';
-import 'package:mobidthrift/ui/Profile_Screen.dart';
-import 'package:mobidthrift/ui/login/Signup_page.dart';
-import 'package:ndialog/ndialog.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobidthrift/constants/App_widgets.dart';
+import 'package:mobidthrift/ui/Profile_Screen.dart';
+import 'package:mobidthrift/ui/login/Signup_page.dart';
+import 'package:ndialog/ndialog.dart';
+
 import '../../constants/App_colors.dart';
 import '../../utils/utils.dart';
 import '../About_Us.dart';
@@ -28,13 +30,18 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-
   final _firebaseAuth = FirebaseAuth.instance;
 
-  final  _fireStore = FirebaseFirestore.instance.collection('users');
+  final _fireStore = FirebaseFirestore.instance.collection('users');
 
-  final  _fireStoreSnap = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots();
-  final  _fireStoreSnapshot = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).get();
+  final _fireStoreSnap = FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser?.uid)
+      .snapshots();
+  final _fireStoreSnapshot = FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser?.uid)
+      .get();
 
   File? pickedImage;
   bool showLocalImage = false;
@@ -54,33 +61,32 @@ class _MyDrawerState extends State<MyDrawer> {
       message: const Text('Please wait'),
     );
     progressDialog.show();
-    try{
+    try {
       var fileName = _firebaseAuth.currentUser!.email!.toString() + '.jpg';
-      UploadTask uploadTask = FirebaseStorage.instance.ref().child('profile_images').child(fileName).putFile(pickedImage!);
+      UploadTask uploadTask = FirebaseStorage.instance
+          .ref()
+          .child('profile_images')
+          .child(fileName)
+          .putFile(pickedImage!);
       TaskSnapshot snapshot = await uploadTask;
       String profileImageUrl = await snapshot.ref.getDownloadURL();
       print(profileImageUrl);
       _fireStore.doc(_firebaseAuth.currentUser?.uid.toString()).update({
-        'Profile_Image' : profileImageUrl,
+        'Profile_Image': profileImageUrl,
       });
       progressDialog.dismiss();
       Utils.flutterToast(' Uploaded Successful ');
-    } catch( e ){
+    } catch (e) {
       progressDialog.dismiss();
       print(e.toString());
       Utils.flutterToast(e.toString());
     }
-
   }
-
 
   @override
   void initState() {
-
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -89,18 +95,23 @@ class _MyDrawerState extends State<MyDrawer> {
         child: ListView(
           children: [
             DrawerHeader(
-                decoration: BoxDecoration(),
-                child: Column(
-                  children: [
-                    _firebaseAuth.currentUser != null ?
-                    FutureBuilder<DocumentSnapshot>(
-                      future: _fireStoreSnapshot,
-                        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
-                        if(snapshot.connectionState == ConnectionState.waiting)
-                          return Center(child: CircularProgressIndicator(color: Colors.white,));
+              decoration: BoxDecoration(),
+              child: Column(
+                children: [
+                  _firebaseAuth.currentUser != null
+                      ? FutureBuilder<DocumentSnapshot>(
+                          future: _fireStoreSnapshot,
+                          builder: (BuildContext context,
+                              AsyncSnapshot<DocumentSnapshot> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting)
+                              return Center(
+                                  child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ));
 
-                        if(snapshot.hasError)
-                          return Center(child: Text('Some Error'));
+                            if (snapshot.hasError)
+                              return Center(child: Text('Some Error'));
 
                             return Expanded(
                               child: Container(
@@ -111,49 +122,65 @@ class _MyDrawerState extends State<MyDrawer> {
                                       bottomSheet(context);
                                     },
                                     child:
-                                    // ClipRRect(
-                                    //     borderRadius: BorderRadius.circular(38),
-                                    //     child: showLocalImage == false
-                                    //         ? Image.network(
-                                    //             "https://via.placeholder.com/150")
-                                    //         : Image.file(pickedImage!),
-                                    //
-                                    // )
+                                        // ClipRRect(
+                                        //     borderRadius: BorderRadius.circular(38),
+                                        //     child: showLocalImage == false
+                                        //         ? Image.network(
+                                        //             "https://via.placeholder.com/150")
+                                        //         : Image.file(pickedImage!),
+                                        //
+                                        // )
 
-                                    CircleAvatar(
+                                        CircleAvatar(
                                       radius: 44,
-                                      backgroundImage:
-
-                                      showLocalImage == false ? NetworkImage( snapshot.data!['Profile_Image'] == "" ? 'https://alumni.engineering.utoronto.ca/files/2022/05/Avatar-Placeholder-400x400-1.jpg' : snapshot.data!['Profile_Image'])
+                                      backgroundImage: showLocalImage == false
+                                          ? NetworkImage(snapshot
+                                                      .data!['Profile_Image'] ==
+                                                  ""
+                                              ? 'https://alumni.engineering.utoronto.ca/files/2022/05/Avatar-Placeholder-400x400-1.jpg'
+                                              : snapshot.data!['Profile_Image'])
                                           : Image.file(pickedImage!).image,
 
                                       // AssetImage('assets/images/phone.png'),
                                     ),
                                   )),
-                        );
-                        }
-                    ) : Column(
-                      children: [
-                        SizedBox(height: 20,),
-                        Center(child: AppWidgets().myElevatedBTN(onPressed: (){
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignupPage()));
-                        }, btnText: 'SignUp', btnColor: Colors.redAccent)),
-                      ],
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
-                      },
-                      child: _firebaseAuth.currentUser != null ? Text(
-                        'Profile',
-                        style: TextStyle(color: AppColors.drawerTextColor),
-                      ) : SizedBox(),
-                    ),
-                  ],
-                ),
-
-
+                            );
+                          })
+                      : Column(
+                          children: [
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Center(
+                                child: AppWidgets().myElevatedBTN(
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SignupPage()));
+                                    },
+                                    btnText: 'SignUp',
+                                    btnColor: Colors.redAccent)),
+                          ],
+                        ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfileScreen()));
+                    },
+                    child: _firebaseAuth.currentUser != null
+                        ? Text(
+                            'Profile',
+                            style: TextStyle(color: AppColors.drawerTextColor),
+                          )
+                        : SizedBox(),
+                  ),
+                ],
+              ),
             ),
             // Container(
             //   margin: EdgeInsets.symmetric(horizontal: 22, vertical: 5),
@@ -358,7 +385,6 @@ class _MyDrawerState extends State<MyDrawer> {
                 TextButton(
                   onPressed: () {
                     final _auth = FirebaseAuth.instance;
-
                     _auth.signOut().then((value) {
                       Navigator.pop(context);
                       Navigator.pushReplacement(context,

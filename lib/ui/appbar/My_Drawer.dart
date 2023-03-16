@@ -11,6 +11,7 @@ import 'package:mobidthrift/ui/login/Signup_page.dart';
 import 'package:ndialog/ndialog.dart';
 
 import '../../constants/App_colors.dart';
+import '../../utils/guest_direction_to_login.dart';
 import '../../utils/utils.dart';
 import '../About_Us.dart';
 import '../Contact_Us.dart';
@@ -232,10 +233,12 @@ class _MyDrawerState extends State<MyDrawer> {
               title: Text('Trade Your Product'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TradeYourProduct()));
+                _firebaseAuth.currentUser != null
+                    ? Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TradeYourProduct()))
+                    : GuestDirectionToLogin().guestDirectionToLogin(context);
               },
             ),
             Divider(
@@ -266,8 +269,10 @@ class _MyDrawerState extends State<MyDrawer> {
               title: Text('Cart'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => YourCart()));
+                _firebaseAuth.currentUser != null
+                    ? Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => YourCart()))
+                    : GuestDirectionToLogin().guestDirectionToLogin(context);
               },
             ),
             Divider(
@@ -282,8 +287,10 @@ class _MyDrawerState extends State<MyDrawer> {
               title: Text('Wish List'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => WishList()));
+                _firebaseAuth.currentUser != null
+                    ? Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => WishList()))
+                    : GuestDirectionToLogin().guestDirectionToLogin(context);
               },
             ),
             Divider(

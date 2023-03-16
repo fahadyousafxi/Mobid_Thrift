@@ -3,16 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
-import 'package:mobidthrift/providers/Cart_Provider.dart';
-import 'package:mobidthrift/providers/Wish_List_Provider.dart';
 import 'package:mobidthrift/providers/seller_provider.dart';
 import 'package:mobidthrift/ui/Seller_Profile.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
-import 'package:mobidthrift/utils/utils.dart';
-import 'package:ndialog/ndialog.dart';
 import 'package:provider/provider.dart';
 
-class ProductPage extends StatefulWidget {
+import '../utils/guest_direction_to_login.dart';
+
+class ProductPageForGuests extends StatefulWidget {
   String? productImage1;
   String? productImage2;
   String? productImage3;
@@ -31,7 +29,7 @@ class ProductPage extends StatefulWidget {
   DateTime? productDateTime;
   DateTime? bidDateTimeLeft;
   bool? productPTAApproved;
-  ProductPage(
+  ProductPageForGuests(
       {this.productImage1,
       this.productImage2,
       this.productImage3,
@@ -54,24 +52,16 @@ class ProductPage extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<ProductPage> createState() => _ProductPageState();
+  State<ProductPageForGuests> createState() => _ProductPageForGuestsState();
 }
 
-class _ProductPageState extends State<ProductPage> {
-  TextEditingController bidAmount = TextEditingController();
+class _ProductPageForGuestsState extends State<ProductPageForGuests> {
   final auth = FirebaseAuth.instance.currentUser;
 
-  CartProvider cartProvider = CartProvider();
-  WishListProvider wishListProvider = WishListProvider();
   SellerProvider _sellerProvider = SellerProvider();
-
-  var currentBid = 0;
-  var myBid = 0;
-  bool _validate = false;
 
   @override
   void dispose() {
-    bidAmount.dispose();
     super.dispose();
   }
 
@@ -91,11 +81,7 @@ class _ProductPageState extends State<ProductPage> {
         .doc(widget.productShopkeeperUid)
         .get();
     _sellerProvider = Provider.of(context);
-    // _sellerProvider.getSellerData(widget.productShopkeeperUid.toString());
-
-    cartProvider = Provider.of(context);
-    wishListProvider = Provider.of(context);
-    currentBid = widget.productCurrentBid!.toInt();
+    // currentBid = widget.productCurrentBid!.toInt();
     return Scaffold(
       appBar: MyAppbar().myAppBar(context),
       // drawer: MyDrawer(),
@@ -259,10 +245,7 @@ class _ProductPageState extends State<ProductPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Rs.${currentBid!.toInt()} Current Bid'),
-                          myBid == 0
-                              ? SizedBox()
-                              : Text('Rs.${myBid.toInt()} your Bid'),
+                          Text('Rs.${widget.productCurrentBid} Current Bid'),
                           SizedBox(
                             height: 5,
                           ),
@@ -298,14 +281,11 @@ class _ProductPageState extends State<ProductPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      height: _validate ? 49 : 35,
+                      height: 49,
                       width: MediaQuery.of(context).size.width / 2.2,
                       child: TextField(
-                        controller: bidAmount,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                            errorText:
-                                _validate ? 'Your bid amount is low' : null,
                             alignLabelWithHint: false,
                             border: OutlineInputBorder(gapPadding: 113),
                             contentPadding: EdgeInsets.only(top: 4, left: 6),
@@ -320,59 +300,7 @@ class _ProductPageState extends State<ProductPage> {
                       btnWith: MediaQuery.of(context).size.width / 2.5,
                       btnHeight: 35.0,
                       onPressed: () async {
-                        int bid = int.parse(bidAmount.text.toString());
-                        print(bid);
-                        if (bid > 9999999) {
-                          Utils.flutterToast('Your Bid Amount is too high');
-                          return;
-                        }
-                        if (bid > currentBid!) {
-                          // bidAmount.text.isEmpty || bid < currentBid ? _validate = true : _validate = false;
-                          _validate = false;
-                          myBid = bid;
-                          currentBid = bid;
-
-                          ProgressDialog progressDialog2 = ProgressDialog(
-                            context,
-                            title: const Text('Creating Your Bid !!!'),
-                            message: const Text('Please wait'),
-                          );
-                          setState(() {});
-                          progressDialog2.show();
-                          try {
-                            cartProvider.addCartData(
-                              cartImage1: widget.productImage1,
-                              cartDescription: widget.productDescription,
-                              cartPTAApproved: widget.productPTAApproved,
-                              cartName: widget.productName,
-                              cartCurrentBid: currentBid,
-                              cartUid: widget.productUid,
-                            );
-                            await FirebaseFirestore.instance
-                                .collection(
-                                    widget.productCollectionName.toString())
-                                .doc(widget.productUid.toString())
-                                .update({
-                              "productCurrentBid": currentBid,
-                              "higherBidder": FirebaseAuth
-                                  .instance.currentUser!.uid
-                                  .toString()
-                            }).then((value) {
-                              progressDialog2.dismiss();
-                              Utils.flutterToast('Your Bid is Created!');
-                            });
-                          } catch (e) {
-                            progressDialog2.dismiss();
-                            Utils.flutterToast(e.toString());
-                          }
-
-                          setState(() {});
-                        } else {
-                          bidAmount.text.isEmpty || bid <= currentBid!
-                              ? _validate = true
-                              : _validate = false;
-                          setState(() {});
-                        }
+                        GuestDirectionToLogin().guestDirectionToLogin(context);
                       },
                       btnText: 'Bid',
                       btnColor: AppColors.buttonColorBlue,
@@ -385,21 +313,18 @@ class _ProductPageState extends State<ProductPage> {
                     AppWidgets().myElevatedBTN(
                         btnWith: MediaQuery.of(context).size.width / 1,
                         btnHeight: 35.0,
-                        onPressed: () {},
+                        onPressed: () {
+                          GuestDirectionToLogin()
+                              .guestDirectionToLogin(context);
+                        },
                         btnText: 'Buy it now: Rs.${widget.productPrice}',
                         btnColor: AppColors.buttonColorBlue),
                     AppWidgets().myElevatedBTN(
                         btnWith: MediaQuery.of(context).size.width / 1,
                         btnHeight: 35.0,
                         onPressed: () {
-                          Utils.flutterToast('Added to Your WishList');
-                          wishListProvider.addToWishList(
-                              collectionName:
-                                  widget.productCollectionName.toString(),
-                              productUid: widget.productUid.toString(),
-                              wishlistUid: DateTime.now()
-                                  .microsecondsSinceEpoch
-                                  .toString());
+                          GuestDirectionToLogin()
+                              .guestDirectionToLogin(context);
                         },
                         btnText: '❤ Add to wish list',
                         btnColor: AppColors.buttonColorBlue),

@@ -1,27 +1,22 @@
 import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobidthrift/constants/App_colors.dart';
 import 'package:mobidthrift/models/Product_Model.dart';
-import 'package:mobidthrift/ui/About_Us.dart';
-import 'package:mobidthrift/ui/Contact_Us.dart';
-import 'package:mobidthrift/ui/My_Home_Page.dart';
 import 'package:mobidthrift/ui/Search_Page.dart';
-import 'package:mobidthrift/ui/Sold_Products.dart';
-import 'package:mobidthrift/ui/Trade_Your_Product.dart';
-import 'package:mobidthrift/ui/Wish_List.dart';
 import 'package:mobidthrift/ui/Your_Cart.dart';
-import 'package:mobidthrift/ui/login/Login_page.dart';
-import 'package:mobidthrift/utils/utils.dart';
+
+import '../../utils/guest_direction_to_login.dart';
 
 class MyAppbar {
-
+  final _auth = FirebaseAuth.instance.currentUser;
   File? pickedImage;
   bool showLocalImage = false;
   pickImageFrom() async {
-    XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 80);
-    if(file == null) {
+    XFile? file = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 80);
+    if (file == null) {
       return;
     }
 
@@ -32,7 +27,8 @@ class MyAppbar {
 
   // List<ProductModel>
   /// My App Bar
-  PreferredSizeWidget myAppBar(context, {List<ProductModel> search = const []}) {
+  PreferredSizeWidget myAppBar(context,
+      {List<ProductModel> search = const []}) {
     return AppBar(
       backgroundColor: Colors.black,
       title: const Text("MobidThrift"),
@@ -41,14 +37,19 @@ class MyAppbar {
         IconButton(
             onPressed: () {
               // showSearch(context: context, delegate: SearchPage()),
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SearchPage(searchProducts: search)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          SearchPage(searchProducts: search)));
             },
             icon: Hero(tag: 'forSearch', child: Icon(Icons.search))),
         IconButton(
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => YourCart()));
+              _auth != null
+                  ? Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => YourCart()))
+                  : GuestDirectionToLogin().guestDirectionToLogin(context);
             },
             icon: Icon(Icons.shopping_cart)),
       ],
@@ -71,8 +72,10 @@ class MyAppbar {
         myicon ?? SizedBox(),
         IconButton(
             onPressed: () {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => YourCart()));
+              _auth != null
+                  ? Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => YourCart()))
+                  : GuestDirectionToLogin().guestDirectionToLogin(context);
             },
             icon: Icon(Icons.shopping_cart)),
       ],
@@ -366,11 +369,4 @@ class MyAppbar {
   //     );
   //   });
   // }
-
-
 }
-
-
-
-
-

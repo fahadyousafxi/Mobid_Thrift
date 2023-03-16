@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/providers/shop_keeper_products_provider.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
+import 'package:mobidthrift/ui/product_page_for_guests.dart';
 import 'package:provider/provider.dart';
 
 import 'Product_page.dart';
@@ -16,6 +18,8 @@ class SellerShopProducts extends StatefulWidget {
 
 class _SellerShopProductsState extends State<SellerShopProducts> {
   ShopKeeperProductsProvider productProvider = ShopKeeperProductsProvider();
+
+  final _auth = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
@@ -78,31 +82,60 @@ class _SellerShopProductsState extends State<SellerShopProducts> {
                             onTap: () {
                               print(
                                   productProvider.getSearchProductsList.length);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ProductPage(
-                                            productName:
-                                                data.productName.toString(),
-                                            productCurrentBid:
-                                                data.productCurrentBid,
-                                            productDescription: data
-                                                .productDescription
-                                                .toString(),
-                                            productUid:
-                                                data.productUid.toString(),
-                                            productImage1:
-                                                data.productImage1.toString(),
-                                            productShipping:
-                                                data.productShipping,
-                                            productPrice: data.productPrice,
-                                            productPTAApproved:
-                                                data.productPTAApproved,
-                                            productShopkeeperUid:
-                                                data.productShopkeeperUid,
-                                            productSpecification:
-                                                data.productSpecification,
-                                          )));
+                              _auth != null
+                                  ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ProductPage(
+                                                productName:
+                                                    data.productName.toString(),
+                                                productCurrentBid:
+                                                    data.productCurrentBid,
+                                                productDescription: data
+                                                    .productDescription
+                                                    .toString(),
+                                                productUid:
+                                                    data.productUid.toString(),
+                                                productImage1: data
+                                                    .productImage1
+                                                    .toString(),
+                                                productShipping:
+                                                    data.productShipping,
+                                                productPrice: data.productPrice,
+                                                productPTAApproved:
+                                                    data.productPTAApproved,
+                                                productShopkeeperUid:
+                                                    data.productShopkeeperUid,
+                                                productSpecification:
+                                                    data.productSpecification,
+                                              )))
+                                  : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProductPageForGuests(
+                                                productName:
+                                                    data.productName.toString(),
+                                                productCurrentBid:
+                                                    data.productCurrentBid,
+                                                productDescription: data
+                                                    .productDescription
+                                                    .toString(),
+                                                productUid:
+                                                    data.productUid.toString(),
+                                                productImage1: data
+                                                    .productImage1
+                                                    .toString(),
+                                                productShipping:
+                                                    data.productShipping,
+                                                productPrice: data.productPrice,
+                                                productPTAApproved:
+                                                    data.productPTAApproved,
+                                                productShopkeeperUid:
+                                                    data.productShopkeeperUid,
+                                                productSpecification:
+                                                    data.productSpecification,
+                                              )));
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),

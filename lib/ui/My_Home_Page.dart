@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
@@ -12,6 +13,7 @@ import 'package:mobidthrift/ui/pages_of_view_more/More_Laptops.dart';
 import 'package:mobidthrift/ui/pages_of_view_more/More_Pads_Tablets.dart';
 import 'package:mobidthrift/ui/pages_of_view_more/More_Parts.dart';
 import 'package:mobidthrift/ui/pages_of_view_more/More_Smart_Watches.dart';
+import 'package:mobidthrift/ui/product_page_for_guests.dart';
 import 'package:provider/provider.dart';
 
 import 'Product_page.dart';
@@ -30,6 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
       .get();
 
   ProductsProvider productProvider = ProductsProvider();
+  final _auth = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
@@ -181,47 +184,93 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               child: GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ProductPage(
-                                                  productName:
-                                                      cellPhonesProducts
-                                                          .productName
-                                                          .toString(),
-                                                  productCollectionName:
-                                                      cellPhonesProducts
-                                                          .productCollectionName,
-                                                  productCurrentBid:
-                                                      cellPhonesProducts
-                                                          .productCurrentBid,
-                                                  productDescription:
-                                                      cellPhonesProducts
-                                                          .productDescription
-                                                          .toString(),
-                                                  productUid: cellPhonesProducts
-                                                      .productUid
-                                                      .toString(),
-                                                  productImage1:
-                                                      cellPhonesProducts
-                                                          .productImage1
-                                                          .toString(),
-                                                  productShipping:
-                                                      cellPhonesProducts
-                                                          .productShipping,
-                                                  productPrice:
-                                                      cellPhonesProducts
-                                                          .productPrice,
-                                                  productPTAApproved:
-                                                      cellPhonesProducts
-                                                          .productPTAApproved,
-                                                  productShopkeeperUid:
-                                                      cellPhonesProducts
-                                                          .productShopkeeperUid,
-                                                  productSpecification:
-                                                      cellPhonesProducts
-                                                          .productSpecification,
-                                                )));
+                                    _auth != null
+                                        ? Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ProductPage(
+                                                      productName:
+                                                          cellPhonesProducts
+                                                              .productName
+                                                              .toString(),
+                                                      productCollectionName:
+                                                          cellPhonesProducts
+                                                              .productCollectionName,
+                                                      productCurrentBid:
+                                                          cellPhonesProducts
+                                                              .productCurrentBid,
+                                                      productDescription:
+                                                          cellPhonesProducts
+                                                              .productDescription
+                                                              .toString(),
+                                                      productUid:
+                                                          cellPhonesProducts
+                                                              .productUid
+                                                              .toString(),
+                                                      productImage1:
+                                                          cellPhonesProducts
+                                                              .productImage1
+                                                              .toString(),
+                                                      productShipping:
+                                                          cellPhonesProducts
+                                                              .productShipping,
+                                                      productPrice:
+                                                          cellPhonesProducts
+                                                              .productPrice,
+                                                      productPTAApproved:
+                                                          cellPhonesProducts
+                                                              .productPTAApproved,
+                                                      productShopkeeperUid:
+                                                          cellPhonesProducts
+                                                              .productShopkeeperUid,
+                                                      productSpecification:
+                                                          cellPhonesProducts
+                                                              .productSpecification,
+                                                    )))
+                                        : Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ProductPageForGuests(
+                                                      productName:
+                                                          cellPhonesProducts
+                                                              .productName
+                                                              .toString(),
+                                                      productCollectionName:
+                                                          cellPhonesProducts
+                                                              .productCollectionName,
+                                                      productCurrentBid:
+                                                          cellPhonesProducts
+                                                              .productCurrentBid,
+                                                      productDescription:
+                                                          cellPhonesProducts
+                                                              .productDescription
+                                                              .toString(),
+                                                      productUid:
+                                                          cellPhonesProducts
+                                                              .productUid
+                                                              .toString(),
+                                                      productImage1:
+                                                          cellPhonesProducts
+                                                              .productImage1
+                                                              .toString(),
+                                                      productShipping:
+                                                          cellPhonesProducts
+                                                              .productShipping,
+                                                      productPrice:
+                                                          cellPhonesProducts
+                                                              .productPrice,
+                                                      productPTAApproved:
+                                                          cellPhonesProducts
+                                                              .productPTAApproved,
+                                                      productShopkeeperUid:
+                                                          cellPhonesProducts
+                                                              .productShopkeeperUid,
+                                                      productSpecification:
+                                                          cellPhonesProducts
+                                                              .productSpecification,
+                                                    )));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
@@ -319,35 +368,72 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               child: GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ProductPage(
-                                                  productName: data.productName
-                                                      .toString(),
-                                                  productCurrentBid:
-                                                      data.productCurrentBid,
-                                                  productDescription: data
-                                                      .productDescription
-                                                      .toString(),
-                                                  productUid: data.productUid
-                                                      .toString(),
-                                                  productImage1: data
-                                                      .productImage1
-                                                      .toString(),
-                                                  productShipping:
-                                                      data.productShipping,
-                                                  productPrice:
-                                                      data.productPrice,
-                                                  productPTAApproved:
-                                                      data.productPTAApproved,
-                                                  productShopkeeperUid:
-                                                      data.productShopkeeperUid,
-                                                  productSpecification:
-                                                      data.productSpecification,
-                                                  productCollectionName: data
-                                                      .productCollectionName,
-                                                )));
+                                    _auth != null
+                                        ? Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (context) => ProductPage(
+                                                          productName: data
+                                                              .productName
+                                                              .toString(),
+                                                          productCurrentBid: data
+                                                              .productCurrentBid,
+                                                          productDescription: data
+                                                              .productDescription
+                                                              .toString(),
+                                                          productUid: data
+                                                              .productUid
+                                                              .toString(),
+                                                          productImage1: data
+                                                              .productImage1
+                                                              .toString(),
+                                                          productShipping: data
+                                                              .productShipping,
+                                                          productPrice:
+                                                              data.productPrice,
+                                                          productPTAApproved: data
+                                                              .productPTAApproved,
+                                                          productShopkeeperUid:
+                                                              data.productShopkeeperUid,
+                                                          productSpecification:
+                                                              data.productSpecification,
+                                                          productCollectionName:
+                                                              data.productCollectionName,
+                                                        )))
+                                        : Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (context) =>
+                                                        ProductPageForGuests(
+                                                          productName: data
+                                                              .productName
+                                                              .toString(),
+                                                          productCurrentBid: data
+                                                              .productCurrentBid,
+                                                          productDescription: data
+                                                              .productDescription
+                                                              .toString(),
+                                                          productUid: data
+                                                              .productUid
+                                                              .toString(),
+                                                          productImage1: data
+                                                              .productImage1
+                                                              .toString(),
+                                                          productShipping: data
+                                                              .productShipping,
+                                                          productPrice:
+                                                              data.productPrice,
+                                                          productPTAApproved: data
+                                                              .productPTAApproved,
+                                                          productShopkeeperUid:
+                                                              data.productShopkeeperUid,
+                                                          productSpecification:
+                                                              data.productSpecification,
+                                                          productCollectionName:
+                                                              data.productCollectionName,
+                                                        )));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
@@ -480,35 +566,72 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               child: GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ProductPage(
-                                                  productName: data.productName
-                                                      .toString(),
-                                                  productCurrentBid:
-                                                      data.productCurrentBid,
-                                                  productDescription: data
-                                                      .productDescription
-                                                      .toString(),
-                                                  productUid: data.productUid
-                                                      .toString(),
-                                                  productImage1: data
-                                                      .productImage1
-                                                      .toString(),
-                                                  productShipping:
-                                                      data.productShipping,
-                                                  productPrice:
-                                                      data.productPrice,
-                                                  productPTAApproved:
-                                                      data.productPTAApproved,
-                                                  productShopkeeperUid:
-                                                      data.productShopkeeperUid,
-                                                  productSpecification:
-                                                      data.productSpecification,
-                                                  productCollectionName: data
-                                                      .productCollectionName,
-                                                )));
+                                    _auth != null
+                                        ? Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (context) => ProductPage(
+                                                          productName: data
+                                                              .productName
+                                                              .toString(),
+                                                          productCurrentBid: data
+                                                              .productCurrentBid,
+                                                          productDescription: data
+                                                              .productDescription
+                                                              .toString(),
+                                                          productUid: data
+                                                              .productUid
+                                                              .toString(),
+                                                          productImage1: data
+                                                              .productImage1
+                                                              .toString(),
+                                                          productShipping: data
+                                                              .productShipping,
+                                                          productPrice:
+                                                              data.productPrice,
+                                                          productPTAApproved: data
+                                                              .productPTAApproved,
+                                                          productShopkeeperUid:
+                                                              data.productShopkeeperUid,
+                                                          productSpecification:
+                                                              data.productSpecification,
+                                                          productCollectionName:
+                                                              data.productCollectionName,
+                                                        )))
+                                        : Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (context) =>
+                                                        ProductPageForGuests(
+                                                          productName: data
+                                                              .productName
+                                                              .toString(),
+                                                          productCurrentBid: data
+                                                              .productCurrentBid,
+                                                          productDescription: data
+                                                              .productDescription
+                                                              .toString(),
+                                                          productUid: data
+                                                              .productUid
+                                                              .toString(),
+                                                          productImage1: data
+                                                              .productImage1
+                                                              .toString(),
+                                                          productShipping: data
+                                                              .productShipping,
+                                                          productPrice:
+                                                              data.productPrice,
+                                                          productPTAApproved: data
+                                                              .productPTAApproved,
+                                                          productShopkeeperUid:
+                                                              data.productShopkeeperUid,
+                                                          productSpecification:
+                                                              data.productSpecification,
+                                                          productCollectionName:
+                                                              data.productCollectionName,
+                                                        )));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
@@ -597,35 +720,72 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               child: GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ProductPage(
-                                                  productName: data.productName
-                                                      .toString(),
-                                                  productCurrentBid:
-                                                      data.productCurrentBid,
-                                                  productDescription: data
-                                                      .productDescription
-                                                      .toString(),
-                                                  productUid: data.productUid
-                                                      .toString(),
-                                                  productImage1: data
-                                                      .productImage1
-                                                      .toString(),
-                                                  productShipping:
-                                                      data.productShipping,
-                                                  productPrice:
-                                                      data.productPrice,
-                                                  productPTAApproved:
-                                                      data.productPTAApproved,
-                                                  productShopkeeperUid:
-                                                      data.productShopkeeperUid,
-                                                  productSpecification:
-                                                      data.productSpecification,
-                                                  productCollectionName: data
-                                                      .productCollectionName,
-                                                )));
+                                    _auth != null
+                                        ? Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (context) => ProductPage(
+                                                          productName: data
+                                                              .productName
+                                                              .toString(),
+                                                          productCurrentBid: data
+                                                              .productCurrentBid,
+                                                          productDescription: data
+                                                              .productDescription
+                                                              .toString(),
+                                                          productUid: data
+                                                              .productUid
+                                                              .toString(),
+                                                          productImage1: data
+                                                              .productImage1
+                                                              .toString(),
+                                                          productShipping: data
+                                                              .productShipping,
+                                                          productPrice:
+                                                              data.productPrice,
+                                                          productPTAApproved: data
+                                                              .productPTAApproved,
+                                                          productShopkeeperUid:
+                                                              data.productShopkeeperUid,
+                                                          productSpecification:
+                                                              data.productSpecification,
+                                                          productCollectionName:
+                                                              data.productCollectionName,
+                                                        )))
+                                        : Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (context) =>
+                                                        ProductPageForGuests(
+                                                          productName: data
+                                                              .productName
+                                                              .toString(),
+                                                          productCurrentBid: data
+                                                              .productCurrentBid,
+                                                          productDescription: data
+                                                              .productDescription
+                                                              .toString(),
+                                                          productUid: data
+                                                              .productUid
+                                                              .toString(),
+                                                          productImage1: data
+                                                              .productImage1
+                                                              .toString(),
+                                                          productShipping: data
+                                                              .productShipping,
+                                                          productPrice:
+                                                              data.productPrice,
+                                                          productPTAApproved: data
+                                                              .productPTAApproved,
+                                                          productShopkeeperUid:
+                                                              data.productShopkeeperUid,
+                                                          productSpecification:
+                                                              data.productSpecification,
+                                                          productCollectionName:
+                                                              data.productCollectionName,
+                                                        )));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
@@ -715,35 +875,72 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               child: GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ProductPage(
-                                                  productName: data.productName
-                                                      .toString(),
-                                                  productCurrentBid:
-                                                      data.productCurrentBid,
-                                                  productDescription: data
-                                                      .productDescription
-                                                      .toString(),
-                                                  productUid: data.productUid
-                                                      .toString(),
-                                                  productImage1: data
-                                                      .productImage1
-                                                      .toString(),
-                                                  productShipping:
-                                                      data.productShipping,
-                                                  productPrice:
-                                                      data.productPrice,
-                                                  productPTAApproved:
-                                                      data.productPTAApproved,
-                                                  productShopkeeperUid:
-                                                      data.productShopkeeperUid,
-                                                  productSpecification:
-                                                      data.productSpecification,
-                                                  productCollectionName: data
-                                                      .productCollectionName,
-                                                )));
+                                    _auth != null
+                                        ? Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (context) => ProductPage(
+                                                          productName: data
+                                                              .productName
+                                                              .toString(),
+                                                          productCurrentBid: data
+                                                              .productCurrentBid,
+                                                          productDescription: data
+                                                              .productDescription
+                                                              .toString(),
+                                                          productUid: data
+                                                              .productUid
+                                                              .toString(),
+                                                          productImage1: data
+                                                              .productImage1
+                                                              .toString(),
+                                                          productShipping: data
+                                                              .productShipping,
+                                                          productPrice:
+                                                              data.productPrice,
+                                                          productPTAApproved: data
+                                                              .productPTAApproved,
+                                                          productShopkeeperUid:
+                                                              data.productShopkeeperUid,
+                                                          productSpecification:
+                                                              data.productSpecification,
+                                                          productCollectionName:
+                                                              data.productCollectionName,
+                                                        )))
+                                        : Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (context) =>
+                                                        ProductPageForGuests(
+                                                          productName: data
+                                                              .productName
+                                                              .toString(),
+                                                          productCurrentBid: data
+                                                              .productCurrentBid,
+                                                          productDescription: data
+                                                              .productDescription
+                                                              .toString(),
+                                                          productUid: data
+                                                              .productUid
+                                                              .toString(),
+                                                          productImage1: data
+                                                              .productImage1
+                                                              .toString(),
+                                                          productShipping: data
+                                                              .productShipping,
+                                                          productPrice:
+                                                              data.productPrice,
+                                                          productPTAApproved: data
+                                                              .productPTAApproved,
+                                                          productShopkeeperUid:
+                                                              data.productShopkeeperUid,
+                                                          productSpecification:
+                                                              data.productSpecification,
+                                                          productCollectionName:
+                                                              data.productCollectionName,
+                                                        )));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
@@ -834,35 +1031,72 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               child: GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ProductPage(
-                                                  productCollectionName: data
-                                                      .productCollectionName,
-                                                  productName: data.productName
-                                                      .toString(),
-                                                  productCurrentBid:
-                                                      data.productCurrentBid,
-                                                  productDescription: data
-                                                      .productDescription
-                                                      .toString(),
-                                                  productUid: data.productUid
-                                                      .toString(),
-                                                  productImage1: data
-                                                      .productImage1
-                                                      .toString(),
-                                                  productShipping:
-                                                      data.productShipping,
-                                                  productPrice:
-                                                      data.productPrice,
-                                                  productPTAApproved:
-                                                      data.productPTAApproved,
-                                                  productShopkeeperUid:
-                                                      data.productShopkeeperUid,
-                                                  productSpecification:
-                                                      data.productSpecification,
-                                                )));
+                                    _auth != null
+                                        ? Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (context) => ProductPage(
+                                                          productCollectionName:
+                                                              data.productCollectionName,
+                                                          productName: data
+                                                              .productName
+                                                              .toString(),
+                                                          productCurrentBid: data
+                                                              .productCurrentBid,
+                                                          productDescription: data
+                                                              .productDescription
+                                                              .toString(),
+                                                          productUid: data
+                                                              .productUid
+                                                              .toString(),
+                                                          productImage1: data
+                                                              .productImage1
+                                                              .toString(),
+                                                          productShipping: data
+                                                              .productShipping,
+                                                          productPrice:
+                                                              data.productPrice,
+                                                          productPTAApproved: data
+                                                              .productPTAApproved,
+                                                          productShopkeeperUid:
+                                                              data.productShopkeeperUid,
+                                                          productSpecification:
+                                                              data.productSpecification,
+                                                        )))
+                                        : Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (context) =>
+                                                        ProductPageForGuests(
+                                                          productName: data
+                                                              .productName
+                                                              .toString(),
+                                                          productCurrentBid: data
+                                                              .productCurrentBid,
+                                                          productDescription: data
+                                                              .productDescription
+                                                              .toString(),
+                                                          productUid: data
+                                                              .productUid
+                                                              .toString(),
+                                                          productImage1: data
+                                                              .productImage1
+                                                              .toString(),
+                                                          productShipping: data
+                                                              .productShipping,
+                                                          productPrice:
+                                                              data.productPrice,
+                                                          productPTAApproved: data
+                                                              .productPTAApproved,
+                                                          productShopkeeperUid:
+                                                              data.productShopkeeperUid,
+                                                          productSpecification:
+                                                              data.productSpecification,
+                                                          productCollectionName:
+                                                              data.productCollectionName,
+                                                        )));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
@@ -944,33 +1178,64 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         child: GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ProductPage(
-                                            productName:
-                                                data.productName.toString(),
-                                            productCurrentBid:
-                                                data.productCurrentBid,
-                                            productDescription: data
-                                                .productDescription
-                                                .toString(),
-                                            productUid:
-                                                data.productUid.toString(),
-                                            productImage1:
-                                                data.productImage1.toString(),
-                                            productShipping:
-                                                data.productShipping,
-                                            productPrice: data.productPrice,
-                                            productPTAApproved:
-                                                data.productPTAApproved,
-                                            productShopkeeperUid:
-                                                data.productShopkeeperUid,
-                                            productSpecification:
-                                                data.productSpecification,
-                                            productCollectionName:
-                                                data.productCollectionName,
-                                          )));
+                              _auth != null
+                                  ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ProductPage(
+                                                productName:
+                                                    data.productName.toString(),
+                                                productCurrentBid:
+                                                    data.productCurrentBid,
+                                                productDescription: data
+                                                    .productDescription
+                                                    .toString(),
+                                                productUid:
+                                                    data.productUid.toString(),
+                                                productImage1: data
+                                                    .productImage1
+                                                    .toString(),
+                                                productShipping:
+                                                    data.productShipping,
+                                                productPrice: data.productPrice,
+                                                productPTAApproved:
+                                                    data.productPTAApproved,
+                                                productShopkeeperUid:
+                                                    data.productShopkeeperUid,
+                                                productSpecification:
+                                                    data.productSpecification,
+                                                productCollectionName:
+                                                    data.productCollectionName,
+                                              )))
+                                  : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProductPageForGuests(
+                                                productName:
+                                                    data.productName.toString(),
+                                                productCurrentBid:
+                                                    data.productCurrentBid,
+                                                productDescription: data
+                                                    .productDescription
+                                                    .toString(),
+                                                productUid:
+                                                    data.productUid.toString(),
+                                                productImage1: data
+                                                    .productImage1
+                                                    .toString(),
+                                                productShipping:
+                                                    data.productShipping,
+                                                productPrice: data.productPrice,
+                                                productPTAApproved:
+                                                    data.productPTAApproved,
+                                                productShopkeeperUid:
+                                                    data.productShopkeeperUid,
+                                                productSpecification:
+                                                    data.productSpecification,
+                                                productCollectionName:
+                                                    data.productCollectionName,
+                                              )));
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),

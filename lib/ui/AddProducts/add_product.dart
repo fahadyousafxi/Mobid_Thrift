@@ -423,8 +423,9 @@ class _AddProductState extends State<AddProduct> {
                                 progressDialog.show();
                               });
                               var docUid = DateTime.now()
-                                  .microsecondsSinceEpoch
+                                  .millisecondsSinceEpoch
                                   .toString();
+
                               _fireStore
                                   .collection('TradeInProducts')
                                   .doc('FrY6ftMAx233dpQTwZac')

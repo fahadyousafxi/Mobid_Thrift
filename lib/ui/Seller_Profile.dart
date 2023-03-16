@@ -322,6 +322,9 @@ class _SellerProfileState extends State<SellerProfile> {
                               ),
                             ],
                           ),
+                        ),
+                        SizedBox(
+                          height: 20,
                         )
                       ],
                     );

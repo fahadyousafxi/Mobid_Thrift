@@ -68,6 +68,8 @@ class _MoreAccessoriesState extends State<MoreAccessories> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ProductPage(
+                                          bidEndTimeInSeconds:
+                                              data.bidEndTimeInSeconds,
                                           productName:
                                               data.productName.toString(),
                                           productCurrentBid:

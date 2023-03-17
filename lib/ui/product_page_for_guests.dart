@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/providers/seller_provider.dart';
 import 'package:mobidthrift/ui/Seller_Profile.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
 import 'package:provider/provider.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 import '../utils/guest_direction_to_login.dart';
 
@@ -25,6 +27,7 @@ class ProductPageForGuests extends StatefulWidget {
   String? productShopkeeperUid;
   int? productCurrentBid;
   int? productShipping;
+  int? bidEndTimeInSeconds;
   int? productPrice;
   DateTime? productDateTime;
   DateTime? bidDateTimeLeft;
@@ -32,6 +35,7 @@ class ProductPageForGuests extends StatefulWidget {
   ProductPageForGuests(
       {this.productImage1,
       this.productImage2,
+      required this.bidEndTimeInSeconds,
       this.productImage3,
       this.productImage4,
       this.productImage5,
@@ -56,12 +60,19 @@ class ProductPageForGuests extends StatefulWidget {
 }
 
 class _ProductPageForGuestsState extends State<ProductPageForGuests> {
+  // CountdownController _countdownController = CountdownController();
+  int _countTime = 0;
+  int _countDownTime = 0;
+  var f = NumberFormat('00', 'en_US');
+
   final auth = FirebaseAuth.instance.currentUser;
 
   SellerProvider _sellerProvider = SellerProvider();
 
   @override
   void dispose() {
+    _countTime = 0;
+    _countDownTime = 0;
     super.dispose();
   }
 
@@ -249,7 +260,8 @@ class _ProductPageForGuestsState extends State<ProductPageForGuests> {
                           SizedBox(
                             height: 5,
                           ),
-                          Text('4d 3h Time Left'),
+                          // Text('4d 3h Time Left'),
+                          countDownTimer(widget.bidEndTimeInSeconds!.toInt()),
                         ],
                       ),
                       Column(
@@ -281,7 +293,7 @@ class _ProductPageForGuestsState extends State<ProductPageForGuests> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      height: 49,
+                      height: 35,
                       width: MediaQuery.of(context).size.width / 2.2,
                       child: TextField(
                         keyboardType: TextInputType.number,
@@ -347,6 +359,28 @@ class _ProductPageForGuestsState extends State<ProductPageForGuests> {
           ),
         ],
       )),
+    );
+  }
+
+  /// Count Down Timer
+  Widget countDownTimer(var endTime) {
+    // _countdownController.start();
+    _countTime = endTime - (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    if (_countTime > 0) {
+      _countDownTime = _countTime;
+    } else {
+      _countDownTime = 0;
+    }
+    print(_countDownTime);
+    return Countdown(
+      // controller: _countdownController,
+      seconds: _countDownTime,
+      build: (BuildContext context, double time) => Text(
+          '${(time ~/ 86400)}Days  ${f.format((time % 86400) ~/ 3600)}:${f.format((time % 3600) ~/ 60)}:${f.format(time.toInt() % 60)} Time Left'),
+      interval: Duration(seconds: 1),
+      onFinished: () {
+        debugPrint('#######################  ok  #################');
+      },
     );
   }
 }

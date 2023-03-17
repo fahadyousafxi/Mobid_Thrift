@@ -67,6 +67,8 @@ class _MorePartsState extends State<MoreParts> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ProductPage(
+                                          bidEndTimeInSeconds:
+                                              data.bidEndTimeInSeconds,
                                           productName:
                                               data.productName.toString(),
                                           productCurrentBid:

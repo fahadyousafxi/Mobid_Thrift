@@ -107,6 +107,8 @@ class _SearchPageState extends State<SearchPage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => ProductPage(
+                                                  bidEndTimeInSeconds:
+                                                      data.bidEndTimeInSeconds,
                                                   productName: data.productName
                                                       .toString(),
                                                   productCurrentBid:
@@ -137,6 +139,8 @@ class _SearchPageState extends State<SearchPage> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 ProductPageForGuests(
+                                                  bidEndTimeInSeconds:
+                                                      data.bidEndTimeInSeconds,
                                                   productName: data.productName
                                                       .toString(),
                                                   productCurrentBid:

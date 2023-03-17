@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mobidthrift/ui/Product_page.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 class AppWidgets {
   /// My Elevated Button
@@ -162,6 +164,31 @@ class AppWidgets {
       txt,
       style: const TextStyle(
           fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black),
+    );
+  }
+
+  /// Count Down Widgets
+  int _countTime = 0;
+  int _countDownTime = 0;
+  var f = NumberFormat('00', 'en_US');
+  Widget countDownTimer(var endTime) {
+    // _countdownController.start();
+    _countTime = endTime - (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    if (_countTime > 0) {
+      _countDownTime = _countTime;
+    } else {
+      _countDownTime = 0;
+    }
+    print(_countDownTime);
+    return Countdown(
+      // controller: _countdownController,
+      seconds: _countDownTime,
+      build: (BuildContext context, double time) => Text(
+          '${(time ~/ 86400)}Days  ${f.format((time % 86400) ~/ 3600)}:${f.format((time % 3600) ~/ 60)}:${f.format(time.toInt() % 60)} Time Left'),
+      interval: Duration(seconds: 1),
+      onFinished: () {
+        debugPrint('#######################  ok  #################');
+      },
     );
   }
 

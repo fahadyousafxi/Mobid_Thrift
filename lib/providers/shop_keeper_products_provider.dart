@@ -20,6 +20,8 @@ class ShopKeeperProductsProvider with ChangeNotifier {
       productShipping: element.get("productShipping"),
       productSpecification: element.get("productSpecification"),
       productPrice: element.get("productPrice"),
+      bidEndTimeInSeconds: element.get("BidEndTimeInSeconds"),
+
       // imagesList: element.get("myList2"),
       // bidDateTimeLeft: element.get("bidDateTimeLeft"),
     );

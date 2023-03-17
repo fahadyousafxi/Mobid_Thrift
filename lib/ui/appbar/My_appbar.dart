@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobidthrift/models/Product_Model.dart';
 import 'package:mobidthrift/ui/Search_Page.dart';
-import 'package:mobidthrift/ui/Your_Cart.dart';
 
 import '../../utils/guest_direction_to_login.dart';
+import '../cart/cart_wish_biddings.dart';
 
 class MyAppbar {
   final _auth = FirebaseAuth.instance.currentUser;
@@ -47,8 +47,12 @@ class MyAppbar {
         IconButton(
             onPressed: () {
               _auth != null
-                  ? Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => YourCart()))
+                  ? Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CartWishBidding(
+                                iniIndex: 0,
+                              )))
                   : GuestDirectionToLogin().guestDirectionToLogin(context);
             },
             icon: Icon(Icons.shopping_cart)),
@@ -73,8 +77,12 @@ class MyAppbar {
         IconButton(
             onPressed: () {
               _auth != null
-                  ? Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => YourCart()))
+                  ? Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CartWishBidding(
+                                iniIndex: 0,
+                              )))
                   : GuestDirectionToLogin().guestDirectionToLogin(context);
             },
             icon: Icon(Icons.shopping_cart)),

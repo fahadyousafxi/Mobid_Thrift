@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/providers/Cart_Provider.dart';
@@ -11,6 +12,7 @@ import 'package:mobidthrift/ui/appbar/My_appbar.dart';
 import 'package:mobidthrift/utils/utils.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:provider/provider.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 class ProductPage extends StatefulWidget {
   String? productImage1;
@@ -27,6 +29,7 @@ class ProductPage extends StatefulWidget {
   String? productShopkeeperUid;
   int? productCurrentBid;
   int? productShipping;
+  int? bidEndTimeInSeconds;
   int? productPrice;
   DateTime? productDateTime;
   DateTime? bidDateTimeLeft;
@@ -34,6 +37,7 @@ class ProductPage extends StatefulWidget {
   ProductPage(
       {this.productImage1,
       this.productImage2,
+      this.bidEndTimeInSeconds,
       this.productImage3,
       this.productImage4,
       this.productImage5,
@@ -58,6 +62,10 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
+  int _countTime = 0;
+  int _countDownTime = 0;
+  var f = NumberFormat('00', 'en_US');
+
   TextEditingController bidAmount = TextEditingController();
   final auth = FirebaseAuth.instance.currentUser;
 
@@ -266,7 +274,7 @@ class _ProductPageState extends State<ProductPage> {
                           SizedBox(
                             height: 5,
                           ),
-                          Text('4d 3h Time Left'),
+                          countDownTimer(widget.bidEndTimeInSeconds!.toInt()),
                         ],
                       ),
                       Column(
@@ -340,7 +348,8 @@ class _ProductPageState extends State<ProductPage> {
                           setState(() {});
                           progressDialog2.show();
                           try {
-                            cartProvider.addCartData(
+                            cartProvider.addYourBiddingData(
+                              cartShopkeeperUid: widget.productShopkeeperUid,
                               cartImage1: widget.productImage1,
                               cartDescription: widget.productDescription,
                               cartPTAApproved: widget.productPTAApproved,
@@ -385,21 +394,60 @@ class _ProductPageState extends State<ProductPage> {
                     AppWidgets().myElevatedBTN(
                         btnWith: MediaQuery.of(context).size.width / 1,
                         btnHeight: 35.0,
-                        onPressed: () {},
+                        onPressed: () async {
+                          ProgressDialog progressDialog2 = ProgressDialog(
+                            context,
+                            title: const Text('Creating Your Bid !!!'),
+                            message: const Text('Please wait'),
+                          );
+                          setState(() {});
+                          progressDialog2.show();
+                          cartProvider.addCartData(
+                            cartShopkeeperUid: widget.productShopkeeperUid,
+                            cartImage1: widget.productImage1,
+                            cartDescription: widget.productDescription,
+                            cartPTAApproved: widget.productPTAApproved,
+                            cartName: widget.productName,
+                            cartCurrentBid: currentBid,
+                            cartUid: widget.productUid,
+                          );
+                          await FirebaseFirestore.instance
+                              .collection(
+                                  widget.productCollectionName.toString())
+                              .doc(widget.productUid.toString())
+                              .update({
+                            "productSold": true,
+                            "productBuyer": FirebaseAuth
+                                .instance.currentUser!.uid
+                                .toString()
+                          }).then((value) {
+                            progressDialog2.dismiss();
+                            Utils.flutterToast('Added to Cart!!');
+                          }).onError((error, stackTrace) {
+                            progressDialog2.dismiss();
+                            Utils.flutterToast(error.toString());
+                          });
+                        },
                         btnText: 'Buy it now: Rs.${widget.productPrice}',
                         btnColor: AppColors.buttonColorBlue),
                     AppWidgets().myElevatedBTN(
                         btnWith: MediaQuery.of(context).size.width / 1,
                         btnHeight: 35.0,
-                        onPressed: () {
-                          Utils.flutterToast('Added to Your WishList');
-                          wishListProvider.addToWishList(
-                              collectionName:
-                                  widget.productCollectionName.toString(),
-                              productUid: widget.productUid.toString(),
-                              wishlistUid: DateTime.now()
-                                  .microsecondsSinceEpoch
-                                  .toString());
+                        onPressed: () async {
+                          try {
+                            cartProvider.addWishListData(
+                              cartShopkeeperUid: widget.productShopkeeperUid,
+                              cartImage1: widget.productImage1,
+                              cartDescription: widget.productDescription,
+                              cartPTAApproved: widget.productPTAApproved,
+                              cartName: widget.productName,
+                              cartCurrentBid: currentBid,
+                              cartUid: widget.productUid,
+                            );
+                            Utils.flutterToast('Added to Your WishList');
+                          } catch (e) {
+                            Utils.flutterToast(e.toString());
+                          }
                         },
                         btnText: '❤ Add to wish list',
                         btnColor: AppColors.buttonColorBlue),
@@ -422,6 +470,28 @@ class _ProductPageState extends State<ProductPage> {
           ),
         ],
       )),
+    );
+  }
+
+  /// Count Down Timer
+  Widget countDownTimer(var endTime) {
+    // _countdownController.start();
+    _countTime = endTime - (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    if (_countTime > 0) {
+      _countDownTime = _countTime;
+    } else {
+      _countDownTime = 0;
+    }
+    print(_countDownTime);
+    return Countdown(
+      // controller: _countdownController,
+      seconds: _countDownTime,
+      build: (BuildContext context, double time) => Text(
+          '${(time ~/ 86400)}Days  ${f.format((time % 86400) ~/ 3600)}:${f.format((time % 3600) ~/ 60)}:${f.format(time.toInt() % 60)} Time Left'),
+      interval: Duration(seconds: 1),
+      onFinished: () {
+        debugPrint('#######################  ok  #################');
+      },
     );
   }
 }

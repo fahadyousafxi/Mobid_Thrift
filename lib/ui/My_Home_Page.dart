@@ -227,6 +227,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       productSpecification:
                                                           cellPhonesProducts
                                                               .productSpecification,
+                                                      bidEndTimeInSeconds:
+                                                          cellPhonesProducts
+                                                              .bidEndTimeInSeconds,
                                                     )))
                                         : Navigator.push(
                                             context,
@@ -270,6 +273,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       productSpecification:
                                                           cellPhonesProducts
                                                               .productSpecification,
+                                                      bidEndTimeInSeconds:
+                                                          cellPhonesProducts
+                                                              .bidEndTimeInSeconds,
                                                     )));
                                   },
                                   child: Padding(
@@ -400,6 +406,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                               data.productSpecification,
                                                           productCollectionName:
                                                               data.productCollectionName,
+                                                          bidEndTimeInSeconds: data
+                                                              .bidEndTimeInSeconds,
                                                         )))
                                         : Navigator.push(
                                             context,
@@ -407,6 +415,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 builder:
                                                     (context) =>
                                                         ProductPageForGuests(
+                                                          bidEndTimeInSeconds: data
+                                                              .bidEndTimeInSeconds,
                                                           productName: data
                                                               .productName
                                                               .toString(),
@@ -572,6 +582,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                                 builder:
                                                     (context) => ProductPage(
+                                                          bidEndTimeInSeconds: data
+                                                              .bidEndTimeInSeconds,
                                                           productName: data
                                                               .productName
                                                               .toString(),
@@ -605,6 +617,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 builder:
                                                     (context) =>
                                                         ProductPageForGuests(
+                                                          bidEndTimeInSeconds: data
+                                                              .bidEndTimeInSeconds,
                                                           productName: data
                                                               .productName
                                                               .toString(),
@@ -726,6 +740,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                                 builder:
                                                     (context) => ProductPage(
+                                                          bidEndTimeInSeconds: data
+                                                              .bidEndTimeInSeconds,
                                                           productName: data
                                                               .productName
                                                               .toString(),
@@ -759,6 +775,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 builder:
                                                     (context) =>
                                                         ProductPageForGuests(
+                                                          bidEndTimeInSeconds: data
+                                                              .bidEndTimeInSeconds,
                                                           productName: data
                                                               .productName
                                                               .toString(),
@@ -881,6 +899,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                                 builder:
                                                     (context) => ProductPage(
+                                                          bidEndTimeInSeconds: data
+                                                              .bidEndTimeInSeconds,
                                                           productName: data
                                                               .productName
                                                               .toString(),
@@ -914,6 +934,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 builder:
                                                     (context) =>
                                                         ProductPageForGuests(
+                                                          bidEndTimeInSeconds: data
+                                                              .bidEndTimeInSeconds,
                                                           productName: data
                                                               .productName
                                                               .toString(),
@@ -1037,6 +1059,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                                 builder:
                                                     (context) => ProductPage(
+                                                          bidEndTimeInSeconds: data
+                                                              .bidEndTimeInSeconds,
                                                           productCollectionName:
                                                               data.productCollectionName,
                                                           productName: data
@@ -1070,6 +1094,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 builder:
                                                     (context) =>
                                                         ProductPageForGuests(
+                                                          bidEndTimeInSeconds: data
+                                                              .bidEndTimeInSeconds,
                                                           productName: data
                                                               .productName
                                                               .toString(),
@@ -1183,6 +1209,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ProductPage(
+                                                bidEndTimeInSeconds:
+                                                    data.bidEndTimeInSeconds,
                                                 productName:
                                                     data.productName.toString(),
                                                 productCurrentBid:
@@ -1212,6 +1240,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               ProductPageForGuests(
+                                                bidEndTimeInSeconds:
+                                                    data.bidEndTimeInSeconds,
                                                 productName:
                                                     data.productName.toString(),
                                                 productCurrentBid:

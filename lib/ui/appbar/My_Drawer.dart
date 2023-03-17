@@ -19,8 +19,7 @@ import '../My_Home_Page.dart';
 import '../Search_Page.dart';
 import '../Sold_Products.dart';
 import '../Trade_Your_Product.dart';
-import '../Wish_List.dart';
-import '../Your_Cart.dart';
+import '../cart/cart_wish_biddings.dart';
 import '../login/Login_page.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -270,8 +269,12 @@ class _MyDrawerState extends State<MyDrawer> {
               onTap: () {
                 Navigator.pop(context);
                 _firebaseAuth.currentUser != null
-                    ? Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => YourCart()))
+                    ? Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CartWishBidding(
+                                  iniIndex: 0,
+                                )))
                     : GuestDirectionToLogin().guestDirectionToLogin(context);
               },
             ),
@@ -288,8 +291,12 @@ class _MyDrawerState extends State<MyDrawer> {
               onTap: () {
                 Navigator.pop(context);
                 _firebaseAuth.currentUser != null
-                    ? Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => WishList()))
+                    ? Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CartWishBidding(
+                                  iniIndex: 2,
+                                )))
                     : GuestDirectionToLogin().guestDirectionToLogin(context);
               },
             ),

@@ -87,6 +87,9 @@ class _SellerShopProductsState extends State<SellerShopProducts> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ProductPage(
+                                                bidEndTimeInSeconds: data
+                                                    .bidEndTimeInSeconds!
+                                                    .toInt(),
                                                 productName:
                                                     data.productName.toString(),
                                                 productCurrentBid:
@@ -114,6 +117,8 @@ class _SellerShopProductsState extends State<SellerShopProducts> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               ProductPageForGuests(
+                                                bidEndTimeInSeconds:
+                                                    data.bidEndTimeInSeconds,
                                                 productName:
                                                     data.productName.toString(),
                                                 productCurrentBid:

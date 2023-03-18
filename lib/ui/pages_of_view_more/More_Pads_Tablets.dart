@@ -68,6 +68,7 @@ class _MorePadsTabletsState extends State<MorePadsTablets> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ProductPage(
+                                          isStartingBid: data.isStartingBid,
                                           bidEndTimeInSeconds:
                                               data.bidEndTimeInSeconds,
                                           productName:

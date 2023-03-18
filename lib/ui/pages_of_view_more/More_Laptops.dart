@@ -67,6 +67,7 @@ class _MoreLaptopsState extends State<MoreLaptops> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ProductPage(
+                                          isStartingBid: data.isStartingBid,
                                           bidEndTimeInSeconds:
                                               data.bidEndTimeInSeconds,
                                           productName:

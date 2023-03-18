@@ -17,7 +17,7 @@ class YourCart extends StatefulWidget {
 }
 
 class _YourCartState extends State<YourCart> {
-  int price = 0;
+  int totalPrice = 0;
 
   final _auth = FirebaseAuth.instance.currentUser!.uid;
   CartProvider cartProvider = CartProvider();
@@ -54,7 +54,7 @@ class _YourCartState extends State<YourCart> {
                         borderRadius: BorderRadius.circular(11.0),
                       ),
                       child: GestureDetector(
-                          onTap: () {
+                          onDoubleTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -74,6 +74,9 @@ class _YourCartState extends State<YourCart> {
                                           cartSpecification:
                                               data.cartSpecification,
                                         )));
+                          },
+                          onTap: () {
+                            totalPrice = data.cartPrice!;
                           },
                           child: Stack(
                             children: [
@@ -103,6 +106,9 @@ class _YourCartState extends State<YourCart> {
                                         ],
                                       ),
                                     ),
+                                    SizedBox(
+                                      width: 7,
+                                    ),
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:
@@ -125,15 +131,15 @@ class _YourCartState extends State<YourCart> {
                                           Row(
                                             children: [
                                               Text(
-                                                'Rs.${data.cartCurrentBid.toString()} ',
+                                                'Price: Rs.${data.cartPrice.toString()} ',
                                                 style: TextStyle(
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
-                                              Text('is current bid '),
+                                              // Text('is current bid '),
                                             ],
                                           ),
-                                          Text('1 Day time left '),
+                                          Text('Tap to checkout'),
                                         ],
                                       ),
                                     ),
@@ -209,11 +215,12 @@ class _YourCartState extends State<YourCart> {
             SizedBox(
               height: 1,
             ),
-            AppWidgets()
-                .myHeading2Text('Total: \$0', color: AppColors.myWhiteColor),
+            AppWidgets().myHeading2Text('Total: Rs.${totalPrice}',
+                color: AppColors.myWhiteColor),
             AppWidgets().myElevatedBTN(
                 onPressed: () {
-                  print(price);
+                  print(totalPrice);
+                  print(totalPrice);
                 },
                 btnText: 'Checkout',
                 btnColor: AppColors.myRedColor)

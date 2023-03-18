@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/providers/Product_Provider.dart';
@@ -33,6 +34,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   ProductsProvider productProvider = ProductsProvider();
   final _auth = FirebaseAuth.instance.currentUser;
+  int _countTime = 0;
+  int _countDownTime = 0;
+  var f = NumberFormat('00', 'en_US');
+  int currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
   @override
   void initState() {
@@ -176,6 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           scrollDirection: Axis.horizontal,
                           children: productProvider.getCellPhonesProductsList
                               .map((cellPhonesProducts) {
+                            var time = cellPhonesProducts.bidEndTimeInSeconds;
                             return Card(
                               clipBehavior: Clip.antiAlias,
                               elevation: 4,
@@ -190,6 +196,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     ProductPage(
+                                                      isStartingBid:
+                                                          cellPhonesProducts
+                                                              .isStartingBid,
                                                       productName:
                                                           cellPhonesProducts
                                                               .productName
@@ -276,6 +285,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       bidEndTimeInSeconds:
                                                           cellPhonesProducts
                                                               .bidEndTimeInSeconds,
+                                                      isStartingBid:
+                                                          cellPhonesProducts
+                                                              .isStartingBid,
                                                     )));
                                   },
                                   child: Padding(
@@ -322,9 +334,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          Text(
-                                              'Rs.${cellPhonesProducts.productCurrentBid.toString()}  is current bid '),
-                                          Text('1 Day time left '),
+                                          cellPhonesProducts.isStartingBid ==
+                                                  true
+                                              ? Text(
+                                                  'Rs.${cellPhonesProducts.productCurrentBid.toString()}  is current bid ')
+                                              : SizedBox(),
+                                          cellPhonesProducts.isStartingBid ==
+                                                  false
+                                              ? Text('Not on Auction')
+                                              : (time! - currentTime) >= 0
+                                                  ? Text(
+                                                      '${((time! - currentTime) ~/ 86400)}Days  ${f.format(((time! - currentTime) % 86400) ~/ 3600)}hr time left ')
+                                                  : Text('Time Up')
                                         ],
                                       ),
                                     ),
@@ -363,6 +384,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           itemBuilder: (BuildContext context, int index) {
                             var data = productProvider
                                 .getPadsTabletsProductsList[index];
+                            var time = data.bidEndTimeInSeconds;
+
                             // children: cellPhonesProductProvider
                             //     .getPadsTabletsProductsList
                             //     .map((PadsTabletsProducts) {
@@ -380,6 +403,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                                 builder:
                                                     (context) => ProductPage(
+                                                          isStartingBid: data
+                                                              .isStartingBid,
                                                           productName: data
                                                               .productName
                                                               .toString(),
@@ -412,38 +437,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                         : Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder:
-                                                    (context) =>
-                                                        ProductPageForGuests(
-                                                          bidEndTimeInSeconds: data
-                                                              .bidEndTimeInSeconds,
-                                                          productName: data
-                                                              .productName
-                                                              .toString(),
-                                                          productCurrentBid: data
-                                                              .productCurrentBid,
-                                                          productDescription: data
-                                                              .productDescription
-                                                              .toString(),
-                                                          productUid: data
-                                                              .productUid
-                                                              .toString(),
-                                                          productImage1: data
-                                                              .productImage1
-                                                              .toString(),
-                                                          productShipping: data
-                                                              .productShipping,
-                                                          productPrice:
-                                                              data.productPrice,
-                                                          productPTAApproved: data
-                                                              .productPTAApproved,
-                                                          productShopkeeperUid:
-                                                              data.productShopkeeperUid,
-                                                          productSpecification:
-                                                              data.productSpecification,
-                                                          productCollectionName:
-                                                              data.productCollectionName,
-                                                        )));
+                                                builder: (context) =>
+                                                    ProductPageForGuests(
+                                                      isStartingBid:
+                                                          data.isStartingBid,
+                                                      bidEndTimeInSeconds: data
+                                                          .bidEndTimeInSeconds,
+                                                      productName: data
+                                                          .productName
+                                                          .toString(),
+                                                      productCurrentBid: data
+                                                          .productCurrentBid,
+                                                      productDescription: data
+                                                          .productDescription
+                                                          .toString(),
+                                                      productUid: data
+                                                          .productUid
+                                                          .toString(),
+                                                      productImage1: data
+                                                          .productImage1
+                                                          .toString(),
+                                                      productShipping:
+                                                          data.productShipping,
+                                                      productPrice:
+                                                          data.productPrice,
+                                                      productPTAApproved: data
+                                                          .productPTAApproved,
+                                                      productShopkeeperUid: data
+                                                          .productShopkeeperUid,
+                                                      productSpecification: data
+                                                          .productSpecification,
+                                                      productCollectionName: data
+                                                          .productCollectionName,
+                                                    )));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
@@ -482,9 +508,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          Text(
-                                              'Rs.${data.productCurrentBid.toString()}  is current bid '),
-                                          Text('1 Day time left '),
+                                          data.isStartingBid == true
+                                              ? Text(
+                                                  'Rs.${data.productCurrentBid.toString()}  is current bid ')
+                                              : SizedBox(),
+                                          data.isStartingBid == false
+                                              ? Text('Not on Auction')
+                                              : (time! - currentTime) >= 0
+                                                  ? Text(
+                                                      '${((time! - currentTime) ~/ 86400)}Days  ${f.format(((time! - currentTime) % 86400) ~/ 3600)}hr time left ')
+                                                  : Text('Time Up')
                                         ],
                                       ),
                                     ),
@@ -565,6 +598,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           itemBuilder: (BuildContext context, int index) {
                             var data = productProvider
                                 .getSmartWatchesProductsList[index];
+                            var time = data.bidEndTimeInSeconds;
+
                             // children: cellPhonesProductProvider
                             //     .getPadsTabletsProductsList
                             //     .map((PadsTabletsProducts) {
@@ -582,6 +617,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                                 builder:
                                                     (context) => ProductPage(
+                                                          isStartingBid: data
+                                                              .isStartingBid,
                                                           bidEndTimeInSeconds: data
                                                               .bidEndTimeInSeconds,
                                                           productName: data
@@ -614,38 +651,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                         : Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder:
-                                                    (context) =>
-                                                        ProductPageForGuests(
-                                                          bidEndTimeInSeconds: data
-                                                              .bidEndTimeInSeconds,
-                                                          productName: data
-                                                              .productName
-                                                              .toString(),
-                                                          productCurrentBid: data
-                                                              .productCurrentBid,
-                                                          productDescription: data
-                                                              .productDescription
-                                                              .toString(),
-                                                          productUid: data
-                                                              .productUid
-                                                              .toString(),
-                                                          productImage1: data
-                                                              .productImage1
-                                                              .toString(),
-                                                          productShipping: data
-                                                              .productShipping,
-                                                          productPrice:
-                                                              data.productPrice,
-                                                          productPTAApproved: data
-                                                              .productPTAApproved,
-                                                          productShopkeeperUid:
-                                                              data.productShopkeeperUid,
-                                                          productSpecification:
-                                                              data.productSpecification,
-                                                          productCollectionName:
-                                                              data.productCollectionName,
-                                                        )));
+                                                builder: (context) =>
+                                                    ProductPageForGuests(
+                                                      isStartingBid:
+                                                          data.isStartingBid,
+                                                      bidEndTimeInSeconds: data
+                                                          .bidEndTimeInSeconds,
+                                                      productName: data
+                                                          .productName
+                                                          .toString(),
+                                                      productCurrentBid: data
+                                                          .productCurrentBid,
+                                                      productDescription: data
+                                                          .productDescription
+                                                          .toString(),
+                                                      productUid: data
+                                                          .productUid
+                                                          .toString(),
+                                                      productImage1: data
+                                                          .productImage1
+                                                          .toString(),
+                                                      productShipping:
+                                                          data.productShipping,
+                                                      productPrice:
+                                                          data.productPrice,
+                                                      productPTAApproved: data
+                                                          .productPTAApproved,
+                                                      productShopkeeperUid: data
+                                                          .productShopkeeperUid,
+                                                      productSpecification: data
+                                                          .productSpecification,
+                                                      productCollectionName: data
+                                                          .productCollectionName,
+                                                    )));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
@@ -684,9 +722,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          Text(
-                                              'Rs.${data.productCurrentBid.toString()}  is current bid '),
-                                          Text('1 Day time left '),
+                                          data.isStartingBid == true
+                                              ? Text(
+                                                  'Rs.${data.productCurrentBid.toString()}  is current bid ')
+                                              : SizedBox(),
+                                          data.isStartingBid == false
+                                              ? Text('Not on Auction')
+                                              : (time! - currentTime) >= 0
+                                                  ? Text(
+                                                      '${((time! - currentTime) ~/ 86400)}Days  ${f.format(((time! - currentTime) % 86400) ~/ 3600)}hr time left ')
+                                                  : Text('Time Up')
                                         ],
                                       ),
                                     ),
@@ -723,6 +768,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           itemBuilder: (BuildContext context, int index) {
                             var data =
                                 productProvider.getLaptopsProductsList[index];
+                            var time = data.bidEndTimeInSeconds;
+
                             // children: cellPhonesProductProvider
                             //     .getPadsTabletsProductsList
                             //     .map((PadsTabletsProducts) {
@@ -740,6 +787,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                                 builder:
                                                     (context) => ProductPage(
+                                                          isStartingBid: data
+                                                              .isStartingBid,
                                                           bidEndTimeInSeconds: data
                                                               .bidEndTimeInSeconds,
                                                           productName: data
@@ -772,38 +821,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                         : Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder:
-                                                    (context) =>
-                                                        ProductPageForGuests(
-                                                          bidEndTimeInSeconds: data
-                                                              .bidEndTimeInSeconds,
-                                                          productName: data
-                                                              .productName
-                                                              .toString(),
-                                                          productCurrentBid: data
-                                                              .productCurrentBid,
-                                                          productDescription: data
-                                                              .productDescription
-                                                              .toString(),
-                                                          productUid: data
-                                                              .productUid
-                                                              .toString(),
-                                                          productImage1: data
-                                                              .productImage1
-                                                              .toString(),
-                                                          productShipping: data
-                                                              .productShipping,
-                                                          productPrice:
-                                                              data.productPrice,
-                                                          productPTAApproved: data
-                                                              .productPTAApproved,
-                                                          productShopkeeperUid:
-                                                              data.productShopkeeperUid,
-                                                          productSpecification:
-                                                              data.productSpecification,
-                                                          productCollectionName:
-                                                              data.productCollectionName,
-                                                        )));
+                                                builder: (context) =>
+                                                    ProductPageForGuests(
+                                                      isStartingBid:
+                                                          data.isStartingBid,
+                                                      bidEndTimeInSeconds: data
+                                                          .bidEndTimeInSeconds,
+                                                      productName: data
+                                                          .productName
+                                                          .toString(),
+                                                      productCurrentBid: data
+                                                          .productCurrentBid,
+                                                      productDescription: data
+                                                          .productDescription
+                                                          .toString(),
+                                                      productUid: data
+                                                          .productUid
+                                                          .toString(),
+                                                      productImage1: data
+                                                          .productImage1
+                                                          .toString(),
+                                                      productShipping:
+                                                          data.productShipping,
+                                                      productPrice:
+                                                          data.productPrice,
+                                                      productPTAApproved: data
+                                                          .productPTAApproved,
+                                                      productShopkeeperUid: data
+                                                          .productShopkeeperUid,
+                                                      productSpecification: data
+                                                          .productSpecification,
+                                                      productCollectionName: data
+                                                          .productCollectionName,
+                                                    )));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
@@ -841,9 +891,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          Text(
-                                              'Rs.${data.productCurrentBid.toString()}  is current bid '),
-                                          Text('1 Day time left '),
+                                          data.isStartingBid == true
+                                              ? Text(
+                                                  'Rs.${data.productCurrentBid.toString()}  is current bid ')
+                                              : SizedBox(),
+                                          data.isStartingBid == false
+                                              ? Text('Not on Auction')
+                                              : (time! - currentTime) >= 0
+                                                  ? Text(
+                                                      '${((time! - currentTime) ~/ 86400)}Days  ${f.format(((time! - currentTime) % 86400) ~/ 3600)}hr time left ')
+                                                  : Text('Time Up')
                                         ],
                                       ),
                                     ),
@@ -882,6 +939,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           itemBuilder: (BuildContext context, int index) {
                             var data =
                                 productProvider.getDesktopsProductsList[index];
+                            var time = data.bidEndTimeInSeconds;
+
                             // children: cellPhonesProductProvider
                             //     .getPadsTabletsProductsList
                             //     .map((PadsTabletsProducts) {
@@ -899,6 +958,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                                 builder:
                                                     (context) => ProductPage(
+                                                          isStartingBid: data
+                                                              .isStartingBid,
                                                           bidEndTimeInSeconds: data
                                                               .bidEndTimeInSeconds,
                                                           productName: data
@@ -931,38 +992,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                         : Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder:
-                                                    (context) =>
-                                                        ProductPageForGuests(
-                                                          bidEndTimeInSeconds: data
-                                                              .bidEndTimeInSeconds,
-                                                          productName: data
-                                                              .productName
-                                                              .toString(),
-                                                          productCurrentBid: data
-                                                              .productCurrentBid,
-                                                          productDescription: data
-                                                              .productDescription
-                                                              .toString(),
-                                                          productUid: data
-                                                              .productUid
-                                                              .toString(),
-                                                          productImage1: data
-                                                              .productImage1
-                                                              .toString(),
-                                                          productShipping: data
-                                                              .productShipping,
-                                                          productPrice:
-                                                              data.productPrice,
-                                                          productPTAApproved: data
-                                                              .productPTAApproved,
-                                                          productShopkeeperUid:
-                                                              data.productShopkeeperUid,
-                                                          productSpecification:
-                                                              data.productSpecification,
-                                                          productCollectionName:
-                                                              data.productCollectionName,
-                                                        )));
+                                                builder: (context) =>
+                                                    ProductPageForGuests(
+                                                      isStartingBid:
+                                                          data.isStartingBid,
+                                                      bidEndTimeInSeconds: data
+                                                          .bidEndTimeInSeconds,
+                                                      productName: data
+                                                          .productName
+                                                          .toString(),
+                                                      productCurrentBid: data
+                                                          .productCurrentBid,
+                                                      productDescription: data
+                                                          .productDescription
+                                                          .toString(),
+                                                      productUid: data
+                                                          .productUid
+                                                          .toString(),
+                                                      productImage1: data
+                                                          .productImage1
+                                                          .toString(),
+                                                      productShipping:
+                                                          data.productShipping,
+                                                      productPrice:
+                                                          data.productPrice,
+                                                      productPTAApproved: data
+                                                          .productPTAApproved,
+                                                      productShopkeeperUid: data
+                                                          .productShopkeeperUid,
+                                                      productSpecification: data
+                                                          .productSpecification,
+                                                      productCollectionName: data
+                                                          .productCollectionName,
+                                                    )));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
@@ -1001,9 +1063,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          Text(
-                                              'Rs.${data.productCurrentBid.toString()}  is current bid '),
-                                          Text('1 Day time left '),
+                                          data.isStartingBid == true
+                                              ? Text(
+                                                  'Rs.${data.productCurrentBid.toString()}  is current bid ')
+                                              : SizedBox(),
+                                          data.isStartingBid == false
+                                              ? Text('Not on Auction')
+                                              : (time! - currentTime) >= 0
+                                                  ? Text(
+                                                      '${((time! - currentTime) ~/ 86400)}Days  ${f.format(((time! - currentTime) % 86400) ~/ 3600)}hr time left ')
+                                                  : Text('Time Up')
                                         ],
                                       ),
                                     ),
@@ -1042,6 +1111,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           itemBuilder: (BuildContext context, int index) {
                             var data = productProvider
                                 .getAccessoriesProductsList[index];
+                            var time = data.bidEndTimeInSeconds;
+
                             // children: cellPhonesProductProvider
                             //     .getPadsTabletsProductsList
                             //     .map((PadsTabletsProducts) {
@@ -1059,6 +1130,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MaterialPageRoute(
                                                 builder:
                                                     (context) => ProductPage(
+                                                          isStartingBid: data
+                                                              .isStartingBid,
                                                           bidEndTimeInSeconds: data
                                                               .bidEndTimeInSeconds,
                                                           productCollectionName:
@@ -1091,38 +1164,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                         : Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder:
-                                                    (context) =>
-                                                        ProductPageForGuests(
-                                                          bidEndTimeInSeconds: data
-                                                              .bidEndTimeInSeconds,
-                                                          productName: data
-                                                              .productName
-                                                              .toString(),
-                                                          productCurrentBid: data
-                                                              .productCurrentBid,
-                                                          productDescription: data
-                                                              .productDescription
-                                                              .toString(),
-                                                          productUid: data
-                                                              .productUid
-                                                              .toString(),
-                                                          productImage1: data
-                                                              .productImage1
-                                                              .toString(),
-                                                          productShipping: data
-                                                              .productShipping,
-                                                          productPrice:
-                                                              data.productPrice,
-                                                          productPTAApproved: data
-                                                              .productPTAApproved,
-                                                          productShopkeeperUid:
-                                                              data.productShopkeeperUid,
-                                                          productSpecification:
-                                                              data.productSpecification,
-                                                          productCollectionName:
-                                                              data.productCollectionName,
-                                                        )));
+                                                builder: (context) =>
+                                                    ProductPageForGuests(
+                                                      isStartingBid:
+                                                          data.isStartingBid,
+                                                      bidEndTimeInSeconds: data
+                                                          .bidEndTimeInSeconds,
+                                                      productName: data
+                                                          .productName
+                                                          .toString(),
+                                                      productCurrentBid: data
+                                                          .productCurrentBid,
+                                                      productDescription: data
+                                                          .productDescription
+                                                          .toString(),
+                                                      productUid: data
+                                                          .productUid
+                                                          .toString(),
+                                                      productImage1: data
+                                                          .productImage1
+                                                          .toString(),
+                                                      productShipping:
+                                                          data.productShipping,
+                                                      productPrice:
+                                                          data.productPrice,
+                                                      productPTAApproved: data
+                                                          .productPTAApproved,
+                                                      productShopkeeperUid: data
+                                                          .productShopkeeperUid,
+                                                      productSpecification: data
+                                                          .productSpecification,
+                                                      productCollectionName: data
+                                                          .productCollectionName,
+                                                    )));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
@@ -1161,9 +1235,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          Text(
-                                              'Rs.${data.productCurrentBid.toString()}  is current bid '),
-                                          Text('1 Day time left '),
+                                          data.isStartingBid == true
+                                              ? Text(
+                                                  'Rs.${data.productCurrentBid.toString()}  is current bid ')
+                                              : SizedBox(),
+                                          data.isStartingBid == false
+                                              ? Text('Not on Auction')
+                                              : (time! - currentTime) >= 0
+                                                  ? Text(
+                                                      '${((time! - currentTime) ~/ 86400)}Days  ${f.format(((time! - currentTime) % 86400) ~/ 3600)}hr time left ')
+                                                  : Text('Time Up')
                                         ],
                                       ),
                                     ),
@@ -1193,6 +1274,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
                       var data = productProvider.getPartsProductsList[index];
+                      var time = data.bidEndTimeInSeconds;
                       // children: cellPhonesProductProvider
                       //     .getPadsTabletsProductsList
                       //     .map((PadsTabletsProducts) {
@@ -1209,6 +1291,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ProductPage(
+                                                isStartingBid:
+                                                    data.isStartingBid,
                                                 bidEndTimeInSeconds:
                                                     data.bidEndTimeInSeconds,
                                                 productName:
@@ -1240,6 +1324,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               ProductPageForGuests(
+                                                isStartingBid:
+                                                    data.isStartingBid,
                                                 bidEndTimeInSeconds:
                                                     data.bidEndTimeInSeconds,
                                                 productName:
@@ -1302,9 +1388,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    Text(
-                                        'Rs.${data.productCurrentBid.toString()}  is current bid '),
-                                    Text('1 Day time left '),
+                                    data.isStartingBid == true
+                                        ? Text(
+                                            'Rs.${data.productCurrentBid.toString()}  is current bid ')
+                                        : SizedBox(),
+                                    data.isStartingBid == false
+                                        ? Text('Not on Auction')
+                                        : (time! - currentTime) >= 0
+                                            ? Text(
+                                                '${((time! - currentTime) ~/ 86400)}Days  ${f.format(((time! - currentTime) % 86400) ~/ 3600)}hr time left ')
+                                            : Text('Time Up')
                                   ],
                                 ),
                               ),

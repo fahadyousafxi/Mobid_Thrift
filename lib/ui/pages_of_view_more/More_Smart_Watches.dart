@@ -70,6 +70,7 @@ class _MoreSmartWatchesState extends State<MoreSmartWatches> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ProductPage(
+                                          isStartingBid: data.isStartingBid,
                                           bidEndTimeInSeconds:
                                               data.bidEndTimeInSeconds,
                                           productName:

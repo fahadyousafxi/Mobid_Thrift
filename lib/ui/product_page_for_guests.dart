@@ -32,9 +32,11 @@ class ProductPageForGuests extends StatefulWidget {
   DateTime? productDateTime;
   DateTime? bidDateTimeLeft;
   bool? productPTAApproved;
+  bool? isStartingBid;
   ProductPageForGuests(
       {this.productImage1,
       this.productImage2,
+      required this.isStartingBid,
       required this.bidEndTimeInSeconds,
       this.productImage3,
       this.productImage4,
@@ -252,18 +254,32 @@ class _ProductPageForGuestsState extends State<ProductPageForGuests> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Rs.${widget.productCurrentBid} Current Bid'),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          // Text('4d 3h Time Left'),
-                          countDownTimer(widget.bidEndTimeInSeconds!.toInt()),
-                        ],
-                      ),
+                      widget.isStartingBid == false
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Not On Auction'),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text('Price: Rs.${widget.productPrice}')
+                              ],
+                            )
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                    'Rs.${widget.productCurrentBid} Current Bid'),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                // Text('4d 3h Time Left'),
+                                countDownTimer(
+                                    widget.bidEndTimeInSeconds!.toInt()),
+                              ],
+                            ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -289,36 +305,40 @@ class _ProductPageForGuestsState extends State<ProductPageForGuests> {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      height: 35,
-                      width: MediaQuery.of(context).size.width / 2.2,
-                      child: TextField(
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                            alignLabelWithHint: false,
-                            border: OutlineInputBorder(gapPadding: 113),
-                            contentPadding: EdgeInsets.only(top: 4, left: 6),
-                            // labelText: 'Label',
-                            hintText: 'Your Bid Amount'
-                            // height: 60, // Set the height of the text field
+                widget.isStartingBid == false
+                    ? SizedBox()
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            height: 35,
+                            width: MediaQuery.of(context).size.width / 2.2,
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                  alignLabelWithHint: false,
+                                  border: OutlineInputBorder(gapPadding: 113),
+                                  contentPadding:
+                                      EdgeInsets.only(top: 4, left: 6),
+                                  // labelText: 'Label',
+                                  hintText: 'Your Bid Amount'
+                                  // height: 60, // Set the height of the text field
+                                  ),
+                              style: TextStyle(fontSize: 12),
                             ),
-                        style: TextStyle(fontSize: 12),
+                          ),
+                          AppWidgets().myElevatedBTN(
+                            btnWith: MediaQuery.of(context).size.width / 2.5,
+                            btnHeight: 35.0,
+                            onPressed: () async {
+                              GuestDirectionToLogin()
+                                  .guestDirectionToLogin(context);
+                            },
+                            btnText: 'Bid',
+                            btnColor: AppColors.buttonColorBlue,
+                          )
+                        ],
                       ),
-                    ),
-                    AppWidgets().myElevatedBTN(
-                      btnWith: MediaQuery.of(context).size.width / 2.5,
-                      btnHeight: 35.0,
-                      onPressed: () async {
-                        GuestDirectionToLogin().guestDirectionToLogin(context);
-                      },
-                      btnText: 'Bid',
-                      btnColor: AppColors.buttonColorBlue,
-                    )
-                  ],
-                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

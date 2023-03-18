@@ -165,6 +165,7 @@ class CartProvider with ChangeNotifier {
         cartCurrentBid: element.get("cartCurrentBid"),
         cartUid: element.get("cartUid"),
         cartShopkeeperUid: element.get("cartShopkeeperUid"),
+        cartPrice: element.get("cartPrice"),
       );
       newList.add(cartModel);
     }
@@ -195,6 +196,7 @@ class CartProvider with ChangeNotifier {
         cartCurrentBid: element.get("cartCurrentBid"),
         cartUid: element.get("cartUid"),
         cartShopkeeperUid: element.get("cartShopkeeperUid"),
+        cartPrice: element.get("cartPrice"),
       );
       newList.add(cartModel);
     }
@@ -225,6 +227,7 @@ class CartProvider with ChangeNotifier {
         cartCurrentBid: element.get("cartCurrentBid"),
         cartUid: element.get("cartUid"),
         cartShopkeeperUid: element.get("cartShopkeeperUid"),
+        cartPrice: element.get("cartPrice"),
       );
       newList.add(cartModel);
     }

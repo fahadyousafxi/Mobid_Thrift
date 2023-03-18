@@ -18,9 +18,11 @@ class ProductModel {
   DateTime? productDateTime;
   DateTime? bidDateTimeLeft;
   bool? productPTAApproved;
+  bool? isStartingBid;
   List<String>? imagesList;
 
   ProductModel({
+    required this.isStartingBid,
     this.bidEndTimeInSeconds,
     this.imagesList,
     this.productCollectionName,

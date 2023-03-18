@@ -34,9 +34,11 @@ class ProductPage extends StatefulWidget {
   DateTime? productDateTime;
   DateTime? bidDateTimeLeft;
   bool? productPTAApproved;
+  bool? isStartingBid;
   ProductPage(
       {this.productImage1,
       this.productImage2,
+      this.isStartingBid,
       this.bidEndTimeInSeconds,
       this.productImage3,
       this.productImage4,
@@ -94,10 +96,7 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _fireStoreSnapshot = FirebaseFirestore.instance
-        .collection('SellerCenterUsers')
-        .doc(widget.productShopkeeperUid)
-        .get();
+    final _fireStoreSnapshot = FirebaseFirestore.instance;
     _sellerProvider = Provider.of(context);
     // _sellerProvider.getSellerData(widget.productShopkeeperUid.toString());
 
@@ -115,7 +114,10 @@ class _ProductPageState extends State<ProductPage> {
             height: 22,
           ),
           FutureBuilder<DocumentSnapshot>(
-              future: _fireStoreSnapshot,
+              future: _fireStoreSnapshot
+                  .collection('SellerCenterUsers')
+                  .doc(widget.productShopkeeperUid)
+                  .get(),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting)
@@ -230,25 +232,95 @@ class _ProductPageState extends State<ProductPage> {
                   ),
                 );
               }),
-          Container(
-            child: Column(
-              children: [
-                InteractiveViewer(
-                  panEnabled: false, // Set it to false
-                  boundaryMargin: EdgeInsets.all(100),
-                  minScale: 0.5,
-                  maxScale: 2,
-                  child: Image.network(
-                    widget.productImage1!,
-                    height: 255,
-                  ),
-                ),
-                Text(
-                  widget.productName!,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
+          SizedBox(
+            child: FutureBuilder<DocumentSnapshot>(
+                future: _fireStoreSnapshot
+                    .collection(widget.productCollectionName!)
+                    .doc(widget.productUid)
+                    .get(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting)
+                    return Container(
+                      margin: EdgeInsets.only(top: 22),
+                      height: 255,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(widget.productImage1!))),
+                      child: Center(
+                          child: CircularProgressIndicator(
+                        color: Colors.blue,
+                      )),
+                    );
+
+                  if (snapshot.hasError)
+                    return Center(child: Text('Some Error'));
+
+                  return SizedBox(
+                    height: 260,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: snapshot.data!['productImages'].length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          // width: 244,
+                          child: Column(
+                            children: [
+                              Container(
+                                // width: 155,
+                                height: 255,
+                                margin: EdgeInsets.only(left: 20, right: 5),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(11),
+                                  child: InteractiveViewer(
+                                    panEnabled: false, // Set it to false
+                                    boundaryMargin: EdgeInsets.all(100),
+                                    minScale: 0.8,
+                                    maxScale: 3,
+                                    child: Image(
+                                      // The Data will be loaded from firebse
+                                      image: NetworkImage(snapshot
+                                          .data!['productImages'][index]
+                                          .toString()),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+
+                        //   Container(
+                        //   height: 255,
+                        //   decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(333)),
+                        //   child: Column(
+                        //     children: [
+                        //       InteractiveViewer(
+                        //         panEnabled: false, // Set it to false
+                        //         boundaryMargin: EdgeInsets.all(100),
+                        //         minScale: 0.5,
+                        //         maxScale: 2,
+                        //         child: Image.network(
+                        //           widget.productImage1!,
+                        //           fit: BoxFit.cover,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // );
+                      },
+                    ),
+                  );
+                }),
+          ),
+          SizedBox(
+            height: 6,
+          ),
+          Text(
+            widget.productName!,
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
           Container(
             padding: EdgeInsets.only(left: 12, right: 12),
@@ -263,20 +335,33 @@ class _ProductPageState extends State<ProductPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Rs.${currentBid!.toInt()} Current Bid'),
-                          myBid == 0
-                              ? SizedBox()
-                              : Text('Rs.${myBid.toInt()} your Bid'),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          countDownTimer(widget.bidEndTimeInSeconds!.toInt()),
-                        ],
-                      ),
+                      widget.isStartingBid == false
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Not On Auction'),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text('Price: Rs.${widget.productPrice}')
+                              ],
+                            )
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Rs.${currentBid!.toInt()} Current Bid'),
+                                myBid == 0
+                                    ? SizedBox()
+                                    : Text('Rs.${myBid.toInt()} your Bid'),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                countDownTimer(
+                                    widget.bidEndTimeInSeconds!.toInt()),
+                              ],
+                            ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -302,92 +387,99 @@ class _ProductPageState extends State<ProductPage> {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      height: _validate ? 49 : 35,
-                      width: MediaQuery.of(context).size.width / 2.2,
-                      child: TextField(
-                        controller: bidAmount,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                            errorText:
-                                _validate ? 'Your bid amount is low' : null,
-                            alignLabelWithHint: false,
-                            border: OutlineInputBorder(gapPadding: 113),
-                            contentPadding: EdgeInsets.only(top: 4, left: 6),
-                            // labelText: 'Label',
-                            hintText: 'Your Bid Amount'
-                            // height: 60, // Set the height of the text field
+                widget.isStartingBid == false
+                    ? SizedBox()
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            height: _validate ? 49 : 35,
+                            width: MediaQuery.of(context).size.width / 2.2,
+                            child: TextField(
+                              controller: bidAmount,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                  errorText: _validate
+                                      ? 'Your bid amount is low'
+                                      : null,
+                                  alignLabelWithHint: false,
+                                  border: OutlineInputBorder(gapPadding: 113),
+                                  contentPadding:
+                                      EdgeInsets.only(top: 4, left: 6),
+                                  // labelText: 'Label',
+                                  hintText: 'Your Bid Amount'
+                                  // height: 60, // Set the height of the text field
+                                  ),
+                              style: TextStyle(fontSize: 12),
                             ),
-                        style: TextStyle(fontSize: 12),
+                          ),
+                          AppWidgets().myElevatedBTN(
+                            btnWith: MediaQuery.of(context).size.width / 2.5,
+                            btnHeight: 35.0,
+                            onPressed: () async {
+                              int bid = int.parse(bidAmount.text.toString());
+                              print(bid);
+                              if (bid > 9999999) {
+                                Utils.flutterToast(
+                                    'Your Bid Amount is too high');
+                                return;
+                              }
+                              if (bid > currentBid!) {
+                                // bidAmount.text.isEmpty || bid < currentBid ? _validate = true : _validate = false;
+                                _validate = false;
+                                myBid = bid;
+                                currentBid = bid;
+
+                                ProgressDialog progressDialog2 = ProgressDialog(
+                                  context,
+                                  title: const Text('Creating Your Bid !!!'),
+                                  message: const Text('Please wait'),
+                                );
+                                setState(() {});
+                                progressDialog2.show();
+                                try {
+                                  cartProvider.addYourBiddingData(
+                                    cartPrice: widget.productPrice,
+                                    cartShopkeeperUid:
+                                        widget.productShopkeeperUid,
+                                    cartImage1: widget.productImage1,
+                                    cartDescription: widget.productDescription,
+                                    cartPTAApproved: widget.productPTAApproved,
+                                    cartName: widget.productName,
+                                    cartCurrentBid: currentBid,
+                                    cartUid: widget.productUid,
+                                  );
+                                  await FirebaseFirestore.instance
+                                      .collection(widget.productCollectionName
+                                          .toString())
+                                      .doc(widget.productUid.toString())
+                                      .update({
+                                    "productCurrentBid": currentBid,
+                                    "higherBidder": FirebaseAuth
+                                        .instance.currentUser!.uid
+                                        .toString()
+                                  }).then((value) {
+                                    progressDialog2.dismiss();
+                                    Utils.flutterToast('Your Bid is Created!');
+                                  });
+                                } catch (e) {
+                                  progressDialog2.dismiss();
+                                  Utils.flutterToast(e.toString());
+                                }
+
+                                setState(() {});
+                              } else {
+                                bidAmount.text.isEmpty || bid <= currentBid!
+                                    ? _validate = true
+                                    : _validate = false;
+                                setState(() {});
+                              }
+                            },
+                            btnText: 'Bid',
+                            btnColor: AppColors.buttonColorBlue,
+                          )
+                        ],
                       ),
-                    ),
-                    AppWidgets().myElevatedBTN(
-                      btnWith: MediaQuery.of(context).size.width / 2.5,
-                      btnHeight: 35.0,
-                      onPressed: () async {
-                        int bid = int.parse(bidAmount.text.toString());
-                        print(bid);
-                        if (bid > 9999999) {
-                          Utils.flutterToast('Your Bid Amount is too high');
-                          return;
-                        }
-                        if (bid > currentBid!) {
-                          // bidAmount.text.isEmpty || bid < currentBid ? _validate = true : _validate = false;
-                          _validate = false;
-                          myBid = bid;
-                          currentBid = bid;
-
-                          ProgressDialog progressDialog2 = ProgressDialog(
-                            context,
-                            title: const Text('Creating Your Bid !!!'),
-                            message: const Text('Please wait'),
-                          );
-                          setState(() {});
-                          progressDialog2.show();
-                          try {
-                            cartProvider.addYourBiddingData(
-                              cartShopkeeperUid: widget.productShopkeeperUid,
-                              cartImage1: widget.productImage1,
-                              cartDescription: widget.productDescription,
-                              cartPTAApproved: widget.productPTAApproved,
-                              cartName: widget.productName,
-                              cartCurrentBid: currentBid,
-                              cartUid: widget.productUid,
-                            );
-                            await FirebaseFirestore.instance
-                                .collection(
-                                    widget.productCollectionName.toString())
-                                .doc(widget.productUid.toString())
-                                .update({
-                              "productCurrentBid": currentBid,
-                              "higherBidder": FirebaseAuth
-                                  .instance.currentUser!.uid
-                                  .toString()
-                            }).then((value) {
-                              progressDialog2.dismiss();
-                              Utils.flutterToast('Your Bid is Created!');
-                            });
-                          } catch (e) {
-                            progressDialog2.dismiss();
-                            Utils.flutterToast(e.toString());
-                          }
-
-                          setState(() {});
-                        } else {
-                          bidAmount.text.isEmpty || bid <= currentBid!
-                              ? _validate = true
-                              : _validate = false;
-                          setState(() {});
-                        }
-                      },
-                      btnText: 'Bid',
-                      btnColor: AppColors.buttonColorBlue,
-                    )
-                  ],
-                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -403,6 +495,7 @@ class _ProductPageState extends State<ProductPage> {
                           setState(() {});
                           progressDialog2.show();
                           cartProvider.addCartData(
+                            cartPrice: widget.productPrice,
                             cartShopkeeperUid: widget.productShopkeeperUid,
                             cartImage1: widget.productImage1,
                             cartDescription: widget.productDescription,
@@ -436,6 +529,7 @@ class _ProductPageState extends State<ProductPage> {
                         onPressed: () async {
                           try {
                             cartProvider.addWishListData(
+                              cartPrice: widget.productPrice,
                               cartShopkeeperUid: widget.productShopkeeperUid,
                               cartImage1: widget.productImage1,
                               cartDescription: widget.productDescription,

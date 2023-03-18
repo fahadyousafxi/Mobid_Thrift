@@ -67,6 +67,7 @@ class _MoreDesktopsState extends State<MoreDesktops> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ProductPage(
+                                          isStartingBid: data.isStartingBid,
                                           bidEndTimeInSeconds:
                                               data.bidEndTimeInSeconds,
                                           productName:

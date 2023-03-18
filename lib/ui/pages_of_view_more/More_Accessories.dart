@@ -89,6 +89,7 @@ class _MoreAccessoriesState extends State<MoreAccessories> {
                                               data.productShopkeeperUid,
                                           productSpecification:
                                               data.productSpecification,
+                                          isStartingBid: data.isStartingBid,
                                         )));
                           },
                           child: Padding(

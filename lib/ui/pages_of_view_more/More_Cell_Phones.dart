@@ -70,6 +70,7 @@ class _MoreCellPhonesState extends State<MoreCellPhones> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ProductPage(
+                                          isStartingBid: data.isStartingBid,
                                           bidEndTimeInSeconds:
                                               data.bidEndTimeInSeconds,
                                           productName:

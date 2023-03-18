@@ -21,6 +21,7 @@ class ProductsProvider with ChangeNotifier {
       productSpecification: element.get("productSpecification"),
       productPrice: element.get("productPrice"),
       bidEndTimeInSeconds: element.get("BidEndTimeInSeconds"),
+      isStartingBid: element.get("IsStartingBid"),
       // imagesList: element.get("myList2"),
       // bidDateTimeLeft: element.get("bidDateTimeLeft"),
     );

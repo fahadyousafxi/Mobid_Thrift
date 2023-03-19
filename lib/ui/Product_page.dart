@@ -489,7 +489,7 @@ class _ProductPageState extends State<ProductPage> {
                         onPressed: () async {
                           ProgressDialog progressDialog2 = ProgressDialog(
                             context,
-                            title: const Text('Creating Your Bid !!!'),
+                            title: const Text('Product Buying!!!'),
                             message: const Text('Please wait'),
                           );
                           setState(() {});
@@ -503,6 +503,9 @@ class _ProductPageState extends State<ProductPage> {
                             cartName: widget.productName,
                             cartCurrentBid: currentBid,
                             cartUid: widget.productUid,
+                            cartCollectionName: widget.productCollectionName,
+                            cartSpecification: widget.productSpecification,
+                            cartShipping: widget.productShipping,
                           );
                           await FirebaseFirestore.instance
                               .collection(

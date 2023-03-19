@@ -17,22 +17,42 @@ class YourCart extends StatefulWidget {
 }
 
 class _YourCartState extends State<YourCart> {
+  final _firebaseFireStore = FirebaseFirestore.instance;
+  final _currentUser = FirebaseAuth.instance.currentUser!.uid;
   int totalPrice = 0;
+  String productName = '____';
+  String productImage = '';
+  String productCollectionName = '';
+  String productUid = '';
+  String shopKeeperUid = '';
+  String productDescription = '';
+  String productSpecifications = '';
+  int productShipping = 0;
+  bool? productPTAApproved = false;
 
   final _auth = FirebaseAuth.instance.currentUser!.uid;
   CartProvider cartProvider = CartProvider();
   @override
   void initState() {
-    // CartProvider initCartProvider = CartProvider();
-    // initCartProvider.getCartData();
+    CartProvider cartProvider = Provider.of(context, listen: false);
+
+    cartProvider.getCartData();
     // TODO: implement initState
     super.initState();
+  }
+
+  @override
+  void deactivate() {
+    cartProvider.getCartDataList.clear();
+    // TODO: implement deactivate
+    super.deactivate();
   }
 
   @override
   Widget build(BuildContext context) {
     cartProvider = Provider.of(context);
     cartProvider.getCartData();
+
     return Scaffold(
       // appBar: MyAppbar().mySimpleAppBar(context, title: 'Your Cart'),
       body: Padding(
@@ -77,6 +97,16 @@ class _YourCartState extends State<YourCart> {
                           },
                           onTap: () {
                             totalPrice = data.cartPrice!;
+                            productName = data.cartName!;
+                            productUid = data.cartUid!;
+                            productCollectionName =
+                                data.cartCollectionName!.toString();
+                            productImage = data.cartImage1.toString();
+                            shopKeeperUid = data.cartShopkeeperUid!;
+                            productDescription = data.cartDescription!;
+                            productSpecifications = data.cartSpecification!;
+                            productShipping = data.cartShipping!;
+                            productPTAApproved = data.cartPTAApproved!;
                           },
                           child: Stack(
                             children: [
@@ -139,7 +169,16 @@ class _YourCartState extends State<YourCart> {
                                               // Text('is current bid '),
                                             ],
                                           ),
-                                          Text('Tap to checkout'),
+                                          data.pleaseWait! == ''
+                                              ? Text('Tap to checkout')
+                                              : data.sellerStatus == ''
+                                                  ? Text(
+                                                      data.pleaseWait!,
+                                                      style: TextStyle(
+                                                          color: Colors.red),
+                                                    )
+                                                  : Text(data.sellerStatus
+                                                      .toString()),
                                         ],
                                       ),
                                     ),
@@ -169,7 +208,7 @@ class _YourCartState extends State<YourCart> {
                                                   TextButton(
                                                     onPressed: () {
                                                       Navigator.pop(context);
-                                                      FirebaseFirestore.instance
+                                                      _firebaseFireStore
                                                           .collection("Cart")
                                                           .doc(_auth.toString())
                                                           .collection(
@@ -215,12 +254,71 @@ class _YourCartState extends State<YourCart> {
             SizedBox(
               height: 1,
             ),
+            AppWidgets().myHeading2Text('Product Name: ${productName}',
+                color: AppColors.myWhiteColor),
             AppWidgets().myHeading2Text('Total: Rs.${totalPrice}',
                 color: AppColors.myWhiteColor),
             AppWidgets().myElevatedBTN(
                 onPressed: () {
-                  print(totalPrice);
-                  print(totalPrice);
+                  if (productUid != '') {
+                    _firebaseFireStore
+                        .collection('SoldProducts')
+                        .doc(productUid)
+                        .set({
+                      'ProductPrice': totalPrice,
+                      'ProductName': productName,
+                      'ProductImage': productImage,
+                      'ProductUid': productUid,
+                      'ShopKeeperUid': shopKeeperUid,
+                      'ProductDescription': productDescription,
+                      'ProductSpecifications': productSpecifications,
+                      'ProductShipping': productShipping,
+                      'BuyerUid': _currentUser.toString(),
+                      'ProductPTAApproved': productPTAApproved,
+                      'SellerStatus': 'Seller did not respond till now',
+                    }).then((value) {
+                      _firebaseFireStore
+                          .collection(productCollectionName)
+                          .doc(productUid)
+                          .delete()
+                          .then((value) {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Center(
+                                child: AlertDialog(
+                                  title: const Text('Congratulations!!'),
+                                  content: const Text(
+                                      'The seller will contact you very soon!'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('ok'),
+                                    )
+                                  ],
+                                ),
+                              );
+                            });
+                        _firebaseFireStore
+                          ..collection("Cart")
+                              .doc(_currentUser.toString())
+                              .collection("YourCart")
+                              .doc(productUid)
+                              .update({
+                            'pleaseWait': 'Please wait OR Contact to seller',
+                            // 'SellerStatus': 'false',
+                          });
+                      }).onError((error, stackTrace) {
+                        Utils.flutterToast(error.toString());
+                      });
+                    }).onError((error, stackTrace) {
+                      Utils.flutterToast(error.toString());
+                    });
+                  } else {
+                    Utils.flutterToast('Please Select a Product');
+                  }
                 },
                 btnText: 'Checkout',
                 btnColor: AppColors.myRedColor)

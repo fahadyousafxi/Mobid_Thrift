@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/providers/Cart_Provider.dart';
-import 'package:mobidthrift/ui/appbar/My_Drawer.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
 
 import 'Seller_Profile.dart';
@@ -76,7 +75,7 @@ class _ProductPageOfCartState extends State<ProductPageOfCart> {
     // currentBid = widget.cartCurrentBid!.toInt();
     return Scaffold(
       appBar: MyAppbar().myAppBar(context),
-      drawer: MyDrawer(),
+      // drawer: MyDrawer(),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

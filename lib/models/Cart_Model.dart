@@ -11,12 +11,15 @@ class CartModel {
   String? cartSpecification;
   String? cartUid;
   String? cartShopkeeperUid;
+  String? pleaseWait;
+  String? sellerStatus;
   int? cartCurrentBid;
   int? cartShipping;
   int? cartPrice;
   DateTime? cartDateTime;
   DateTime? bidDateTimeLeft;
   bool? cartPTAApproved;
+
   // String? productImage1;
   // String? productImage2;
   // String? productImage3;
@@ -46,7 +49,9 @@ class CartModel {
     this.cartImage4,
     this.cartImage5,
     this.cartImage6,
-    this.cartCollectionName,
+    this.pleaseWait,
+    required this.cartCollectionName,
+    this.sellerStatus,
     this.cartName,
     this.cartDescription,
     this.cartSpecification,

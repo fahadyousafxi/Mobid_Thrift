@@ -6,6 +6,7 @@ import 'package:mobidthrift/models/Cart_Model.dart';
 class CartProvider with ChangeNotifier {
   final currentUser = FirebaseAuth.instance.currentUser!.uid.toString();
 
+  /// Add to Cart
   void addCartData(
       {String? cartImage1,
       String? cartImage2,
@@ -13,14 +14,14 @@ class CartProvider with ChangeNotifier {
       String? cartImage4,
       String? cartImage5,
       String? cartImage6,
-      String? cartCollectionName,
+      required String? cartCollectionName,
       String? cartName,
       String? cartDescription,
-      String? cartSpecification,
+      required String? cartSpecification,
       String? cartUid,
       String? cartShopkeeperUid,
       int? cartCurrentBid,
-      int? cartShipping,
+      required int? cartShipping,
       int? cartPrice,
       DateTime? cartDateTime,
       DateTime? bidDateTimeLeft,
@@ -48,7 +49,9 @@ class CartProvider with ChangeNotifier {
       "cartPrice": cartPrice,
       "cartDateTime": cartDateTime,
       "bidDateTimeLeft": bidDateTimeLeft,
-      "cartPTAApproved": cartPTAApproved
+      "cartPTAApproved": cartPTAApproved,
+      'pleaseWait': '',
+      'SellerStatus': '',
     });
   }
 
@@ -166,6 +169,11 @@ class CartProvider with ChangeNotifier {
         cartUid: element.get("cartUid"),
         cartShopkeeperUid: element.get("cartShopkeeperUid"),
         cartPrice: element.get("cartPrice"),
+        cartCollectionName: element.get("cartCollectionName"),
+        cartShipping: element.get("cartShipping"),
+        cartSpecification: element.get("cartSpecification"),
+        pleaseWait: element.get("pleaseWait"),
+        sellerStatus: element.get("SellerStatus"),
       );
       newList.add(cartModel);
     }
@@ -197,6 +205,9 @@ class CartProvider with ChangeNotifier {
         cartUid: element.get("cartUid"),
         cartShopkeeperUid: element.get("cartShopkeeperUid"),
         cartPrice: element.get("cartPrice"),
+        cartCollectionName: element.get("cartCollectionName"),
+        cartShipping: element.get("cartShipping"),
+        cartSpecification: element.get("cartSpecification"),
       );
       newList.add(cartModel);
     }
@@ -228,6 +239,9 @@ class CartProvider with ChangeNotifier {
         cartUid: element.get("cartUid"),
         cartShopkeeperUid: element.get("cartShopkeeperUid"),
         cartPrice: element.get("cartPrice"),
+        cartCollectionName: element.get("cartCollectionName"),
+        cartShipping: element.get("cartShipping"),
+        cartSpecification: element.get("cartSpecification"),
       );
       newList.add(cartModel);
     }

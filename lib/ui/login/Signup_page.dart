@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/ui/login/Login_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobidthrift/ui/login/Verify_Page.dart';
 import 'package:mobidthrift/utils/utils.dart';
+
 import '../../constants/App_texts.dart';
 
 class SignupPage extends StatefulWidget {
@@ -15,9 +16,8 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final  _fireStore = FirebaseFirestore.instance.collection('users');
+  final _fireStore = FirebaseFirestore.instance.collection('users');
   late bool _loading = false;
 
   final TextEditingController _nameController = TextEditingController();
@@ -26,9 +26,7 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-
   var myFormKey = GlobalKey<FormState>();
-
 
   @override
   void dispose() {
@@ -64,7 +62,6 @@ class _SignupPageState extends State<SignupPage> {
               fit: BoxFit.cover,
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.all(30.0),
             child: Center(
@@ -74,134 +71,157 @@ class _SignupPageState extends State<SignupPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: 100,),
-                      Text('Create New Account', style: TextStyle(color: Colors.white70)),
-                      Text('Fill the form to continue', style: TextStyle(color: Colors.white70)),
-
-                      SizedBox(height: 20,),
-                      AppWidgets().myTextFormField(hintText: 'Enter your Full Name', labelText: 'Full Name', controller: _nameController,
-                        validator:
-                            (String? txt) {
-                        if (txt == null || txt.isEmpty) {
-                          return "Please provide your name";
-                        }
-                        // islamiat = int.parse(txt);
-                        return null;
-                      },
+                      SizedBox(
+                        height: 100,
                       ),
-                      SizedBox(height: 20,),
-
-                      AppWidgets().myTextFormField(hintText: 'Enter your Email', myType: TextInputType.emailAddress, labelText: 'Email', controller: _emailController,
-                        validator:
-                            (String? txt) {
-                              bool emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$').hasMatch(txt!);
+                      Text('Create New Account',
+                          style: TextStyle(color: Colors.white70)),
+                      Text('Fill the form to continue',
+                          style: TextStyle(color: Colors.white70)),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      AppWidgets().myTextFormField(
+                        hintText: 'Enter your Full Name',
+                        labelText: 'Full Name',
+                        controller: _nameController,
+                        validator: (String? txt) {
                           if (txt == null || txt.isEmpty) {
-
-                              return "Please provide your Email";
-
+                            return "Please provide your name";
                           }
-                              if(emailValid){
-                                return null;
-
-                              }
+                          // islamiat = int.parse(txt);
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      AppWidgets().myTextFormField(
+                        hintText: 'Enter your Email',
+                        myType: TextInputType.emailAddress,
+                        labelText: 'Email',
+                        controller: _emailController,
+                        validator: (String? txt) {
+                          bool emailValid = RegExp(
+                                  r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                              .hasMatch(txt!);
+                          if (txt == null || txt.isEmpty) {
+                            return "Please provide your Email";
+                          }
+                          if (emailValid) {
+                            return null;
+                          }
                           return "Your Email is Wrong";
-                        },),
-                      SizedBox(height: 20,),
-
-                      AppWidgets().myTextFormField(hintText: 'Enter your Address', labelText: 'Address', controller: _addressController,
-                        validator:
-                            (String? txt) {
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      AppWidgets().myTextFormField(
+                        hintText: 'Enter your Address',
+                        labelText: 'Address',
+                        controller: _addressController,
+                        validator: (String? txt) {
                           if (txt == null || txt.isEmpty) {
                             return "Please provide your Address";
                           }
                           return null;
                         },
                       ),
-                      SizedBox(height: 20,),
-
-                      AppWidgets().myTextFormField(hintText: 'Enter your Phone Number', myType: TextInputType.phone, labelText: 'Phone Number', controller: _phoneNumberController,
-                        validator:
-                            (String? txt) {
+                      SizedBox(
+                        height: 20,
+                      ),
+                      AppWidgets().myTextFormField(
+                        hintText: 'Enter your Phone Number',
+                        myType: TextInputType.phone,
+                        labelText: 'Phone Number',
+                        controller: _phoneNumberController,
+                        validator: (String? txt) {
                           if (txt == null || txt.isEmpty) {
                             return "Please provide Phone Number";
                           }
                           return null;
                         },
                       ),
-                      SizedBox(height: 20,),
-
-                      AppWidgets().myTextFormField(obscureText: true, hintText: 'Enter your Password', labelText: 'Password', controller: _passwordController,
-                        validator:
-                            (String? txt) {
+                      SizedBox(
+                        height: 20,
+                      ),
+                      AppWidgets().myTextFormField(
+                        obscureText: true,
+                        hintText: 'Enter your Password',
+                        labelText: 'Password',
+                        controller: _passwordController,
+                        validator: (String? txt) {
                           if (txt == null || txt.isEmpty) {
                             return "Please provide Password";
-                          }
-                          else if (txt.length >= 6 ){
+                          } else if (txt.length >= 6) {
                             return null;
-                          }
-                          else{
+                          } else {
                             return "Password must be 6 letters";
                           }
                         },
                       ),
-                      SizedBox(height: 20,),
-
+                      SizedBox(
+                        height: 20,
+                      ),
                       AppWidgets().myElevatedBTN(
-                        loading: _loading,
-                          onPressed: (){
-
-                       if(myFormKey.currentState!.validate()){
+                          loading: _loading,
+                          onPressed: () {
+                            if (myFormKey.currentState!.validate()) {
 //Sign up fucntionI
-                         mySignUp();
-                       } // try
-                      }, btnText: "SignUp"),
+                              mySignUp();
+                            } // try
+                          },
+                          btnText: "SignUp"),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Already have an Account?', style: TextStyle(color: Colors.white70)),
+                          Text('Already have an Account?',
+                              style: TextStyle(color: Colors.white70)),
                           TextButton(
                               onPressed: () {
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => LoginPage()));
-                              }, child: Text('LogIn Now'))
+                              },
+                              child: Text('LogIn Now'))
                         ],
                       )
-
-
-
                     ],
                   ),
                 ),
               ),
             ),
           )
-
         ],
       ),
     );
   }
 
-  mySignUp() {
+  mySignUp() async {
     setState(() {
       _loading = true;
     });
-    _firebaseAuth.createUserWithEmailAndPassword(
-        email: _emailController.text.toString().trim(),
-        password: _passwordController.text.toString()).then((value){
+    await _firebaseAuth
+        .createUserWithEmailAndPassword(
+            email: _emailController.text.toString().trim(),
+            password: _passwordController.text.toString())
+        .then((value) {
       setState(() {
         _loading = false;
       });
 
-      _fireStore.doc(_firebaseAuth.currentUser?.uid.toString()).set({
-        'Uid' : _firebaseAuth.currentUser?.uid.toString(),
-        'Name' : _nameController.text,
-        'Email' : _emailController.text.trim(),
-        'Address' : _addressController.text,
-        'Phone_Number' : _phoneNumberController.text,
-        'Profile_Image' : "",
+      _firebaseAuth.currentUser
+          ?.updateDisplayName(_nameController.text.toString());
 
+      _fireStore.doc(_firebaseAuth.currentUser?.uid.toString()).set({
+        'Uid': _firebaseAuth.currentUser?.uid.toString(),
+        'Name': _nameController.text,
+        'Email': _emailController.text.trim(),
+        'Address': _addressController.text,
+        'Phone_Number': _phoneNumberController.text,
+        'Profile_Image': "",
       });
       // _firebaseAuth.currentUser?.sendEmailVerification();
 
@@ -216,27 +236,19 @@ class _SignupPageState extends State<SignupPage> {
       //     androidInstallApp: true),);
 
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => VerifyPage()));
-    }).onError((error, stackTrace){
+          context, MaterialPageRoute(builder: (context) => VerifyPage()));
+    }).onError((error, stackTrace) {
       Utils.flutterToast(error.toString());
       setState(() {
         _loading = false;
       });
     });
-
   }
-
 }
 
-
-
-
 class myTextFormField extends StatelessWidget {
-
-   var hintText = '';
-   var labelText = '';
+  var hintText = '';
+  var labelText = '';
   Color textColor;
   Color enBorderSideColor;
   Color borderSideColor;
@@ -246,42 +258,40 @@ class myTextFormField extends StatelessWidget {
   Color hintColor;
   Color labelColor;
 
-   myTextFormField(
+  myTextFormField(
       {required this.hintText,
-        required this.labelText,
-        this.textColor = Colors.white,
-        this.enBorderSideColor = Colors.white12,
-        this.borderSideColor = Colors.red,
-        this.enBorderRadius = 20.0,
-        this.borderRadius = 20.0,
-        this.fillColor = Colors.white12,
-        this.hintColor = Colors.white38,
-        this.labelColor = Colors.white70,
-        Key? key}) : super(key: key);
-
+      required this.labelText,
+      this.textColor = Colors.white,
+      this.enBorderSideColor = Colors.white12,
+      this.borderSideColor = Colors.red,
+      this.enBorderRadius = 20.0,
+      this.borderRadius = 20.0,
+      this.fillColor = Colors.white12,
+      this.hintColor = Colors.white38,
+      this.labelColor = Colors.white70,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-      return TextFormField(
-        style: TextStyle(color: textColor),
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: enBorderSideColor, width: 2.0),
-            borderRadius: BorderRadius.circular(enBorderRadius),
-          ),
-          fillColor: fillColor,
-          filled: true,
-          hintText: hintText,
-          hintStyle: TextStyle(color: hintColor),
-          label: Text(labelText!),
-          labelStyle: new TextStyle(color: labelColor),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: borderSideColor, width: 2.0),
-            borderRadius: BorderRadius.circular(borderRadius),
-          ),
+    return TextFormField(
+      style: TextStyle(color: textColor),
+      decoration: InputDecoration(
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: enBorderSideColor, width: 2.0),
+          borderRadius: BorderRadius.circular(enBorderRadius),
         ),
-      );
+        fillColor: fillColor,
+        filled: true,
+        hintText: hintText,
+        hintStyle: TextStyle(color: hintColor),
+        label: Text(labelText!),
+        labelStyle: new TextStyle(color: labelColor),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: borderSideColor, width: 2.0),
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+      ),
+    );
   }
 }
-

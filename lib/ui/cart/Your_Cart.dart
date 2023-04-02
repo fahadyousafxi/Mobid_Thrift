@@ -171,71 +171,80 @@ class _YourCartState extends State<YourCart> {
                                           ),
                                           data.pleaseWait! == ''
                                               ? Text('Tap to checkout')
-                                              : data.sellerStatus == ''
+                                              : data.sellerStatus !=
+                                                      'Seller delivered the order'
                                                   ? Text(
                                                       data.pleaseWait!,
                                                       style: TextStyle(
                                                           color: Colors.red),
                                                     )
-                                                  : Text(data.sellerStatus
-                                                      .toString()),
+                                                  : AppWidgets().myElevatedBTN(
+                                                      onPressed: () {},
+                                                      btnText: 'Review')
                                         ],
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                              Positioned(
-                                  right: 0,
-                                  top: 0,
-                                  child: IconButton(
-                                    onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return Center(
-                                              child: AlertDialog(
-                                                title: const Text(
-                                                    'Confirmation!!'),
-                                                content: const Text(
-                                                    'Are You Sure to Delete?'),
-                                                actions: [
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Text('No')),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                      _firebaseFireStore
-                                                          .collection("Cart")
-                                                          .doc(_auth.toString())
-                                                          .collection(
-                                                              "YourCart")
-                                                          .doc(data.cartUid)
-                                                          .delete()
-                                                          .then((value) {
-                                                        Utils.flutterToast(
-                                                            'Deleted');
-                                                      }).onError((error,
-                                                              stackTrace) {
-                                                        Utils.flutterToast(
-                                                            error.toString());
-                                                      });
-                                                    },
-                                                    child: Text('Delete'),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          });
-                                    },
-                                    icon: Icon(
-                                      Icons.delete_forever,
-                                      color: Colors.red,
-                                    ),
-                                  ))
+                              data.pleaseWait == ''
+                                  ? Positioned(
+                                      right: 0,
+                                      top: 0,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return Center(
+                                                  child: AlertDialog(
+                                                    title: const Text(
+                                                        'Confirmation!!'),
+                                                    content: const Text(
+                                                        'Are You Sure to Delete?'),
+                                                    actions: [
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text('No')),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                          _firebaseFireStore
+                                                              .collection(
+                                                                  "Cart")
+                                                              .doc(_auth
+                                                                  .toString())
+                                                              .collection(
+                                                                  "YourCart")
+                                                              .doc(data.cartUid)
+                                                              .delete()
+                                                              .then((value) {
+                                                            Utils.flutterToast(
+                                                                'Deleted');
+                                                          }).onError((error,
+                                                                  stackTrace) {
+                                                            Utils.flutterToast(
+                                                                error
+                                                                    .toString());
+                                                          });
+                                                        },
+                                                        child: Text('Delete'),
+                                                      )
+                                                    ],
+                                                  ),
+                                                );
+                                              });
+                                        },
+                                        icon: Icon(
+                                          Icons.delete_forever,
+                                          color: Colors.red,
+                                        ),
+                                      ))
+                                  : SizedBox()
                             ],
                           )),
                     );
@@ -276,6 +285,7 @@ class _YourCartState extends State<YourCart> {
                       'BuyerUid': _currentUser.toString(),
                       'ProductPTAApproved': productPTAApproved,
                       'SellerStatus': 'Seller did not respond till now',
+                      'Accepted': false
                     }).then((value) {
                       _firebaseFireStore
                           .collection(productCollectionName)
@@ -302,14 +312,18 @@ class _YourCartState extends State<YourCart> {
                               );
                             });
                         _firebaseFireStore
-                          ..collection("Cart")
-                              .doc(_currentUser.toString())
-                              .collection("YourCart")
-                              .doc(productUid)
-                              .update({
-                            'pleaseWait': 'Please wait OR Contact to seller',
-                            // 'SellerStatus': 'false',
-                          });
+                            .collection("Cart")
+                            .doc(_currentUser.toString())
+                            .collection("YourCart")
+                            .doc(productUid)
+                            .update({
+                          'pleaseWait': 'Please wait OR Contact to seller',
+                          // 'SellerStatus': 'false',
+                        }).then((value) {
+                          totalPrice = 0;
+                          productName = '____';
+                          productUid = '';
+                        });
                       }).onError((error, stackTrace) {
                         Utils.flutterToast(error.toString());
                       });

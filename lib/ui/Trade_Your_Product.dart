@@ -72,6 +72,7 @@ class _TradeYourProductState extends State<TradeYourProduct> {
                         CircularProgressIndicator(),
                         Text('Still Searching'),
                         Text('But there is no products'),
+                        Text('Add a product'),
                       ],
                     )),
                   )

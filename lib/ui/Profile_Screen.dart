@@ -1,11 +1,14 @@
 import 'dart:core';
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:ndialog/ndialog.dart';
+
 import '../utils/utils.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -16,13 +19,17 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
+  TextEditingController nameController = TextEditingController();
+  bool nameEditing = false;
   final _firebaseAuth = FirebaseAuth.instance;
 
-  final  _fireStore = FirebaseFirestore.instance.collection('users');
+  final _fireStore = FirebaseFirestore.instance.collection('users');
 
   // final  _fireStoreSnap = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots();
-  final  _fireStoreSnapshot = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).get();
+  final _fireStoreSnapshot = FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser?.uid)
+      .snapshots();
 
   File? pickedImage;
   bool showLocalImage = false;
@@ -42,32 +49,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
       message: const Text('Please wait'),
     );
     progressDialog.show();
-    try{
+    try {
       var fileName = _firebaseAuth.currentUser!.email!.toString() + '.jpg';
-      UploadTask uploadTask = FirebaseStorage.instance.ref().child('profile_images').child(fileName).putFile(pickedImage!);
+      UploadTask uploadTask = FirebaseStorage.instance
+          .ref()
+          .child('profile_images')
+          .child(fileName)
+          .putFile(pickedImage!);
       TaskSnapshot snapshot = await uploadTask;
       String profileImageUrl = await snapshot.ref.getDownloadURL();
       print(profileImageUrl);
       _fireStore.doc(_firebaseAuth.currentUser?.uid.toString()).update({
-        'Profile_Image' : profileImageUrl,
+        'Profile_Image': profileImageUrl,
       });
       progressDialog.dismiss();
       Utils.flutterToast(' Uploaded Successful ');
-    } catch( e ){
+    } catch (e) {
       progressDialog.dismiss();
       print(e.toString());
       Utils.flutterToast(e.toString());
     }
-
   }
-
 
   @override
   void initState() {
-
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -92,55 +99,146 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: FutureBuilder<DocumentSnapshot>(
-            future: _fireStoreSnapshot,
-            builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
-              if(snapshot.connectionState == ConnectionState.waiting)
-                return Center(child: CircularProgressIndicator(color: Colors.white,));
+        child: StreamBuilder<DocumentSnapshot>(
+            stream: _fireStoreSnapshot,
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting)
+                return Center(
+                    child: CircularProgressIndicator(
+                  color: Colors.white,
+                ));
 
-              if(snapshot.hasError)
-                return Center(child: Text('Some Error'));
+              if (snapshot.hasError) return Center(child: Text('Some Error'));
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Container(
-                        height: 150,
-                        width: 150,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(22),
-                          onTap: () {
-                            bottomSheet(context);
-                          },
-                          child:
-                          // ClipRRect(
-                          //     borderRadius: BorderRadius.circular(38),
-                          //     child: showLocalImage == false
-                          //         ? Image.network(
-                          //             "https://via.placeholder.com/150")
-                          //         : Image.file(pickedImage!),
-                          //
-                          // )
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Container(
+                          height: 150,
+                          width: 150,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(22),
+                            onTap: () {
+                              bottomSheet(context);
+                            },
+                            child:
+                                // ClipRRect(
+                                //     borderRadius: BorderRadius.circular(38),
+                                //     child: showLocalImage == false
+                                //         ? Image.network(
+                                //             "https://via.placeholder.com/150")
+                                //         : Image.file(pickedImage!),
+                                //
+                                // )
 
-                          CircleAvatar(
-                            backgroundColor: Colors.blue,
-                            radius: 70,
-                            backgroundImage:
+                                CircleAvatar(
+                              backgroundColor: Colors.blue,
+                              radius: 70,
+                              backgroundImage: showLocalImage == false
+                                  ? NetworkImage(snapshot
+                                              .data!['Profile_Image'] ==
+                                          ""
+                                      ? 'https://alumni.engineering.utoronto.ca/files/2022/05/Avatar-Placeholder-400x400-1.jpg'
+                                      : snapshot.data!['Profile_Image'])
+                                  : Image.file(pickedImage!).image,
 
-                            showLocalImage == false ? NetworkImage( snapshot.data!['Profile_Image'] == "" ? 'https://alumni.engineering.utoronto.ca/files/2022/05/Avatar-Placeholder-400x400-1.jpg' : snapshot.data!['Profile_Image'])
-                                : Image.file(pickedImage!).image,
-
-                            // AssetImage('assets/images/phone.png'),
+                              // AssetImage('assets/images/phone.png'),
+                            ),
+                          )),
+                    ),
+                    SizedBox(
+                      height: 11,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          snapshot.data!['Name'].toString().toTitleCase(),
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
-                        )),
-                  ),
-                  SizedBox(height: 11,),
-                  Text(snapshot.data!['Name'].toString().toTitleCase(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, ),),
-                  SizedBox(height: 11,),
-                  Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: Card(
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              nameEditing = !nameEditing;
+                              setState(() {});
+                              // _fireStore
+                              //     .doc(
+                              //         _firebaseAuth.currentUser?.uid.toString())
+                              //     .update({
+                              //   // 'Name': profileImageUrl,
+                              // });
+                              // Utils.flutterToast(' Uploaded Successful ');
+                            },
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.blue,
+                            ))
+                      ],
+                    ),
+                    nameEditing == false
+                        ? SizedBox()
+                        : Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 30.0),
+                            child: Column(
+                              children: [
+                                AppWidgets().myTextFormField(
+                                    fillColor: Colors.grey.shade300,
+                                    hintColor: Colors.grey,
+                                    textColor: Colors.black,
+                                    labelColor: Colors.black,
+                                    borderSideColor: Colors.black,
+                                    hintText: snapshot.data!['Name']
+                                        .toString()
+                                        .toTitleCase(),
+                                    labelText: 'Name',
+                                    controller: nameController),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                AppWidgets().myElevatedBTN(
+                                    onPressed: () async {
+                                      if (nameController.text.isNotEmpty) {
+                                        await _firebaseAuth.currentUser
+                                            ?.updateDisplayName(nameController
+                                                .text
+                                                .toString()
+                                                .trim());
+                                        await _fireStore
+                                            .doc(_firebaseAuth.currentUser?.uid
+                                                .toString())
+                                            .update({
+                                          'Name': nameController.text
+                                              .toString()
+                                              .trim(),
+                                        }).then((value) {
+                                          Utils.flutterToast(
+                                              ' Uploaded Successful ');
+                                        }).onError((error, stackTrace) {
+                                          Utils.flutterToast(
+                                              ' ${error.toString()} ');
+                                        });
+                                      } else {
+                                        Utils.flutterToast(
+                                            ' Please enter your name ');
+                                      }
+                                    },
+                                    btnText: "Submit",
+                                    btnColor: Colors.blue)
+                              ],
+                            ),
+                          ),
+                    SizedBox(
+                      height: 11,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Card(
                         clipBehavior: Clip.antiAlias,
                         elevation: 4,
                         shape: RoundedRectangleBorder(
@@ -154,45 +252,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text('Email:  ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, ),),
+                                  Text(
+                                    'Email:  ',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                   Text(snapshot.data!['Email'])
                                 ],
                               ),
-                              SizedBox(height: 5,),
-
+                              SizedBox(
+                                height: 5,
+                              ),
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text('Phone Number:  ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, ),),
+                                  Text(
+                                    'Phone Number:  ',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                   Text(snapshot.data!['Phone_Number']),
-
                                 ],
                               ),
-                              SizedBox(height: 5,),
-
+                              SizedBox(
+                                height: 5,
+                              ),
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text('Address:  ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, ),),
+                                  Text(
+                                    'Address:  ',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                   Text(snapshot.data!['Address'])
                                 ],
                               ),
-
                             ],
                           ),
                         ),
                       ),
-                  ),
-
-
-
-                ],
+                    ),
+                  ],
+                ),
               );
-            }
-        ),
+            }),
       ),
     );
   }
+
   /// bottom Sheet
   Future bottomSheet(context) {
     return showModalBottomSheet(
@@ -226,6 +340,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 }
 
 extension StringCasingExtension on String {
-  String toCapitalized() => length > 0 ?'${this[0].toUpperCase()}${substring(1).toLowerCase()}':'';
-  String toTitleCase() => replaceAll(RegExp(' +'), ' ').split(' ').map((str) => str.toCapitalized()).join(' ');
+  String toCapitalized() =>
+      length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ')
+      .split(' ')
+      .map((str) => str.toCapitalized())
+      .join(' ');
 }

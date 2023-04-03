@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobidthrift/providers/Cart_Provider.dart';
 import 'package:mobidthrift/providers/Product_Provider.dart';
 import 'package:mobidthrift/providers/Wish_List_Provider.dart';
+import 'package:mobidthrift/providers/chats_provider.dart';
 import 'package:mobidthrift/providers/seller_provider.dart';
 import 'package:mobidthrift/providers/shop_keeper_products_provider.dart';
 import 'package:mobidthrift/providers/sold_products_provider.dart';
@@ -46,6 +47,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<SoldProductsProvider>(
           create: (context) => SoldProductsProvider(),
+        ),
+        ChangeNotifierProvider<ChatsProvider>(
+          create: (context) => ChatsProvider(),
         ),
       ],
       child: MaterialApp(

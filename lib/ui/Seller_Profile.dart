@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mobidthrift/chat_module/Chating/chat_room.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
 import 'package:mobidthrift/ui/Extra_Pages/sellers_reviews_page.dart';
 import 'package:mobidthrift/ui/Seller_Shop_Products.dart';
@@ -9,7 +10,6 @@ import 'package:mobidthrift/ui/appbar/My_appbar.dart';
 import 'package:mobidthrift/utils/utils.dart';
 import 'package:ndialog/ndialog.dart';
 
-import '../chat_module/screens/chat_screen.dart';
 import '../constants/App_widgets.dart';
 import '../utils/guest_direction_to_login.dart';
 import 'Review_Page.dart';
@@ -53,6 +53,20 @@ class _SellerProfileState extends State<SellerProfile> {
   late bool uidExists;
   bool loading = false;
 
+  String chatRoomId(String user1Uid, String user2Uid) {
+    if (user1Uid[0].toLowerCase().codeUnits[0] >
+        user2Uid[0].toLowerCase().codeUnits[0]) {
+      return '${user1Uid.toString().substring(0, 6)}${user2Uid.toString().substring(0, 6)}';
+    }
+    // else if (user1Uid[0].toLowerCase().codeUnits[0] ==
+    //     user2Uid[0].toLowerCase().codeUnits[0]) {
+    //   return '${user1Uid.toString().substring(0, 6)}${user2Uid.toString().substring(0, 6)}equal';
+    // }
+    else {
+      return '${user2Uid.toString().substring(0, 6)}${user1Uid.toString().substring(0, 6)}';
+    }
+  }
+
   @override
   void initState() {
     // SellerProvider sellerProvider = Provider.of(context, listen: false);
@@ -75,14 +89,45 @@ class _SellerProfileState extends State<SellerProfile> {
           backgroundColor: Colors.transparent,
           radius: 50,
           child: IconButton(
-              onPressed: () {
+              onPressed: () async {
+                String roomId = chatRoomId(_auth!.uid, widget.uId.toString());
+                _fireStoreInstance
+                    .collection('users')
+                    .doc(_auth!.uid)
+                    .collection('ChatUsers')
+                    .doc(roomId)
+                    .set({
+                  'buyerName': _auth?.displayName.toString(),
+                  'sellerName': widget.name,
+                  'sellerUid': widget.uId,
+                  'buyerUid': _auth?.uid,
+                  'buyerPhoto': _auth?.photoURL,
+                  'sellerPhoto': '${widget.profileImage}',
+                  'roomUId': roomId,
+                  'userEmail': _auth?.email,
+                  'sellerEmail': widget.email
+                });
+                _fireStoreInstance.collection('ChatRoom').doc(roomId).set({
+                  'buyerName': _auth?.displayName.toString(),
+                  'sellerName': widget.name,
+                  'sellerUid': widget.uId,
+                  'buyerUid': _auth?.uid,
+                  'buyerPhoto': _auth?.photoURL,
+                  'sellerPhoto': '${widget.profileImage}',
+                  'userEmail': _auth?.email,
+                  'sellerEmail': widget.email
+                });
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ChatScreen(
-                      name: widget.name,
-                      uId: widget.uId,
-                      key: widget.key,
+                    builder: (context) => ChatRoom(
+                      chatRoomId: roomId,
+                      sellerEmail: widget.email,
+                      sellerName: widget.name, sellerUid: widget.uId,
+                      sellerPhoto: '${widget.profileImage}',
+                      // name: widget.name,
+                      // uId: widget.uId,
+                      // key: widget.key,
                     ),
                   ),
                 );

@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobidthrift/chat_module/Chating/chats.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/ui/Profile_Screen.dart';
 import 'package:mobidthrift/ui/login/Signup_page.dart';
@@ -298,6 +299,22 @@ class _MyDrawerState extends State<MyDrawer> {
                                   iniIndex: 2,
                                 )))
                     : GuestDirectionToLogin().guestDirectionToLogin(context);
+              },
+            ),
+            Divider(
+              color: AppColors.drawerDividerColor,
+              height: 1,
+              thickness: 2,
+            ),
+            ListTile(
+              textColor: AppColors.drawerTextColor,
+              iconColor: AppColors.drawerIconColor,
+              leading: Icon(Icons.chat),
+              title: Text('Chats'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Chats()));
               },
             ),
             Divider(

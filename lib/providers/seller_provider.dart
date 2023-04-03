@@ -47,6 +47,7 @@ class SellerProvider with ChangeNotifier {
     for (var element in sellerReviewsData.docs) {
       SellerReviewsModel sellerReviewModel = SellerReviewsModel(
         name: element.get("User_Name"),
+
         reviewRating: element.get("My_Review_Rating"),
         review: element.get("User_Review"),
         timeInMilliseconds: element.get("Review_Timing_In_Milliseconds"),

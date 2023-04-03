@@ -127,6 +127,12 @@ class _ProductPageForGuestsState extends State<ProductPageForGuests> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SellerProfile(
+                                      locationLatitude:
+                                          snapshot.data!['location_address']
+                                              ['latitude'],
+                                      locationLongitude:
+                                          snapshot.data!['location_address']
+                                              ['longitude'],
                                       name: snapshot.data!['Name'],
                                       profileImage:
                                           snapshot.data!['Profile_Image'],
@@ -173,6 +179,14 @@ class _ProductPageForGuestsState extends State<ProductPageForGuests> {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     SellerProfile(
+                                                      locationLatitude: snapshot
+                                                                  .data![
+                                                              'location_address']
+                                                          ['latitude'],
+                                                      locationLongitude: snapshot
+                                                                  .data![
+                                                              'location_address']
+                                                          ['longitude'],
                                                       name: snapshot
                                                           .data!['Name'],
                                                       profileImage:

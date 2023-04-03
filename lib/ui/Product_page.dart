@@ -138,6 +138,12 @@ class _ProductPageState extends State<ProductPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SellerProfile(
+                                      locationLatitude:
+                                          snapshot.data!['location_address']
+                                              ['latitude'],
+                                      locationLongitude:
+                                          snapshot.data!['location_address']
+                                              ['longitude'],
                                       name: snapshot.data!['Name'],
                                       profileImage:
                                           snapshot.data!['Profile_Image'],
@@ -184,6 +190,14 @@ class _ProductPageState extends State<ProductPage> {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     SellerProfile(
+                                                      locationLatitude: snapshot
+                                                                  .data![
+                                                              'location_address']
+                                                          ['latitude'],
+                                                      locationLongitude: snapshot
+                                                                  .data![
+                                                              'location_address']
+                                                          ['longitude'],
                                                       name: snapshot
                                                           .data!['Name'],
                                                       profileImage:

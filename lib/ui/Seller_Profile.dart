@@ -14,13 +14,13 @@ import '../constants/App_widgets.dart';
 import '../utils/guest_direction_to_login.dart';
 import 'Review_Page.dart';
 
-const LatLng currentLocation = LatLng(34.0151, 71.5249);
-
 class SellerProfile extends StatefulWidget {
   String? contactNo;
   String? email;
   String? name;
   double? reviews;
+  dynamic locationLatitude;
+  dynamic locationLongitude;
   int? totalNoOfReviews;
   String? profileImage;
   String? uId;
@@ -32,6 +32,8 @@ class SellerProfile extends StatefulWidget {
       required this.contactNo,
       required this.reviews,
       required this.totalNoOfReviews,
+      required this.locationLatitude,
+      required this.locationLongitude,
       Key? key})
       : super(key: key);
 
@@ -42,7 +44,7 @@ class SellerProfile extends StatefulWidget {
 class _SellerProfileState extends State<SellerProfile> {
   // SellerProvider sellerProvider = SellerProvider();
 
-  // late GoogleMapController _mapController;
+  GoogleMapController? _mapController;
 
   final _auth = FirebaseAuth.instance.currentUser;
   final _fireStoreInstance = FirebaseFirestore.instance;
@@ -50,7 +52,6 @@ class _SellerProfileState extends State<SellerProfile> {
 
   late bool uidExists;
   bool loading = false;
-  Map<String, Marker> _markers = {};
 
   @override
   void initState() {
@@ -64,6 +65,8 @@ class _SellerProfileState extends State<SellerProfile> {
   Widget build(BuildContext context) {
     // sellerProvider = Provider.of(context);
     // sellerProvider.getSellerReviewsData(widget.uId.toString());
+    var currentLocation =
+        LatLng(widget.locationLatitude, widget.locationLongitude);
     var size = MediaQuery.of(context).size;
     // sellerProvider.getSellerReviewsDataList;
     return Scaffold(
@@ -102,14 +105,16 @@ class _SellerProfileState extends State<SellerProfile> {
                       .get(),
                   builder: (BuildContext context,
                       AsyncSnapshot<DocumentSnapshot> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting)
-                      return Center(
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
                           child: CircularProgressIndicator(
                         color: Colors.blue,
                       ));
+                    }
 
-                    if (snapshot.hasError)
-                      return Center(child: Text('Some Error'));
+                    if (snapshot.hasError) {
+                      return const Center(child: Text('Some Error'));
+                    }
 
                     if (snapshot.hasData) {
                       followers = snapshot.data?['Followers'];
@@ -124,10 +129,10 @@ class _SellerProfileState extends State<SellerProfile> {
                         children: [
                           const SizedBox(height: 15),
                           widget.profileImage == ''
-                              ? CircleAvatar(
+                              ? const CircleAvatar(
                                   radius: 44,
                                   backgroundImage:
-                                      const AssetImage('assets/images/img.png'))
+                                      AssetImage('assets/images/img.png'))
                               : CircleAvatar(
                                   radius: 44,
                                   backgroundImage:
@@ -171,10 +176,7 @@ class _SellerProfileState extends State<SellerProfile> {
                                                 )),
                                       ),
                                       Text(
-                                          ' (${snapshot.data!['Total_Review_Rating']}.000'
-                                                  .toString()
-                                                  .substring(0, 5) +
-                                              ')'),
+                                          '${' (${snapshot.data!['Total_Review_Rating']}.000'.toString().substring(0, 5)})'),
                                     ],
                                   ),
                                 ),
@@ -270,9 +272,7 @@ class _SellerProfileState extends State<SellerProfile> {
                                         'Email:    ${widget.email}'),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
+                                const SizedBox(height: 10),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -283,22 +283,34 @@ class _SellerProfileState extends State<SellerProfile> {
                                     AppWidgets().myHeading2Text('Location'),
                                   ],
                                 ),
-                                // SizedBox(
-                                //     height: 200,
-                                //     width:
-                                //         MediaQuery.of(context).size.width / 1.3,
-                                //     child: GoogleMap(
-                                //       initialCameraPosition:
-                                //           const CameraPosition(
-                                //               target: currentLocation,
-                                //               zoom: 14),
-                                //       onMapCreated: ((controller) {
-                                //         _mapController = controller;
-                                //         addMarker(
-                                //             id: 'test',
-                                //             location: currentLocation);
-                                //       }),
-                                //     )),
+                                const SizedBox(height: 10),
+                                SizedBox(
+                                    height: 200,
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.3,
+                                    child: GoogleMap(
+                                      zoomGesturesEnabled: false,
+                                      zoomControlsEnabled: false,
+                                      markers: {
+                                        Marker(
+                                          markerId:
+                                              const MarkerId('LocationId'),
+                                          position: currentLocation,
+                                          icon: BitmapDescriptor
+                                              .defaultMarkerWithHue(
+                                                  BitmapDescriptor.hueRed),
+                                          infoWindow: InfoWindow(
+                                              title: '${widget.name} Location'),
+                                        ),
+                                      },
+                                      initialCameraPosition: CameraPosition(
+                                        target: currentLocation,
+                                        zoom: 14,
+                                      ),
+                                      onMapCreated: ((controller) {
+                                        _mapController = controller;
+                                      }),
+                                    )),
                                 const SizedBox(
                                   height: 22,
                                 ),
@@ -328,7 +340,7 @@ class _SellerProfileState extends State<SellerProfile> {
                 padding: const EdgeInsets.all(25.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text(
                       'Reviews',
                       style:
@@ -448,16 +460,4 @@ class _SellerProfileState extends State<SellerProfile> {
       ),
     );
   }
-  //
-  // addMarker({required String id, required LatLng location}) async {
-  //   var markerIcon = await BitmapDescriptor.fromAssetImage(
-  //       const ImageConfiguration(), 'assets/images/phone');
-  //   var marker = Marker(
-  //       markerId: MarkerId(id),
-  //       position: location,
-  //       infoWindow: const InfoWindow(title: 'location'),
-  //       icon: markerIcon);
-  //   _markers[id] = marker;
-  //   setState(() {});
-  // }
 }

@@ -106,18 +106,25 @@ class _ProductPageOfCartState extends State<ProductPageOfCart> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => SellerProfile(
-                                        name: snapshot.data!['Name'],
-                                        profileImage:
-                                            snapshot.data!['Profile_Image'],
-                                        email: snapshot.data!['Email'],
-                                        contactNo:
-                                            snapshot.data!['Phone_Number'],
-                                        reviews: double.parse(snapshot
-                                            .data!['Total_Review_Rating']
-                                            .toString()),
-                                        totalNoOfReviews: snapshot
-                                            .data!['Total_Number_of_Reviews'],
-                                        uId: snapshot.data!['Uid'])));
+                                          name: snapshot.data!['Name'],
+                                          profileImage:
+                                              snapshot.data!['Profile_Image'],
+                                          email: snapshot.data!['Email'],
+                                          contactNo:
+                                              snapshot.data!['Phone_Number'],
+                                          reviews: double.parse(snapshot
+                                              .data!['Total_Review_Rating']
+                                              .toString()),
+                                          totalNoOfReviews: snapshot
+                                              .data!['Total_Number_of_Reviews'],
+                                          uId: snapshot.data!['Uid'],
+                                          locationLatitude:
+                                              snapshot.data!['location_address']
+                                                  ['latitude'],
+                                          locationLongitude:
+                                              snapshot.data!['location_address']
+                                                  ['longitude'],
+                                        )));
                           },
                           child:
                               snapshot.data!['Profile_Image'].toString() == ''
@@ -155,6 +162,14 @@ class _ProductPageOfCartState extends State<ProductPageOfCart> {
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       SellerProfile(
+                                                        locationLatitude: snapshot
+                                                                    .data![
+                                                                'location_address']
+                                                            ['latitude'],
+                                                        locationLongitude: snapshot
+                                                                    .data![
+                                                                'location_address']
+                                                            ['longitude'],
                                                         name: snapshot
                                                             .data!['Name'],
                                                         profileImage: snapshot

@@ -67,26 +67,31 @@ class MyAppbar {
 
   /// My Simple App Bar
   PreferredSizeWidget mySimpleAppBar(context,
-      {required String title, Widget myicon = const SizedBox()}) {
+      {required String title,
+      Widget myicon = const SizedBox(),
+      bool showCart = true}) {
     return AppBar(
       backgroundColor: Colors.black,
       title: Text(title),
       centerTitle: true,
-      actions: [
-        myicon ?? SizedBox(),
-        IconButton(
-            onPressed: () {
-              _auth != null
-                  ? Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CartWishBidding(
-                                iniIndex: 0,
-                              )))
-                  : GuestDirectionToLogin().guestDirectionToLogin(context);
-            },
-            icon: Icon(Icons.shopping_cart)),
-      ],
+      actions: showCart == false
+          ? [SizedBox()]
+          : [
+              myicon ?? SizedBox(),
+              IconButton(
+                  onPressed: () {
+                    _auth != null
+                        ? Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CartWishBidding(
+                                      iniIndex: 0,
+                                    )))
+                        : GuestDirectionToLogin()
+                            .guestDirectionToLogin(context);
+                  },
+                  icon: Icon(Icons.shopping_cart)),
+            ],
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           bottom: Radius.circular(20),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
+import 'package:mobidthrift/ui/Profile_Screen.dart';
 import 'package:mobidthrift/ui/login/Login_page.dart';
 import 'package:mobidthrift/ui/login/Verify_Page.dart';
 import 'package:mobidthrift/utils/utils.dart';
@@ -213,7 +214,7 @@ class _SignupPageState extends State<SignupPage> {
       });
 
       _firebaseAuth.currentUser
-          ?.updateDisplayName(_nameController.text.toString());
+          ?.updateDisplayName(_nameController.text.toString().toTitleCase());
 
       _fireStore.doc(_firebaseAuth.currentUser?.uid.toString()).set({
         'Uid': _firebaseAuth.currentUser?.uid.toString(),

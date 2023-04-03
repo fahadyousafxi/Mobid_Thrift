@@ -21,6 +21,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController nameController = TextEditingController();
   bool nameEditing = false;
+  bool loading = false;
   final _firebaseAuth = FirebaseAuth.instance;
 
   final _fireStore = FirebaseFirestore.instance.collection('users');
@@ -59,9 +60,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       TaskSnapshot snapshot = await uploadTask;
       String profileImageUrl = await snapshot.ref.getDownloadURL();
       print(profileImageUrl);
-      _fireStore.doc(_firebaseAuth.currentUser?.uid.toString()).update({
+      await _fireStore.doc(_firebaseAuth.currentUser?.uid.toString()).update({
         'Profile_Image': profileImageUrl,
       });
+      await _firebaseAuth.currentUser?.updatePhotoURL(profileImageUrl);
       progressDialog.dismiss();
       Utils.flutterToast(' Uploaded Successful ');
     } catch (e) {
@@ -202,24 +204,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   height: 10,
                                 ),
                                 AppWidgets().myElevatedBTN(
+                                    loading: loading,
                                     onPressed: () async {
                                       if (nameController.text.isNotEmpty) {
+                                        setState(() {
+                                          loading = true;
+                                        });
                                         await _firebaseAuth.currentUser
                                             ?.updateDisplayName(nameController
                                                 .text
                                                 .toString()
-                                                .trim());
+                                                .trim()
+                                                .toTitleCase());
                                         await _fireStore
                                             .doc(_firebaseAuth.currentUser?.uid
                                                 .toString())
                                             .update({
                                           'Name': nameController.text
                                               .toString()
-                                              .trim(),
+                                              .trim()
+                                              .toTitleCase(),
                                         }).then((value) {
+                                          nameController.clear();
+                                          setState(() {
+                                            loading = false;
+                                            nameEditing = false;
+                                          });
                                           Utils.flutterToast(
                                               ' Uploaded Successful ');
                                         }).onError((error, stackTrace) {
+                                          setState(() {
+                                            loading = false;
+                                          });
                                           Utils.flutterToast(
                                               ' ${error.toString()} ');
                                         });

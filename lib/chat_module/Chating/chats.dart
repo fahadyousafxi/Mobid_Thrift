@@ -24,9 +24,6 @@ class _ChatsState extends State<Chats> {
   @override
   Widget build(BuildContext context) {
     chatsProvider = Provider.of(context);
-    print('*********************');
-    print(chatsProvider.getChatsDataList.length);
-    print('*********************');
     return Scaffold(
       appBar: MyAppbar().mySimpleAppBar(context, title: 'Chats'),
       body: Padding(

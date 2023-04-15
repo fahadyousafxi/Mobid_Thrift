@@ -63,7 +63,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       await _fireStore.doc(_firebaseAuth.currentUser?.uid.toString()).update({
         'Profile_Image': profileImageUrl,
       });
-      await _firebaseAuth.currentUser?.updatePhotoURL(profileImageUrl);
+      await _firebaseAuth.currentUser
+          ?.updatePhotoURL(profileImageUrl.toString());
       progressDialog.dismiss();
       Utils.flutterToast(' Uploaded Successful ');
     } catch (e) {

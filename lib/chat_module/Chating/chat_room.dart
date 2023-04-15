@@ -38,6 +38,7 @@ class _ChatRoomState extends State<ChatRoom> {
         .doc(singleMessageUid.toString())
         .set({
       'sendBy': _firebaseAuth.currentUser?.displayName.toString(),
+      'sendByEmail': _firebaseAuth.currentUser?.email.toString(),
       'message': _message.text,
       'time': FieldValue.serverTimestamp(),
       'singleMessageUid': singleMessageUid,
@@ -92,6 +93,9 @@ class _ChatRoomState extends State<ChatRoom> {
           title: widget.sellerName.toString(), showCart: false),
       body: Column(
         children: [
+          SizedBox(
+            height: 11,
+          ),
           Expanded(
             child: StreamBuilder(
               stream: _firebaseFireStore
@@ -114,9 +118,11 @@ class _ChatRoomState extends State<ChatRoom> {
                           message: snapshot.data?.docs[index]['message'],
                           username: displayName,
                           sellerName: widget.sellerName.toString(),
-                          isMe: widget.sellerName.toString() == displayName
-                              ? false
-                              : true);
+                          isMe: snapshot.data?.docs[index]['sendByEmail']
+                                      .toString() ==
+                                  _firebaseAuth.currentUser?.email
+                              ? true
+                              : false);
                       // Text(snapshot.data?.docs[index]['message']);
                     },
                   );

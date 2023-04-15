@@ -48,7 +48,7 @@ class _MyDrawerState extends State<MyDrawer> {
   bool showLocalImage = false;
   pickImageFrom(ImageSource fromGalleryOrCamera) async {
     XFile? file = await ImagePicker()
-        .pickImage(source: fromGalleryOrCamera, imageQuality: 80);
+        .pickImage(source: fromGalleryOrCamera, imageQuality: 60);
     if (file == null) {
       return;
     }

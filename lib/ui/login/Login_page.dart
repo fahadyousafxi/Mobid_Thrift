@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
-import 'package:mobidthrift/ui/My_Home_Page.dart';
 import 'package:mobidthrift/ui/login/Forgot_password_page.dart';
 import 'package:mobidthrift/ui/login/Signup_page.dart';
 
 import '../../constants/App_texts.dart';
 import '../../utils/utils.dart';
+import '../bottom_navigation_bar.dart';
 import 'Verify_Page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -222,8 +222,8 @@ class _LoginPageState extends State<LoginPage> {
         _loading = false;
       });
       if (_firebaseAuth.currentUser!.emailVerified) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => MyHomePage()));
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => CustomNavigationBar()));
       } else {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => VerifyPage()));

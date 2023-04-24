@@ -526,10 +526,11 @@ class _ProductPageState extends State<ProductPage> {
                                   widget.productCollectionName.toString())
                               .doc(widget.productUid.toString())
                               .update({
-                            "productSold": true,
-                            "productBuyer": FirebaseAuth
-                                .instance.currentUser!.uid
-                                .toString()
+                            // "productSold": true,
+                            // "productBuyer": FirebaseAuth
+                            //     .instance.currentUser!.uid
+                            //     .toString()
+                            "addedToCart": true
                           }).then((value) {
                             progressDialog2.dismiss();
                             Utils.flutterToast('Added to Cart!!');
@@ -554,6 +555,7 @@ class _ProductPageState extends State<ProductPage> {
                               cartName: widget.productName,
                               cartCurrentBid: currentBid,
                               cartUid: widget.productUid,
+                              cartCollectionName: widget.productCollectionName,
                             );
                             Utils.flutterToast('Added to Your WishList');
                           } catch (e) {

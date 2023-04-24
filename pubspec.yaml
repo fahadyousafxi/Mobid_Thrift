@@ -50,6 +50,7 @@ dependencies:
   location: ^4.4.0
   timer_count_down: ^2.2.2
   intl: ^0.17.0
+  curved_navigation_bar: ^1.0.3
 
 
 dev_dependencies:

@@ -16,10 +16,10 @@ import '../../utils/guest_direction_to_login.dart';
 import '../../utils/utils.dart';
 import '../About_Us.dart';
 import '../Contact_Us.dart';
-import '../My_Home_Page.dart';
 import '../Search_Page.dart';
 import '../Sold_Products.dart';
 import '../Trade_Your_Product.dart';
+import '../bottom_navigation_bar.dart';
 import '../cart/cart_wish_biddings.dart';
 import '../login/Login_page.dart';
 
@@ -217,8 +217,10 @@ class _MyDrawerState extends State<MyDrawer> {
               title: Text('Home Page'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MyHomePage()));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CustomNavigationBar()));
               },
             ),
             Divider(

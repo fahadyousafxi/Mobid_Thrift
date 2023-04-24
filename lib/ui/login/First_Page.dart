@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
-import 'package:mobidthrift/ui/My_Home_Page.dart';
 import 'package:mobidthrift/ui/login/Login_page.dart';
 import 'package:mobidthrift/ui/login/Signup_page.dart';
 
-import '../../constants/App_widgets.dart';
 import '../../constants/App_texts.dart';
+import '../../constants/App_widgets.dart';
+import '../bottom_navigation_bar.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({Key? key}) : super(key: key);
@@ -51,12 +51,14 @@ class _FirstPageState extends State<FirstPage> {
                   SizedBox(
                     height: 33,
                   ),
-                  AppWidgets().myElevatedBTN(onPressed: (){
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MyHomePage()));
-                  }, btnText: 'Continue without Login'),
+                  AppWidgets().myElevatedBTN(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CustomNavigationBar()));
+                      },
+                      btnText: 'Continue without Login'),
 
                   // ElevatedButton(
                   //   onPressed: () {

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:mobidthrift/models/Product_Model.dart';
 
 class ProductsProvider with ChangeNotifier {
+  final _firebaseFireStore = FirebaseFirestore.instance;
   ProductModel? productModel;
 
   List<ProductModel> searchProductsList = [];
@@ -33,8 +34,10 @@ class ProductsProvider with ChangeNotifier {
   List<ProductModel> cellPhonesProductsList = [];
   fitchCellPhonesProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection("CellPhonesProducts").get();
+    QuerySnapshot snapshot = await _firebaseFireStore
+        .collection("CellPhonesProducts")
+        .where('productSold', isEqualTo: false)
+        .get();
 
     for (var element in snapshot.docs) {
       productModels(element);
@@ -61,8 +64,9 @@ class ProductsProvider with ChangeNotifier {
 
   fitchPadsTabletsProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
+    QuerySnapshot snapshot = await _firebaseFireStore
         .collection("PadsAndTabletsProducts")
+        .where('productSold', isEqualTo: false)
         .get();
 
     for (var element in snapshot.docs) {
@@ -83,8 +87,10 @@ class ProductsProvider with ChangeNotifier {
 
   fitchLaptopsProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection("LaptopsProducts").get();
+    QuerySnapshot snapshot = await _firebaseFireStore
+        .collection("LaptopsProducts")
+        .where('productSold', isEqualTo: false)
+        .get();
 
     for (var element in snapshot.docs) {
       productModels(element);
@@ -105,8 +111,10 @@ class ProductsProvider with ChangeNotifier {
 
   fitchSmartWatchesProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection("SmartWatches").get();
+    QuerySnapshot snapshot = await _firebaseFireStore
+        .collection("SmartWatches")
+        .where('productSold', isEqualTo: false)
+        .get();
 
     for (var element in snapshot.docs) {
       productModels(element);
@@ -126,8 +134,10 @@ class ProductsProvider with ChangeNotifier {
 
   fitchDesktopsProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection("Desktops").get();
+    QuerySnapshot snapshot = await _firebaseFireStore
+        .collection("Desktops")
+        .where('productSold', isEqualTo: false)
+        .get();
 
     for (var element in snapshot.docs) {
       productModels(element);
@@ -147,8 +157,10 @@ class ProductsProvider with ChangeNotifier {
 
   fitchAccessoriesProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection("Accessories").get();
+    QuerySnapshot snapshot = await _firebaseFireStore
+        .collection("Accessories")
+        .where('productSold', isEqualTo: false)
+        .get();
 
     for (var element in snapshot.docs) {
       productModels(element);
@@ -168,8 +180,10 @@ class ProductsProvider with ChangeNotifier {
 
   fitchPartsProducts() async {
     List<ProductModel> newList = [];
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection("Parts").get();
+    QuerySnapshot snapshot = await _firebaseFireStore
+        .collection("Parts")
+        .where('productSold', isEqualTo: false)
+        .get();
 
     for (var element in snapshot.docs) {
       productModels(element);

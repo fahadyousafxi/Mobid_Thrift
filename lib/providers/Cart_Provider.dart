@@ -26,18 +26,18 @@ class CartProvider with ChangeNotifier {
       DateTime? cartDateTime,
       DateTime? bidDateTimeLeft,
       bool? cartPTAApproved}) async {
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection("Cart")
         .doc(currentUser)
         .collection("YourCart")
         .doc(cartUid)
         .set({
       "cartImage1": cartImage1,
-      "cartImage2": cartImage2,
-      "cartImage3": cartImage3,
-      "cartImage4": cartImage4,
-      "cartImage5": cartImage5,
-      "cartImage6": cartImage6,
+      // "cartImage2": cartImage2,
+      // "cartImage3": cartImage3,
+      // "cartImage4": cartImage4,
+      // "cartImage5": cartImage5,
+      // "cartImage6": cartImage6,
       "cartCollectionName": cartCollectionName,
       "cartName": cartName,
       "cartDescription": cartDescription,
@@ -50,7 +50,7 @@ class CartProvider with ChangeNotifier {
       "cartDateTime": cartDateTime,
       "bidDateTimeLeft": bidDateTimeLeft,
       "cartPTAApproved": cartPTAApproved,
-      'pleaseWait': '',
+      'pleaseWait': 'To Pay',
       'SellerStatus': '',
     });
   }
@@ -63,7 +63,7 @@ class CartProvider with ChangeNotifier {
       String? cartImage4,
       String? cartImage5,
       String? cartImage6,
-      String? cartCollectionName,
+      required String? cartCollectionName,
       String? cartName,
       String? cartDescription,
       String? cartSpecification,
@@ -82,11 +82,11 @@ class CartProvider with ChangeNotifier {
         .doc(cartUid)
         .set({
       "cartImage1": cartImage1,
-      "cartImage2": cartImage2,
-      "cartImage3": cartImage3,
-      "cartImage4": cartImage4,
-      "cartImage5": cartImage5,
-      "cartImage6": cartImage6,
+      // "cartImage2": cartImage2,
+      // "cartImage3": cartImage3,
+      // "cartImage4": cartImage4,
+      // "cartImage5": cartImage5,
+      // "cartImage6": cartImage6,
       "cartCollectionName": cartCollectionName,
       "cartName": cartName,
       "cartDescription": cartDescription,
@@ -129,11 +129,11 @@ class CartProvider with ChangeNotifier {
         .doc(cartUid)
         .set({
       "cartImage1": cartImage1,
-      "cartImage2": cartImage2,
-      "cartImage3": cartImage3,
-      "cartImage4": cartImage4,
-      "cartImage5": cartImage5,
-      "cartImage6": cartImage6,
+      // "cartImage2": cartImage2,
+      // "cartImage3": cartImage3,
+      // "cartImage4": cartImage4,
+      // "cartImage5": cartImage5,
+      // "cartImage6": cartImage6,
       "cartCollectionName": cartCollectionName,
       "cartName": cartName,
       "cartDescription": cartDescription,

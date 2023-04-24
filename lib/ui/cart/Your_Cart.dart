@@ -276,6 +276,7 @@ class _YourCartState extends State<YourCart> {
                         .set({
                       'ProductPrice': totalPrice,
                       'ProductName': productName,
+                      'productCollectionName': productCollectionName,
                       'ProductImage': productImage,
                       'ProductUid': productUid,
                       'ShopKeeperUid': shopKeeperUid,
@@ -287,46 +288,46 @@ class _YourCartState extends State<YourCart> {
                       'SellerStatus': 'Seller did not respond till now',
                       'Accepted': false
                     }).then((value) {
+                      // _firebaseFireStore
+                      //     .collection(productCollectionName)
+                      //     .doc(productUid)
+                      //     .delete()
+                      //     .then((value) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: AlertDialog(
+                                title: const Text('Congratulations!!'),
+                                content: const Text(
+                                    'The seller will contact you very soon!'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('ok'),
+                                  )
+                                ],
+                              ),
+                            );
+                          });
                       _firebaseFireStore
-                          .collection(productCollectionName)
+                          .collection("Cart")
+                          .doc(_currentUser.toString())
+                          .collection("YourCart")
                           .doc(productUid)
-                          .delete()
-                          .then((value) {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return Center(
-                                child: AlertDialog(
-                                  title: const Text('Congratulations!!'),
-                                  content: const Text(
-                                      'The seller will contact you very soon!'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('ok'),
-                                    )
-                                  ],
-                                ),
-                              );
-                            });
-                        _firebaseFireStore
-                            .collection("Cart")
-                            .doc(_currentUser.toString())
-                            .collection("YourCart")
-                            .doc(productUid)
-                            .update({
-                          'pleaseWait': 'Please wait OR Contact to seller',
-                          // 'SellerStatus': 'false',
-                        }).then((value) {
-                          totalPrice = 0;
-                          productName = '____';
-                          productUid = '';
-                        });
-                      }).onError((error, stackTrace) {
-                        Utils.flutterToast(error.toString());
+                          .update({
+                        'pleaseWait': 'To Ship',
+                        // 'SellerStatus': 'false',
+                      }).then((value) {
+                        totalPrice = 0;
+                        productName = '____';
+                        productUid = '';
                       });
+                      // }).onError((error, stackTrace) {
+                      //   Utils.flutterToast(error.toString());
+                      // });
                     }).onError((error, stackTrace) {
                       Utils.flutterToast(error.toString());
                     });

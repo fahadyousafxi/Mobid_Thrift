@@ -25,6 +25,9 @@ class _PaymentToSellerState extends State<PaymentToSeller> {
         height: 222,
         width: 33,
         color: Colors.red,
+        child: Center(
+          child: Text('ok'),
+        ),
       ),
     );
   }

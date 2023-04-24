@@ -21,6 +21,7 @@ class _PaymentToSellerState extends State<PaymentToSeller> {
           ),
         ),
       ),
+      body: Placeholder(),
     );
   }
 }

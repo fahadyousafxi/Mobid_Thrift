@@ -21,7 +21,11 @@ class _PaymentToSellerState extends State<PaymentToSeller> {
           ),
         ),
       ),
-      body: Placeholder(),
+      body: Container(
+        height: 222,
+        width: 33,
+        color: Colors.red,
+      ),
     );
   }
 }

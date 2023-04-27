@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobidthrift/ui/shipping/all_page.dart';
+import 'package:mobidthrift/ui/shipping/report_history.dart';
+import 'package:mobidthrift/ui/shipping/to_be_reported.dart';
 
 class MyReportsTabBar extends StatefulWidget {
   int? iniIndex;
@@ -20,8 +21,8 @@ class _MyReportsTabBarState extends State<MyReportsTabBar>
   }
 
   List<Widget> tabs = [
-    AllPage(),
-    AllPage(),
+    ToBeReported(),
+    ReportHistory(),
   ];
 
   @override

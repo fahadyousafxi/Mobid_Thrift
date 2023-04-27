@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/ui/shipping/all_page.dart';
 import 'package:mobidthrift/ui/shipping/to_pay.dart';
+import 'package:mobidthrift/ui/shipping/to_receive.dart';
 import 'package:mobidthrift/ui/shipping/to_ship.dart';
 
 class ShippingTabBar extends StatefulWidget {
@@ -25,7 +26,7 @@ class _ShippingTabBarState extends State<ShippingTabBar>
     AllPage(),
     ToPay(),
     ToShip(),
-    AllPage(),
+    ToReceive(),
   ];
 
   @override

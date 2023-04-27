@@ -46,142 +46,152 @@ class _ToShipState extends State<ToShip> {
         child: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                  itemCount: cartProvider.getCartDataList.length,
-                  itemBuilder: (context, index) {
-                    var data = cartProvider.getCartDataList[index];
-                    // for (var i = 0; i <= cartProvider.getCartDataList.length;) {
-                    //   price = price + data.cartCurrentBid!.toInt();
-                    // }
-                    return data.pleaseWait! != 'To Ship'
-                        ? SizedBox()
-                        : Card(
-                            clipBehavior: Clip.antiAlias,
-                            elevation: 4,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(11.0),
-                            ),
-                            child: GestureDetector(
-                                onDoubleTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProductPageOfCart(
-                                                cartName:
-                                                    data.cartName.toString(),
-                                                cartCurrentBid:
-                                                    data.cartCurrentBid,
-                                                cartDescription: data
-                                                    .cartDescription
-                                                    .toString(),
-                                                cartUid:
-                                                    data.cartUid.toString(),
-                                                cartImage1:
-                                                    data.cartImage1.toString(),
-                                                cartShipping: data.cartShipping,
-                                                cartPrice: data.cartPrice,
-                                                cartPTAApproved:
-                                                    data.cartPTAApproved,
-                                                cartShopkeeperUid:
-                                                    data.cartShopkeeperUid,
-                                                cartSpecification:
-                                                    data.cartSpecification,
-                                              )));
-                                },
-                                onTap: () {},
-                                child: Stack(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Expanded(
-                                            // width: 162,
-                                            child: Column(
-                                              children: [
-                                                SizedBox(
-                                                  height: 130,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            11),
-                                                    child: Image(
-                                                      // The Data will be loaded from firebse
-                                                      image: NetworkImage(data
-                                                          .cartImage1
-                                                          .toString()),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 7,
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Center(
-                                                    child: Text(
-                                                  data.cartName.toString(),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                )),
-                                                SizedBox(
-                                                  height: 2,
-                                                ),
-                                                Text(
-                                                  data.cartDescription
-                                                      .toString(),
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                                Row(
+              child: cartProvider.getCartDataList.isEmpty
+                  ? Center(
+                      child: Text('There is no products'),
+                    )
+                  : ListView.builder(
+                      itemCount: cartProvider.getCartDataList.length,
+                      itemBuilder: (context, index) {
+                        var data = cartProvider.getCartDataList[index];
+                        // for (var i = 0; i <= cartProvider.getCartDataList.length;) {
+                        //   price = price + data.cartCurrentBid!.toInt();
+                        // }
+                        return data.pleaseWait! != 'To Ship'
+                            ? SizedBox()
+                            // const Center(
+                            //         child: Text('There is no products To Ship'),
+                            //       )
+                            : Card(
+                                clipBehavior: Clip.antiAlias,
+                                elevation: 4,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(11.0),
+                                ),
+                                child: GestureDetector(
+                                    onDoubleTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ProductPageOfCart(
+                                                    cartName: data.cartName
+                                                        .toString(),
+                                                    cartCurrentBid:
+                                                        data.cartCurrentBid,
+                                                    cartDescription: data
+                                                        .cartDescription
+                                                        .toString(),
+                                                    cartUid:
+                                                        data.cartUid.toString(),
+                                                    cartImage1: data.cartImage1
+                                                        .toString(),
+                                                    cartShipping:
+                                                        data.cartShipping,
+                                                    cartPrice: data.cartPrice,
+                                                    cartPTAApproved:
+                                                        data.cartPTAApproved,
+                                                    cartShopkeeperUid:
+                                                        data.cartShopkeeperUid,
+                                                    cartSpecification:
+                                                        data.cartSpecification,
+                                                  )));
+                                    },
+                                    onTap: () {},
+                                    child: Stack(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Expanded(
+                                                // width: 162,
+                                                child: Column(
                                                   children: [
-                                                    Text(
-                                                      'Price: Rs.${data.cartPrice.toString()} ',
+                                                    SizedBox(
+                                                      height: 130,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(11),
+                                                        child: Image(
+                                                          // The Data will be loaded from firebse
+                                                          image: NetworkImage(
+                                                              data.cartImage1
+                                                                  .toString()),
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 7,
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Center(
+                                                        child: Text(
+                                                      data.cartName.toString(),
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold),
+                                                    )),
+                                                    SizedBox(
+                                                      height: 2,
                                                     ),
-                                                    // Text('is current bid '),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: 11,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: const [
                                                     Text(
-                                                      'Processing...',
-                                                      style: TextStyle(
-                                                          color: Colors.red,
-                                                          fontStyle:
-                                                              FontStyle.italic),
+                                                      data.cartDescription
+                                                          .toString(),
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          'Price: Rs.${data.cartPrice.toString()} ',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        // Text('is current bid '),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 11,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: const [
+                                                        Text(
+                                                          'Processing...',
+                                                          style: TextStyle(
+                                                              color: Colors.red,
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .italic),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ],
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                          );
-                  }),
+                                        ),
+                                      ],
+                                    )),
+                              );
+                      }),
             ),
           ],
         ),

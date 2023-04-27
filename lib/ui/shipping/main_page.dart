@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobidthrift/ui/shipping/my_reports_page.dart';
+import 'package:mobidthrift/ui/shipping/my_reports_tab_bar.dart';
 import 'package:mobidthrift/ui/shipping/my_reviews_tab_bar.dart';
 import 'package:mobidthrift/ui/shipping/shipping_tab_bar.dart';
 
@@ -140,7 +140,7 @@ class _MainPageState extends State<MainPage> {
                                   builder: (context) =>
                                       MyReportsTabBar(iniIndex: 1)));
                         },
-                        icon: Icon(Icons.credit_card),
+                        icon: Icon(Icons.report_gmailerrorred),
                       ),
                       const Text(
                         'My Reports',
@@ -158,7 +158,7 @@ class _MainPageState extends State<MainPage> {
                                   builder: (context) =>
                                       MyReviewsTabBar(iniIndex: 1)));
                         },
-                        icon: Icon(Icons.credit_card),
+                        icon: Icon(Icons.reviews_outlined),
                       ),
                       const Text(
                         'My Reviews',

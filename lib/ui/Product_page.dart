@@ -380,21 +380,28 @@ class _ProductPageState extends State<ProductPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('PTA Aproved'),
-                              widget.productPTAApproved == true
-                                  ? Icon(
-                                      Icons.done_rounded,
-                                      color: Colors.green,
-                                    )
-                                  : Icon(
-                                      Icons.cancel_rounded,
-                                      color: Colors.red,
-                                    )
-                            ],
-                          ),
+                          widget.productCollectionName ==
+                                      'CellPhonesProducts' ||
+                                  widget.productCollectionName ==
+                                      'SmartWatches' ||
+                                  widget.productCollectionName ==
+                                      'PadsAndTabletsProducts'
+                              ? Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text('PTA Aproved'),
+                                    widget.productPTAApproved == true
+                                        ? Icon(
+                                            Icons.done_rounded,
+                                            color: Colors.green,
+                                          )
+                                        : Icon(
+                                            Icons.cancel_rounded,
+                                            color: Colors.red,
+                                          )
+                                  ],
+                                )
+                              : SizedBox(),
                           Text('Shipping: Rs.${widget.productShipping}'),
                         ],
                       )
@@ -433,6 +440,10 @@ class _ProductPageState extends State<ProductPage> {
                             onPressed: () async {
                               int bid = int.parse(bidAmount.text.toString());
                               print(bid);
+                              if (_countDownTime == 0) {
+                                Utils.flutterToast('Bidding Time Up');
+                                return;
+                              }
                               if (bid > 9999999) {
                                 Utils.flutterToast(
                                     'Your Bid Amount is too high');

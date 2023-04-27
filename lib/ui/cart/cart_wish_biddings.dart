@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/ui/cart/Wish_List.dart';
-import 'package:mobidthrift/ui/cart/Your_Cart.dart';
 import 'package:mobidthrift/ui/cart/biddings.dart';
+import 'package:mobidthrift/ui/shipping/to_pay.dart';
 
 class CartWishBidding extends StatefulWidget {
   int? iniIndex;
@@ -22,7 +22,8 @@ class _CartWishBiddingState extends State<CartWishBidding>
   }
 
   List<Widget> tabs = [
-    YourCart(),
+    // YourCart(),
+    ToPay(),
     YourBidding(),
     WishList(),
   ];

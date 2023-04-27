@@ -204,7 +204,7 @@ class _SellerProfileState extends State<SellerProfile> {
                                                 reviews: widget.reviews,
                                                 totalNoOfReviews:
                                                     widget.totalNoOfReviews,
-                                                uId: widget.uId)));
+                                                sellerUid: widget.uId)));
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,

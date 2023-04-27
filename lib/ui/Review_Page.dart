@@ -7,11 +7,11 @@ import 'package:mobidthrift/utils/utils.dart';
 class ReviewPage extends StatefulWidget {
   double? reviews;
   int? totalNoOfReviews;
-  String? uId;
+  String? sellerUid;
   ReviewPage(
       {required this.reviews,
       required this.totalNoOfReviews,
-      required this.uId,
+      required this.sellerUid,
       Key? key})
       : super(key: key);
 
@@ -20,8 +20,7 @@ class ReviewPage extends StatefulWidget {
 }
 
 class _ReviewPageState extends State<ReviewPage> {
-  final _firebaseInstance =
-      FirebaseFirestore.instance.collection("SellerCenterUsers");
+  final _firebaseInstance = FirebaseFirestore.instance;
   final _firebaseAuth = FirebaseAuth.instance.currentUser;
 
   bool btn = false;
@@ -168,12 +167,33 @@ class _ReviewPageState extends State<ReviewPage> {
                       // print(reviews);
                       // print(review);
 
-                      await _firebaseInstance.doc(widget.uId).update({
+                      await _firebaseInstance
+                          .collection("SellerCenterUsers")
+                          .doc(widget.sellerUid)
+                          .update({
                         'Total_Number_of_Reviews': widget.totalNoOfReviews! + 1,
                         'Total_Review_Rating': reviews,
                       }).then((value) async {
                         await _firebaseInstance
-                            .doc(widget.uId)
+                            .collection("users")
+                            .doc(_firebaseAuth!.uid.toString())
+                            .collection('Reviews')
+                            .doc(widget.sellerUid)
+                            .set({
+                          'User_Uid': widget.sellerUid.toString(),
+                          'User_Email': _firebaseAuth!.email,
+                          'User_Review': _reviewController.text.toString(),
+                          'User_Name': _nameController.text.toString(),
+                          'My_Review_Rating': review,
+                          'Review_Timing': DateTime.now().toString(),
+                          'Review_Timing_In_Milliseconds':
+                              DateTime.now().millisecondsSinceEpoch.toString(),
+                          'Review_Timing_String':
+                              '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
+                        });
+                        await _firebaseInstance
+                            .collection("SellerCenterUsers")
+                            .doc(widget.sellerUid)
                             .collection('Reviews')
                             .doc(_firebaseAuth!.uid)
                             .set({

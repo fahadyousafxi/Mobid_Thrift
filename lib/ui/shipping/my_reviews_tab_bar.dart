@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobidthrift/ui/shipping/all_page.dart';
+import 'package:mobidthrift/ui/shipping/reviews_history.dart';
+import 'package:mobidthrift/ui/shipping/to_be_revieved.dart';
 
 class MyReviewsTabBar extends StatefulWidget {
   int? iniIndex;
@@ -20,8 +21,8 @@ class _MyReviewsTabBarState extends State<MyReviewsTabBar>
   }
 
   List<Widget> tabs = [
-    AllPage(),
-    AllPage(),
+    ToBeReviewed(),
+    ReviewsHistory(),
   ];
 
   @override

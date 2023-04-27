@@ -113,6 +113,8 @@ class _SellerShopProductsState extends State<SellerShopProducts> {
                                                     data.productShopkeeperUid,
                                                 productSpecification:
                                                     data.productSpecification,
+                                                productCollectionName:
+                                                    data.productCollectionName,
                                               )))
                                   : Navigator.push(
                                       context,

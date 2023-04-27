@@ -380,6 +380,7 @@ class _ProductPageState extends State<ProductPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // PTA Approved condition for
                           widget.productCollectionName ==
                                       'CellPhonesProducts' ||
                                   widget.productCollectionName ==
@@ -389,7 +390,7 @@ class _ProductPageState extends State<ProductPage> {
                               ? Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text('PTA Aproved'),
+                                    Text('PTA Approved'),
                                     widget.productPTAApproved == true
                                         ? Icon(
                                             Icons.done_rounded,

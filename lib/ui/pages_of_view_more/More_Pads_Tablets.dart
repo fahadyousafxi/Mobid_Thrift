@@ -4,7 +4,6 @@ import 'package:mobidthrift/ui/Product_page.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
 import 'package:provider/provider.dart';
 
-import '../../constants/App_colors.dart';
 import '../../providers/Product_Provider.dart';
 import '../../utils/utils.dart';
 import '../product_page_for_guests.dart';
@@ -38,12 +37,12 @@ class _MorePadsTabletsState extends State<MorePadsTablets> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.filter_list),
-              color: AppColors.myIconColor,
-            ),
-            Center(child: AppWidgets().myHeading1Text('Pads & Tablets')),
+            // IconButton(
+            //   onPressed: () {},
+            //   icon: Icon(Icons.filter_list),
+            //   color: AppColors.myIconColor,
+            // ),
+            Center(child: AppWidgets().myHeading1Text('Pads/Tablets')),
             SizedBox(
               height: 8,
             ),

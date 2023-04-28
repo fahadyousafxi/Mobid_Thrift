@@ -52,6 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  bool filtering = false;
+
   @override
   Widget build(BuildContext context) {
     productProvider = Provider.of(context);
@@ -70,12 +72,100 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              IconButton(
-                onPressed: () {
-                  print((size.height / 4).toString());
-                },
-                icon: Icon(Icons.filter_list),
-                color: AppColors.myIconColor,
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      print((size.height / 4).toString());
+                      setState(() {
+                        filtering = !filtering;
+                      });
+                    },
+                    icon: Icon(Icons.filter_list),
+                    color: AppColors.myIconColor,
+                  ),
+                  filtering == false
+                      ? SizedBox()
+                      : Container(
+                          width: size.width / 1.3,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MoreCellPhones()));
+                                  },
+                                  child: Text('phones'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MorePadsTablets()));
+                                  },
+                                  child: Text('Pads/Tablets'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MoreSmartWatches()));
+                                  },
+                                  child: Text('Smart Watches'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MoreLaptops()));
+                                  },
+                                  child: Text('Laptops'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MoreDesktops()));
+                                  },
+                                  child: Text('Desktops'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MoreAccessories()));
+                                  },
+                                  child: Text('Accessories'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MoreParts()));
+                                  },
+                                  child: Text('Parts'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                ],
               ),
               // AppWidgets().myAddBannerContainer(height: size.height / 4.2),
               FutureBuilder<DocumentSnapshot>(

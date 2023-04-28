@@ -4,7 +4,6 @@ import 'package:mobidthrift/ui/Product_page.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
 import 'package:provider/provider.dart';
 
-import '../../constants/App_colors.dart';
 import '../../providers/Product_Provider.dart';
 import '../../utils/utils.dart';
 import '../product_page_for_guests.dart';
@@ -38,11 +37,11 @@ class _MoreDesktopsState extends State<MoreDesktops> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.filter_list),
-              color: AppColors.myIconColor,
-            ),
+            // IconButton(
+            //   onPressed: () {},
+            //   icon: Icon(Icons.filter_list),
+            //   color: AppColors.myIconColor,
+            // ),
             Center(child: AppWidgets().myHeading1Text('Phones')),
             SizedBox(
               height: 8,
@@ -67,67 +66,68 @@ class _MoreDesktopsState extends State<MoreDesktops> {
                           onTap: () {
                             Utils.auth == null
                                 ? Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ProductPageForGuests(
-                                          productCollectionName: data
-                                              .productCollectionName
-                                              .toString(),
-                                          bidEndTimeInSeconds:
-                                          data.bidEndTimeInSeconds,
-                                          productName:
-                                          data.productName.toString(),
-                                          productCurrentBid:
-                                          data.productCurrentBid,
-                                          productDescription: data
-                                              .productDescription
-                                              .toString(),
-                                          productUid:
-                                          data.productUid.toString(),
-                                          productImage1:
-                                          data.productImage1.toString(),
-                                          productShipping: data.productShipping,
-                                          productPrice: data.productPrice,
-                                          productPTAApproved:
-                                          data.productPTAApproved,
-                                          productShopkeeperUid:
-                                          data.productShopkeeperUid,
-                                          productSpecification:
-                                          data.productSpecification,
-                                          isStartingBid: data.isStartingBid,
-                                        )))
-                                :
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProductPage(
-                                          productCollectionName: data
-                                              .productCollectionName
-                                              .toString(),
-                                          isStartingBid: data.isStartingBid,
-                                          bidEndTimeInSeconds:
-                                              data.bidEndTimeInSeconds,
-                                          productName:
-                                              data.productName.toString(),
-                                          productCurrentBid:
-                                              data.productCurrentBid,
-                                          productDescription: data
-                                              .productDescription
-                                              .toString(),
-                                          productUid:
-                                              data.productUid.toString(),
-                                          productImage1:
-                                              data.productImage1.toString(),
-                                          productShipping: data.productShipping,
-                                          productPrice: data.productPrice,
-                                          productPTAApproved:
-                                              data.productPTAApproved,
-                                          productShopkeeperUid:
-                                              data.productShopkeeperUid,
-                                          productSpecification:
-                                              data.productSpecification,
-                                        )));
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ProductPageForGuests(
+                                              productCollectionName: data
+                                                  .productCollectionName
+                                                  .toString(),
+                                              bidEndTimeInSeconds:
+                                                  data.bidEndTimeInSeconds,
+                                              productName:
+                                                  data.productName.toString(),
+                                              productCurrentBid:
+                                                  data.productCurrentBid,
+                                              productDescription: data
+                                                  .productDescription
+                                                  .toString(),
+                                              productUid:
+                                                  data.productUid.toString(),
+                                              productImage1:
+                                                  data.productImage1.toString(),
+                                              productShipping:
+                                                  data.productShipping,
+                                              productPrice: data.productPrice,
+                                              productPTAApproved:
+                                                  data.productPTAApproved,
+                                              productShopkeeperUid:
+                                                  data.productShopkeeperUid,
+                                              productSpecification:
+                                                  data.productSpecification,
+                                              isStartingBid: data.isStartingBid,
+                                            )))
+                                : Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProductPage(
+                                              productCollectionName: data
+                                                  .productCollectionName
+                                                  .toString(),
+                                              isStartingBid: data.isStartingBid,
+                                              bidEndTimeInSeconds:
+                                                  data.bidEndTimeInSeconds,
+                                              productName:
+                                                  data.productName.toString(),
+                                              productCurrentBid:
+                                                  data.productCurrentBid,
+                                              productDescription: data
+                                                  .productDescription
+                                                  .toString(),
+                                              productUid:
+                                                  data.productUid.toString(),
+                                              productImage1:
+                                                  data.productImage1.toString(),
+                                              productShipping:
+                                                  data.productShipping,
+                                              productPrice: data.productPrice,
+                                              productPTAApproved:
+                                                  data.productPTAApproved,
+                                              productShopkeeperUid:
+                                                  data.productShopkeeperUid,
+                                              productSpecification:
+                                                  data.productSpecification,
+                                            )));
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(5.0),

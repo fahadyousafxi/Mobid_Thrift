@@ -12,7 +12,6 @@ import 'package:ndialog/ndialog.dart';
 
 import '../constants/App_widgets.dart';
 import '../utils/guest_direction_to_login.dart';
-import 'Review_Page.dart';
 
 class SellerProfile extends StatefulWidget {
   String? contactNo;
@@ -197,14 +196,14 @@ class _SellerProfileState extends State<SellerProfile> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ReviewPage(
-                                                reviews: widget.reviews,
-                                                totalNoOfReviews:
-                                                    widget.totalNoOfReviews,
-                                                sellerUid: widget.uId)));
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) => ReviewPage(
+                                    //             reviews: widget.reviews,
+                                    //             totalNoOfReviews:
+                                    //                 widget.totalNoOfReviews,
+                                    //             sellerUid: widget.uId)));
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -368,6 +367,7 @@ class _SellerProfileState extends State<SellerProfile> {
                                                   SellerShopProducts(
                                                     sellerUid:
                                                         widget.uId.toString(),
+                                                    shopKeeperName: widget.name,
                                                   )));
                                     },
                                     btnText: "View Shop Products",

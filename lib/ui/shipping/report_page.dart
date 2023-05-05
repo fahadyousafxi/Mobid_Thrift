@@ -6,7 +6,9 @@ import 'package:mobidthrift/utils/utils.dart';
 
 class ReportPage extends StatefulWidget {
   String? sellerUid;
-  ReportPage({required this.sellerUid, Key? key}) : super(key: key);
+  String? cartUid;
+  ReportPage({required this.sellerUid, required this.cartUid, Key? key})
+      : super(key: key);
 
   @override
   State<ReportPage> createState() => _ReportPageState();
@@ -68,6 +70,16 @@ class _ReportPageState extends State<ReportPage> {
                     onPressed: () async {
                       setState(() {
                         btn = true;
+                      });
+
+                      _firebaseInstance
+                          .collection("Cart")
+                          .doc(_firebaseAuth!.uid.toString())
+                          .collection("YourCart")
+                          .doc(widget.cartUid)
+                          .update({
+                        'pleaseWait': 'Finished',
+                        // 'SellerStatus': 'false',
                       });
 
                       await _firebaseInstance

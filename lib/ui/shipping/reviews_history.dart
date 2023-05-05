@@ -96,54 +96,54 @@ class _ReviewsHistoryState extends State<ReviewsHistory> {
                                                       child:
                                                           Text('Some Error'));
 
-                                                return Column(children: [
-                                                  Container(
+                                                return InkWell(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => SellerProfile(
+                                                                locationLatitude:
+                                                                    snapshot.data!['location_address'][
+                                                                        'latitude'],
+                                                                locationLongitude:
+                                                                    snapshot.data!['location_address'][
+                                                                        'longitude'],
+                                                                name: snapshot
+                                                                        .data![
+                                                                    'Name'],
+                                                                profileImage: snapshot
+                                                                        .data![
+                                                                    'Profile_Image'],
+                                                                email: snapshot
+                                                                    .data!['Email'],
+                                                                contactNo: snapshot.data!['Phone_Number'],
+                                                                reviews: double.parse(snapshot.data!['Total_Review_Rating'].toString()),
+                                                                totalNoOfReviews: snapshot.data!['Total_Number_of_Reviews'],
+                                                                uId: snapshot.data!['Uid'])));
+                                                  },
+                                                  child: Container(
                                                     child: Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .center,
                                                       children: [
-                                                        InkWell(
-                                                          onTap: () {
-                                                            Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder: (context) => SellerProfile(
-                                                                        locationLatitude: snapshot.data!['location_address'][
-                                                                            'latitude'],
-                                                                        locationLongitude: snapshot.data!['location_address'][
-                                                                            'longitude'],
-                                                                        name: snapshot.data![
-                                                                            'Name'],
-                                                                        profileImage: snapshot.data![
-                                                                            'Profile_Image'],
-                                                                        email: snapshot.data![
-                                                                            'Email'],
-                                                                        contactNo:
-                                                                            snapshot.data!['Phone_Number'],
-                                                                        reviews: double.parse(snapshot.data!['Total_Review_Rating'].toString()),
-                                                                        totalNoOfReviews: snapshot.data!['Total_Number_of_Reviews'],
-                                                                        uId: snapshot.data!['Uid'])));
-                                                          },
-                                                          child: snapshot.data![
-                                                                          'Profile_Image']
-                                                                      .toString() ==
-                                                                  ''
-                                                              ? CircleAvatar(
-                                                                  radius: 33,
-                                                                  backgroundImage:
-                                                                      AssetImage(
-                                                                          'assets/images/img.png'),
-                                                                )
-                                                              : CircleAvatar(
-                                                                  radius: 33,
-                                                                  backgroundImage:
-                                                                      NetworkImage(snapshot
-                                                                          .data![
-                                                                              'Profile_Image']
-                                                                          .toString()),
-                                                                ),
-                                                        ),
+                                                        snapshot.data!['Profile_Image']
+                                                                    .toString() ==
+                                                                ''
+                                                            ? CircleAvatar(
+                                                                radius: 33,
+                                                                backgroundImage:
+                                                                    AssetImage(
+                                                                        'assets/images/img.png'),
+                                                              )
+                                                            : CircleAvatar(
+                                                                radius: 33,
+                                                                backgroundImage:
+                                                                    NetworkImage(snapshot
+                                                                        .data![
+                                                                            'Profile_Image']
+                                                                        .toString()),
+                                                              ),
                                                         SizedBox(
                                                           width: 15,
                                                         ),
@@ -165,26 +165,9 @@ class _ReviewsHistoryState extends State<ReviewsHistory> {
                                                                       CrossAxisAlignment
                                                                           .start,
                                                                   children: [
-                                                                    InkWell(
-                                                                        onTap:
-                                                                            () {
-                                                                          Navigator.push(
-                                                                              context,
-                                                                              MaterialPageRoute(
-                                                                                  builder: (context) => SellerProfile(
-                                                                                        locationLatitude: snapshot.data!['location_address']['latitude'],
-                                                                                        locationLongitude: snapshot.data!['location_address']['longitude'],
-                                                                                        name: snapshot.data!['Name'],
-                                                                                        profileImage: snapshot.data!['Profile_Image'],
-                                                                                        email: snapshot.data!['Email'],
-                                                                                        contactNo: snapshot.data!['Phone_Number'],
-                                                                                        reviews: snapshot.data!['Total_Review_Rating'],
-                                                                                        totalNoOfReviews: snapshot.data!['Total_Number_of_Reviews'],
-                                                                                        uId: snapshot.data!['Uid'],
-                                                                                      )));
-                                                                        },
-                                                                        child: AppWidgets()
-                                                                            .myHeading1Text("${snapshot.data!['Name']}")),
+                                                                    AppWidgets()
+                                                                        .myHeading1Text(
+                                                                            "${snapshot.data!['Name']}"),
                                                                     Row(
                                                                       children: [
                                                                         Text(
@@ -210,7 +193,7 @@ class _ReviewsHistoryState extends State<ReviewsHistory> {
                                                       ],
                                                     ),
                                                   ),
-                                                ]);
+                                                );
                                               }),
                                         ],
                                       ),
@@ -256,51 +239,54 @@ class _ReviewsHistoryState extends State<ReviewsHistory> {
                                                           child: Text(
                                                               'Some Error'));
 
-                                                    return Column(children: [
-                                                      Container(
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => SellerProfile(
+                                                                    locationLatitude:
+                                                                        snapshot.data!['location_address'][
+                                                                            'latitude'],
+                                                                    locationLongitude:
+                                                                        snapshot.data!['location_address']
+                                                                            [
+                                                                            'longitude'],
+                                                                    name: snapshot
+                                                                            .data![
+                                                                        'Name'],
+                                                                    profileImage:
+                                                                        snapshot.data![
+                                                                            'Profile_Image'],
+                                                                    email: snapshot
+                                                                        .data!['Email'],
+                                                                    contactNo: snapshot.data!['Phone_Number'],
+                                                                    reviews: double.parse(snapshot.data!['Total_Review_Rating'].toString()),
+                                                                    totalNoOfReviews: snapshot.data!['Total_Number_of_Reviews'],
+                                                                    uId: snapshot.data!['Uid'])));
+                                                      },
+                                                      child: Container(
                                                         child: Row(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
                                                                   .center,
                                                           children: [
-                                                            InkWell(
-                                                              onTap: () {
-                                                                Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (context) => SellerProfile(
-                                                                            locationLatitude:
-                                                                                snapshot.data!['location_address']['latitude'],
-                                                                            locationLongitude: snapshot.data!['location_address']['longitude'],
-                                                                            name: snapshot.data!['Name'],
-                                                                            profileImage: snapshot.data!['Profile_Image'],
-                                                                            email: snapshot.data!['Email'],
-                                                                            contactNo: snapshot.data!['Phone_Number'],
-                                                                            reviews: double.parse(snapshot.data!['Total_Review_Rating'].toString()),
-                                                                            totalNoOfReviews: snapshot.data!['Total_Number_of_Reviews'],
-                                                                            uId: snapshot.data!['Uid'])));
-                                                              },
-                                                              child: snapshot
-                                                                          .data![
-                                                                              'Profile_Image']
-                                                                          .toString() ==
-                                                                      ''
-                                                                  ? CircleAvatar(
-                                                                      radius:
-                                                                          33,
-                                                                      backgroundImage:
-                                                                          AssetImage(
-                                                                              'assets/images/img.png'),
-                                                                    )
-                                                                  : CircleAvatar(
-                                                                      radius:
-                                                                          33,
-                                                                      backgroundImage: NetworkImage(snapshot
-                                                                          .data![
-                                                                              'Profile_Image']
-                                                                          .toString()),
-                                                                    ),
-                                                            ),
+                                                            snapshot.data!['Profile_Image']
+                                                                        .toString() ==
+                                                                    ''
+                                                                ? CircleAvatar(
+                                                                    radius: 33,
+                                                                    backgroundImage:
+                                                                        AssetImage(
+                                                                            'assets/images/img.png'),
+                                                                  )
+                                                                : CircleAvatar(
+                                                                    radius: 33,
+                                                                    backgroundImage: NetworkImage(snapshot
+                                                                        .data![
+                                                                            'Profile_Image']
+                                                                        .toString()),
+                                                                  ),
                                                             SizedBox(
                                                               width: 15,
                                                             ),
@@ -323,26 +309,8 @@ class _ReviewsHistoryState extends State<ReviewsHistory> {
                                                                           CrossAxisAlignment
                                                                               .start,
                                                                       children: [
-                                                                        InkWell(
-                                                                            onTap:
-                                                                                () {
-                                                                              Navigator.push(
-                                                                                  context,
-                                                                                  MaterialPageRoute(
-                                                                                      builder: (context) => SellerProfile(
-                                                                                            locationLatitude: snapshot.data!['location_address']['latitude'],
-                                                                                            locationLongitude: snapshot.data!['location_address']['longitude'],
-                                                                                            name: snapshot.data!['Name'],
-                                                                                            profileImage: snapshot.data!['Profile_Image'],
-                                                                                            email: snapshot.data!['Email'],
-                                                                                            contactNo: snapshot.data!['Phone_Number'],
-                                                                                            reviews: snapshot.data!['Total_Review_Rating'],
-                                                                                            totalNoOfReviews: snapshot.data!['Total_Number_of_Reviews'],
-                                                                                            uId: snapshot.data!['Uid'],
-                                                                                          )));
-                                                                            },
-                                                                            child:
-                                                                                AppWidgets().myHeading1Text("${snapshot.data!['Name']}")),
+                                                                        AppWidgets()
+                                                                            .myHeading1Text("${snapshot.data!['Name']}"),
                                                                         Row(
                                                                           children: [
                                                                             Text('Review '),
@@ -366,7 +334,7 @@ class _ReviewsHistoryState extends State<ReviewsHistory> {
                                                           ],
                                                         ),
                                                       ),
-                                                    ]);
+                                                    );
                                                   }),
                                             ],
                                           ),

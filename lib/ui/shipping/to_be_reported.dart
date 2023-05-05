@@ -297,12 +297,17 @@ class _ToBeReportedState extends State<ToBeReported> {
                                                                       .myElevatedBTN(
                                                                           onPressed:
                                                                               () {
-                                                                            _firebaseFireStore.collection("Cart").doc(_currentUser.toString()).collection("YourCart").doc(data.cartUid).update({
-                                                                              'pleaseWait': 'Finished',
-                                                                              // 'SellerStatus': 'false',
-                                                                            });
-                                                                            Navigator.push(context,
-                                                                                MaterialPageRoute(builder: (context) => ReportPage(sellerUid: data.cartShopkeeperUid)));
+                                                                            // _firebaseFireStore.collection("Cart").doc(_currentUser.toString()).collection("YourCart").doc(data.cartUid).update({
+                                                                            //   'pleaseWait': 'Finished',
+                                                                            //   // 'SellerStatus': 'false',
+                                                                            // });
+                                                                            Navigator.push(
+                                                                                context,
+                                                                                MaterialPageRoute(
+                                                                                    builder: (context) => ReportPage(
+                                                                                          sellerUid: data.cartShopkeeperUid,
+                                                                                          cartUid: data.cartUid,
+                                                                                        )));
                                                                           },
                                                                           btnText:
                                                                               'Report',

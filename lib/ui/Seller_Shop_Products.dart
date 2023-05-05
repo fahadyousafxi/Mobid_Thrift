@@ -10,7 +10,10 @@ import 'Product_page.dart';
 
 class SellerShopProducts extends StatefulWidget {
   String? sellerUid;
-  SellerShopProducts({required this.sellerUid, Key? key}) : super(key: key);
+  String? shopKeeperName;
+  SellerShopProducts(
+      {required this.sellerUid, required this.shopKeeperName, Key? key})
+      : super(key: key);
 
   @override
   State<SellerShopProducts> createState() => _SellerShopProductsState();
@@ -55,7 +58,7 @@ class _SellerShopProductsState extends State<SellerShopProducts> {
             SizedBox(
               height: 15,
             ),
-            AppWidgets().myHeading2Text('Shopkeeper Name'),
+            AppWidgets().myHeading2Text('${widget.shopKeeperName}'),
             SizedBox(
               height: 11,
             ),

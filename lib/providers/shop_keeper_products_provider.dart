@@ -36,6 +36,7 @@ class ShopKeeperProductsProvider with ChangeNotifier {
     List<ProductModel> newList = [];
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection("CellPhonesProducts")
+        .where('productSold', isEqualTo: false)
         .where('productShopkeeperUid', isEqualTo: uId)
         .get();
 
@@ -66,6 +67,7 @@ class ShopKeeperProductsProvider with ChangeNotifier {
     List<ProductModel> newList = [];
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection("PadsAndTabletsProducts")
+        .where('productSold', isEqualTo: false)
         .where('productShopkeeperUid', isEqualTo: uId)
         .get();
 
@@ -89,6 +91,7 @@ class ShopKeeperProductsProvider with ChangeNotifier {
     List<ProductModel> newList = [];
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection("LaptopsProducts")
+        .where('productSold', isEqualTo: false)
         .where('productShopkeeperUid', isEqualTo: uId)
         .get();
 
@@ -113,6 +116,7 @@ class ShopKeeperProductsProvider with ChangeNotifier {
     List<ProductModel> newList = [];
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection("SmartWatches")
+        .where('productSold', isEqualTo: false)
         .where('productShopkeeperUid', isEqualTo: uId)
         .get();
 
@@ -136,6 +140,7 @@ class ShopKeeperProductsProvider with ChangeNotifier {
     List<ProductModel> newList = [];
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection("Desktops")
+        .where('productSold', isEqualTo: false)
         .where('productShopkeeperUid', isEqualTo: uId)
         .get();
 
@@ -159,6 +164,7 @@ class ShopKeeperProductsProvider with ChangeNotifier {
     List<ProductModel> newList = [];
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection("Accessories")
+        .where('productSold', isEqualTo: false)
         .where('productShopkeeperUid', isEqualTo: uId)
         .get();
 
@@ -182,6 +188,7 @@ class ShopKeeperProductsProvider with ChangeNotifier {
     List<ProductModel> newList = [];
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection("Parts")
+        .where('productSold', isEqualTo: false)
         .where('productShopkeeperUid', isEqualTo: uId)
         .get();
 

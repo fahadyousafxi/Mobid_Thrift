@@ -297,12 +297,19 @@ class _ToBeReviewedState extends State<ToBeReviewed> {
                                                                       .myElevatedBTN(
                                                                           onPressed:
                                                                               () {
-                                                                            _firebaseFireStore.collection("Cart").doc(_currentUser.toString()).collection("YourCart").doc(data.cartUid).update({
-                                                                              'pleaseWait': 'To Report',
-                                                                              // 'SellerStatus': 'false',
-                                                                            });
-                                                                            Navigator.push(context,
-                                                                                MaterialPageRoute(builder: (context) => ReviewPage(reviews: snapshot.data!['Total_Review_Rating'], totalNoOfReviews: snapshot.data!['Total_Number_of_Reviews'], sellerUid: data.cartShopkeeperUid)));
+                                                                            // _firebaseFireStore.collection("Cart").doc(_currentUser.toString()).collection("YourCart").doc(data.cartUid).update({
+                                                                            //   'pleaseWait': 'To Report',
+                                                                            //   // 'SellerStatus': 'false',
+                                                                            // });
+                                                                            Navigator.push(
+                                                                                context,
+                                                                                MaterialPageRoute(
+                                                                                    builder: (context) => ReviewPage(
+                                                                                          reviews: snapshot.data!['Total_Review_Rating'],
+                                                                                          totalNoOfReviews: snapshot.data!['Total_Number_of_Reviews'],
+                                                                                          sellerUid: data.cartShopkeeperUid,
+                                                                                          cartUid: data.cartUid,
+                                                                                        )));
                                                                           },
                                                                           btnText:
                                                                               'Review',

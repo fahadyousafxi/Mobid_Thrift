@@ -8,9 +8,11 @@ class ReviewPage extends StatefulWidget {
   double? reviews;
   int? totalNoOfReviews;
   String? sellerUid;
+  String? cartUid;
   ReviewPage(
       {required this.reviews,
       required this.totalNoOfReviews,
+      required this.cartUid,
       required this.sellerUid,
       Key? key})
       : super(key: key);
@@ -167,6 +169,17 @@ class _ReviewPageState extends State<ReviewPage> {
                       // print(reviews);
                       // print(review);
 
+                      if (widget.cartUid != null) {
+                        _firebaseInstance
+                            .collection("Cart")
+                            .doc(_firebaseAuth!.uid.toString())
+                            .collection("YourCart")
+                            .doc(widget.cartUid)
+                            .update({
+                          'pleaseWait': 'To Report',
+                          // 'SellerStatus': 'false',
+                        });
+                      }
                       await _firebaseInstance
                           .collection("SellerCenterUsers")
                           .doc(widget.sellerUid)

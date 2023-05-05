@@ -377,7 +377,7 @@ class _AllPageState extends State<AllPage> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: const [
         Text(
-          'Rejected  ',
+          'Processing...  ',
           style: TextStyle(color: Colors.red, fontStyle: FontStyle.italic),
         ),
       ],

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mobidthrift/ui/cart/Wish_List.dart';
 import 'package:mobidthrift/ui/shipping/my_reports_tab_bar.dart';
 import 'package:mobidthrift/ui/shipping/my_reviews_tab_bar.dart';
 import 'package:mobidthrift/ui/shipping/shipping_tab_bar.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/Cart_Provider.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -11,8 +15,18 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  CartProvider cartProvider = CartProvider();
+
+  @override
+  void initState() {
+    CartProvider cart = Provider.of(context, listen: false);
+    cart.getWishListData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    cartProvider = Provider.of(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -174,8 +188,18 @@ class _MainPageState extends State<MainPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  myContainer(number: 6, title: 'My Wishlist'),
-                  myContainer(number: 0, title: 'Followed Stores'),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => WishList()));
+                    },
+                    child: myContainer(
+                        number: cartProvider.getWishListDataList.length,
+                        title: 'My Wishlist'),
+                  ),
+                  InkWell(
+                    child: myContainer(number: 0, title: 'Followed Stores'),
+                  ),
                 ],
               )
             ],

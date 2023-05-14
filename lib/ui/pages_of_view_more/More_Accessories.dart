@@ -42,7 +42,7 @@ class _MoreAccessoriesState extends State<MoreAccessories> {
             //   icon: Icon(Icons.filter_list),
             //   color: AppColors.myIconColor,
             // ),
-            Center(child: AppWidgets().myHeading1Text('Phones')),
+            Center(child: AppWidgets().myHeading1Text('Accessories')),
             SizedBox(
               height: 8,
             ),

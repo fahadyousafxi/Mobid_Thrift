@@ -43,7 +43,7 @@ class _MoreCellPhonesState extends State<MoreCellPhones> {
             //   icon: Icon(Icons.filter_list),
             //   color: AppColors.myIconColor,
             // ),
-            Center(child: AppWidgets().myHeading1Text('Phones')),
+            Center(child: AppWidgets().myHeading1Text('Cell Phones')),
             SizedBox(
               height: 8,
             ),

@@ -89,6 +89,9 @@ class _WishListState extends State<WishList> {
                                         ],
                                       ),
                                     ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:
@@ -110,16 +113,19 @@ class _WishListState extends State<WishList> {
                                           ),
                                           Row(
                                             children: [
+                                              Text('Price: '),
                                               Text(
-                                                'Rs.${data.cartCurrentBid.toString()} ',
+                                                'Rs.${data.cartPrice.toString()} ',
                                                 style: TextStyle(
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
-                                              Text('is current bid '),
                                             ],
                                           ),
-                                          Text('1 Day time left '),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(data.cartDescription.toString()),
                                         ],
                                       ),
                                     ),

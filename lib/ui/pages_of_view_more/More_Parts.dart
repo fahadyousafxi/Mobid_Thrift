@@ -42,7 +42,7 @@ class _MorePartsState extends State<MoreParts> {
             //   icon: Icon(Icons.filter_list),
             //   color: AppColors.myIconColor,
             // ),
-            Center(child: AppWidgets().myHeading1Text('Phones')),
+            Center(child: AppWidgets().myHeading1Text('Parts')),
             SizedBox(
               height: 8,
             ),

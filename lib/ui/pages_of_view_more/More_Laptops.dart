@@ -42,7 +42,7 @@ class _MoreLaptopsState extends State<MoreLaptops> {
             //   icon: Icon(Icons.filter_list),
             //   color: AppColors.myIconColor,
             // ),
-            Center(child: AppWidgets().myHeading1Text('Phones')),
+            Center(child: AppWidgets().myHeading1Text('Laptops')),
             SizedBox(
               height: 8,
             ),

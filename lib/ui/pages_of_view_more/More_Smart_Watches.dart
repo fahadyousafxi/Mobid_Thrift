@@ -43,7 +43,7 @@ class _MoreSmartWatchesState extends State<MoreSmartWatches> {
             //   icon: Icon(Icons.filter_list),
             //   color: AppColors.myIconColor,
             // ),
-            Center(child: AppWidgets().myHeading1Text('Phones')),
+            Center(child: AppWidgets().myHeading1Text('Smart Watches')),
             SizedBox(
               height: 8,
             ),

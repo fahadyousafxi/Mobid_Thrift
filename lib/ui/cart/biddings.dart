@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/providers/Cart_Provider.dart';
-import 'package:mobidthrift/ui/Product_Page_of_Cart.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/utils.dart';
@@ -49,25 +48,25 @@ class _YourBiddingState extends State<YourBidding> {
                       ),
                       child: GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProductPageOfCart(
-                                          cartName: data.cartName.toString(),
-                                          cartCurrentBid: data.cartCurrentBid,
-                                          cartDescription:
-                                              data.cartDescription.toString(),
-                                          cartUid: data.cartUid.toString(),
-                                          cartImage1:
-                                              data.cartImage1.toString(),
-                                          cartShipping: data.cartShipping,
-                                          cartPrice: data.cartPrice,
-                                          cartPTAApproved: data.cartPTAApproved,
-                                          cartShopkeeperUid:
-                                              data.cartShopkeeperUid,
-                                          cartSpecification:
-                                              data.cartSpecification,
-                                        )));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => ProductPageOfCart(
+                            //               cartName: data.cartName.toString(),
+                            //               cartCurrentBid: data.cartCurrentBid,
+                            //               cartDescription:
+                            //                   data.cartDescription.toString(),
+                            //               cartUid: data.cartUid.toString(),
+                            //               cartImage1:
+                            //                   data.cartImage1.toString(),
+                            //               cartShipping: data.cartShipping,
+                            //               cartPrice: data.cartPrice,
+                            //               cartPTAApproved: data.cartPTAApproved,
+                            //               cartShopkeeperUid:
+                            //                   data.cartShopkeeperUid,
+                            //               cartSpecification:
+                            //                   data.cartSpecification,
+                            //             )));
                           },
                           child: Stack(
                             children: [

@@ -4,6 +4,7 @@ import 'package:mobidthrift/providers/Cart_Provider.dart';
 import 'package:mobidthrift/providers/Product_Provider.dart';
 import 'package:mobidthrift/providers/Wish_List_Provider.dart';
 import 'package:mobidthrift/providers/chats_provider.dart';
+import 'package:mobidthrift/providers/followers_provider.dart';
 import 'package:mobidthrift/providers/seller_provider.dart';
 import 'package:mobidthrift/providers/shop_keeper_products_provider.dart';
 import 'package:mobidthrift/providers/sold_products_provider.dart';
@@ -27,30 +28,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<ProductsProvider>(
-          create: (context) => ProductsProvider(),
-        ),
-        ChangeNotifierProvider<CartProvider>(
-          create: (context) => CartProvider(),
-        ),
-        ChangeNotifierProvider<WishListProvider>(
-          create: (context) => WishListProvider(),
-        ),
-        ChangeNotifierProvider<SellerProvider>(
-          create: (context) => SellerProvider(),
-        ),
-        ChangeNotifierProvider<TradeInProvider>(
-          create: (context) => TradeInProvider(),
-        ),
-        ChangeNotifierProvider<ShopKeeperProductsProvider>(
-          create: (context) => ShopKeeperProductsProvider(),
-        ),
-        ChangeNotifierProvider<SoldProductsProvider>(
-          create: (context) => SoldProductsProvider(),
-        ),
-        ChangeNotifierProvider<ChatsProvider>(
-          create: (context) => ChatsProvider(),
-        ),
+        ChangeNotifierProvider(create: (_) => ProductsProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => WishListProvider()),
+        ChangeNotifierProvider(create: (_) => SellerProvider()),
+        ChangeNotifierProvider(create: (_) => TradeInProvider()),
+        ChangeNotifierProvider(create: (_) => ShopKeeperProductsProvider()),
+        ChangeNotifierProvider(create: (_) => SoldProductsProvider()),
+        ChangeNotifierProvider(create: (_) => ChatsProvider()),
+        ChangeNotifierProvider(create: (_) => FollowersProvider()),
       ],
       child: MaterialApp(
         title: 'Mobid Thrift',

@@ -6,6 +6,8 @@ import 'package:mobidthrift/ui/shipping/shipping_tab_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/Cart_Provider.dart';
+import '../../providers/followers_provider.dart';
+import 'followed_stores.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -17,15 +19,27 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   CartProvider cartProvider = CartProvider();
 
+  FollowersProvider followersProvider = FollowersProvider();
+
   @override
   void initState() {
     CartProvider cart = Provider.of(context, listen: false);
+    FollowersProvider followerProvider = Provider.of(context, listen: false);
+    followerProvider.getFollowingsData();
     cart.getWishListData();
     super.initState();
   }
 
   @override
+  void deactivate() {
+    followersProvider.getFollowingsDataList.clear();
+    // TODO: implement deactivate
+    super.deactivate();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    followersProvider = Provider.of(context);
     cartProvider = Provider.of(context);
     return Scaffold(
       appBar: AppBar(
@@ -198,7 +212,18 @@ class _MainPageState extends State<MainPage> {
                         title: 'My Wishlist'),
                   ),
                   InkWell(
-                    child: myContainer(number: 0, title: 'Followed Stores'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FollowedStores(
+                                    followingsUid:
+                                        followersProvider.getFollowingsDataList,
+                                  )));
+                    },
+                    child: myContainer(
+                        number: followersProvider.getFollowingsDataList.length,
+                        title: 'Followed Stores'),
                   ),
                 ],
               )

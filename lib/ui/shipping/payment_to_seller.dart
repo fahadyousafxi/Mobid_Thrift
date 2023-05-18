@@ -25,7 +25,8 @@ class PaymentToSeller extends StatefulWidget {
 }
 
 class _PaymentToSellerState extends State<PaymentToSeller> {
-  bool changeColor = false;
+  bool changeColor1 = false;
+  bool changeColor2 = false;
   bool loading = false;
   bool loading1 = false;
   bool loading2 = false;
@@ -81,6 +82,17 @@ class _PaymentToSellerState extends State<PaymentToSeller> {
 
                     phoneNumber = snapshot.data!['Phone_Number'].toString();
                     address = snapshot.data!['Address'].toString();
+                    // if (snapshot.hasData && snapshot.data!.data() != null) {
+                    //   final data =
+                    //       snapshot.data!.data() as Map<String, dynamic>;
+                    //   if (data.containsKey('Addressasdf')) {
+                    //     print(data['Addressasdf'].toString());
+                    //   } else {
+                    //     // Handle the case where the 'Address' field is missing
+                    //     print('Address field is missing.');
+                    //   }
+                    // }
+
                     print('***************** $phoneNumber************$address');
                     return Container(
                       padding: EdgeInsets.all(11),
@@ -339,13 +351,15 @@ class _PaymentToSellerState extends State<PaymentToSeller> {
               InkWell(
                 onTap: () {
                   setState(() {
-                    changeColor = !changeColor;
+                    changeColor2 = false;
+
+                    changeColor1 = !changeColor1;
                   });
                 },
                 child: Container(
                   height: 80,
                   decoration: BoxDecoration(
-                      color: changeColor
+                      color: changeColor1
                           ? Colors.greenAccent
                           : Colors.grey.shade400,
                       borderRadius: BorderRadius.circular(15)),
@@ -355,6 +369,38 @@ class _PaymentToSellerState extends State<PaymentToSeller> {
                       children: const [
                         Icon(Icons.payments_outlined),
                         Text('Pay through cash on delivery'),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 22,
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    changeColor1 = false;
+                    changeColor2 = !changeColor2;
+                  });
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DebitCardScreen()));
+                },
+                child: Container(
+                  height: 80,
+                  decoration: BoxDecoration(
+                      color: changeColor2
+                          ? Colors.greenAccent
+                          : Colors.grey.shade400,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: const [
+                        Icon(Icons.payments_outlined),
+                        Text('Pay with Debit Card               '),
                       ],
                     ),
                   ),
@@ -413,89 +459,242 @@ class _PaymentToSellerState extends State<PaymentToSeller> {
               AppWidgets().myElevatedBTN(
                   loading: loading,
                   onPressed: () async {
-                    setState(() {
-                      loading = true;
-                    });
-                    await _firebaseFireStore
-                        .collection(widget.productCollectionName.toString())
-                        .doc(widget.productUid.toString())
-                        .update({
-                      "productSold": true,
-                      "productBuyer": _currentUser!.uid.toString(),
-                      "BuyerEmail": _currentUser!.email.toString(),
-                      "BuyerName": _currentUser!.displayName.toString(),
-                      "BuyerPhoneNumber": phoneNumber,
-                      "BuyerAddress": address,
-                      "Accepted": '',
-                    }).then((value) {
-                      print(
-                          '***************** ${widget.productUid.toString()} ***************** ');
-                    });
+                    if (changeColor2 == true || changeColor1 == false) {
+                      Utils.flutterToast('Please Select Cash on delivery');
+                    } else {
+                      setState(() {
+                        loading = true;
+                      });
+                      await _firebaseFireStore
+                          .collection(widget.productCollectionName.toString())
+                          .doc(widget.productUid.toString())
+                          .update({
+                        "productSold": true,
+                        "productBuyer": _currentUser!.uid.toString(),
+                        "BuyerEmail": _currentUser!.email.toString(),
+                        "BuyerName": _currentUser!.displayName.toString(),
+                        "BuyerPhoneNumber": phoneNumber,
+                        "BuyerAddress": address,
+                        "Accepted": '',
+                      }).then((value) {
+                        print(
+                            '***************** ${widget.productUid.toString()} ***************** ');
+                      });
 
-                    _firebaseFireStore
-                        .collection("Cart")
-                        .doc(_currentUser!.uid.toString())
-                        .collection("YourCart")
-                        .doc(widget.productUid)
-                        .update({
-                      'pleaseWait': 'To Ship',
-                      // 'SellerStatus': 'false',
-                    }).then((value) {
-                      Utils.flutterToast('Thanks! please wait to ship');
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return Center(
-                              child: AlertDialog(
-                                icon: Icon(
-                                  Icons.done_rounded,
-                                  color: Colors.green,
-                                  size: 33,
+                      _firebaseFireStore
+                          .collection("Cart")
+                          .doc(_currentUser!.uid.toString())
+                          .collection("YourCart")
+                          .doc(widget.productUid)
+                          .update({
+                        'pleaseWait': 'To Ship',
+                        // 'SellerStatus': 'false',
+                      }).then((value) {
+                        Utils.flutterToast('Thanks! please wait to ship');
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Center(
+                                child: AlertDialog(
+                                  icon: Icon(
+                                    Icons.done_rounded,
+                                    color: Colors.green,
+                                    size: 33,
+                                  ),
+                                  title: const Text('Congratulations!!'),
+                                  content: const Text(
+                                      'Yor payment has been confirmed'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ShippingTabBar(
+                                                        iniIndex: 2)));
+                                      },
+                                      child: Text('Ok'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CustomNavigationBar()));
+                                      },
+                                      child: Text('Continiue Shopping'),
+                                    ),
+                                  ],
                                 ),
-                                title: const Text('Congratulations!!'),
-                                content: const Text(
-                                    'Yor payment has been confirmed'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ShippingTabBar(iniIndex: 2)));
-                                    },
-                                    child: Text('Ok'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      Navigator.pop(context);
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CustomNavigationBar()));
-                                    },
-                                    child: Text('Continiue Shopping'),
-                                  ),
-                                ],
-                              ),
-                            );
-                          });
-                      setState(() {
-                        loading = false;
+                              );
+                            });
+                        setState(() {
+                          loading = false;
+                        });
+                      }).onError((error, stackTrace) {
+                        setState(() {
+                          loading = false;
+                        });
+                        Utils.flutterToast(error.toString());
                       });
-                    }).onError((error, stackTrace) {
-                      setState(() {
-                        loading = false;
-                      });
-                      Utils.flutterToast(error.toString());
-                    });
-                    print('***************** ${widget.productUid.toString()}');
+                      print(
+                          '***************** ${widget.productUid.toString()}');
+                    }
                   },
                   btnText: 'Confirm Payment',
                   btnColor: Colors.blue)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+///***********************************************************************
+///***********************************************************************
+///***********************************************************************
+///***********************    Debit Card Screen   ************************
+///***********************************************************************
+///***********************************************************************
+///***********************************************************************
+
+class DebitCardScreen extends StatefulWidget {
+  DebitCardScreen({Key? key}) : super(key: key);
+
+  @override
+  State<DebitCardScreen> createState() => _DebitCardScreenState();
+}
+
+class _DebitCardScreenState extends State<DebitCardScreen> {
+  final TextEditingController _cvcController = TextEditingController();
+
+  final TextEditingController _expiryController = TextEditingController();
+
+  final TextEditingController _cardNumberController = TextEditingController();
+
+  var myFormKey = GlobalKey<FormState>();
+
+  bool waiting = false;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text('Online Payment'),
+        centerTitle: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(20),
+          ),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(22.0),
+        child: Form(
+          key: myFormKey,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              AppWidgets().myTextFormField(
+                fillColor: Colors.grey.shade400,
+                labelColor: Colors.black,
+                borderSideColor: Colors.black,
+                hintColor: Colors.grey.shade700,
+                textColor: Colors.black,
+                hintText: 'Enter your Card Number',
+                myType: TextInputType.number,
+                labelText: 'Card Number',
+                controller: _cardNumberController,
+                validator: (String? txt) {
+                  // bool emailValid =
+                  //     RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                  //         .hasMatch(txt!);
+                  if (txt == null || txt.isEmpty) {
+                    return "Please provide your Card Number";
+                  }
+                  if (txt.length == 16) {
+                    return null;
+                  }
+                  return "Your Card Number is Wrong";
+                },
+              ),
+              SizedBox(
+                height: 11,
+              ),
+              AppWidgets().myTextFormField(
+                fillColor: Colors.grey.shade400,
+                labelColor: Colors.black,
+                borderSideColor: Colors.black,
+                hintColor: Colors.grey.shade700,
+                textColor: Colors.black,
+                hintText: 'dd/mm/yy',
+                myType: TextInputType.datetime,
+                labelText: 'Card Expiry',
+                controller: _expiryController,
+                validator: (String? txt) {
+                  // bool emailValid =
+                  //     RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                  //         .hasMatch(txt!);
+                  if (txt == null || txt.isEmpty) {
+                    return "Please provide Card Expiry";
+                  }
+                  if (txt.length == 6) {
+                    return null;
+                  }
+                  if (txt.length == 8) {
+                    return null;
+                  }
+                  return "Your Card Expiry is Wrong";
+                },
+              ),
+              SizedBox(
+                height: 11,
+              ),
+              AppWidgets().myTextFormField(
+                fillColor: Colors.grey.shade400,
+                labelColor: Colors.black,
+                borderSideColor: Colors.black,
+                hintColor: Colors.grey.shade700,
+                textColor: Colors.black,
+                hintText: 'Enter CVC Number',
+                myType: TextInputType.number,
+                labelText: 'Card CVC',
+                controller: _cvcController,
+                validator: (String? txt) {
+                  // bool emailValid =
+                  //     RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                  //         .hasMatch(txt!);
+                  if (txt == null || txt.isEmpty) {
+                    return "Please provide Card CVC Number";
+                  }
+                  if (txt.length == 3) {
+                    return null;
+                  }
+                  return "Your Card CVC Number is Wrong";
+                },
+              ),
+              Spacer(),
+              AppWidgets().myElevatedBTN(
+                  loading: waiting,
+                  onPressed: () async {
+                    if (myFormKey.currentState!.validate()) {
+                      setState(() {
+                        waiting = true;
+                      });
+                      await Future.delayed(Duration(seconds: 3));
+                      Navigator.pop(context);
+                      Utils.flutterToast('Sorry, Process is Denied');
+                    }
+                  },
+                  btnText: 'Submit')
             ],
           ),
         ),

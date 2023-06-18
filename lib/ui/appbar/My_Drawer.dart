@@ -183,6 +183,31 @@ class _MyDrawerState extends State<MyDrawer> {
                 ],
               ),
             ),
+            // Container(
+            //   margin: EdgeInsets.symmetric(horizontal: 22, vertical: 5),
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.all(Radius.circular(20)),
+            //     border: Border.all(
+            //       color: Colors.white,
+            //     ),
+            //     color: Colors.black,
+            //   ),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //     children: [
+            //       Text(
+            //         'Switch to seller',
+            //         style: TextStyle(
+            //           color: AppColors.drawerTextColor,
+            //         ),
+            //       ),
+            //       Switch(
+            //         value: _yes,
+            //         onChanged: (bool newValue) {},
+            //       ),
+            //     ],
+            //   ),
+            // ),
             ListTile(
               textColor: AppColors.drawerTextColor,
               iconColor: AppColors.drawerIconColor,

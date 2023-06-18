@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
@@ -12,6 +13,7 @@ import 'package:mobidthrift/ui/appbar/My_appbar.dart';
 import 'package:mobidthrift/utils/utils.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 class ProductPage extends StatefulWidget {
@@ -576,6 +578,35 @@ class _ProductPageState extends State<ProductPage> {
                         },
                         btnText: '❤ Add to wish list',
                         btnColor: AppColors.buttonColorBlue),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                            onPressed: () async {
+                              final dynamicLinkParameters =
+                                  DynamicLinkParameters(
+                                      link: Uri.parse(
+                                          'https://mobidthrift.com/${widget.productCollectionName}/${widget.productUid}'),
+                                      uriPrefix:
+                                          'https://mobidthrift.page.link',
+                                      androidParameters: AndroidParameters(
+                                        packageName:
+                                            'com.mobidthrift.ecommerce.mobidthrift',
+                                      ),
+                                      iosParameters: IOSParameters(
+                                        bundleId:
+                                            'com.mobidthrift.ecommerce.mobidthrift',
+                                      ));
+
+                              Uri link = await FirebaseDynamicLinks.instance
+                                  .buildLink(dynamicLinkParameters);
+                              // Use the deepLink variable wherever you want to provide the link to the user
+                              print(link.toString());
+                              Share.share(link.toString());
+                            },
+                            icon: Icon(Icons.share)),
+                      ],
+                    ),
                     AppWidgets().myHeading2Text('Discription: '),
                     AppWidgets()
                         .myNormalText('     ${widget.productDescription}'),

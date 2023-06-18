@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/Cart_Provider.dart';
 import '../../utils/utils.dart';
+import '../deep_linking/dynamic_link_Product_page.dart';
 
 class WishList extends StatefulWidget {
   const WishList({Key? key}) : super(key: key);
@@ -40,25 +41,16 @@ class _WishListState extends State<WishList> {
                       ),
                       child: GestureDetector(
                           onTap: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => ProductPageOfCart(
-                            //               cartName: data.cartName.toString(),
-                            //               cartCurrentBid: data.cartCurrentBid,
-                            //               cartDescription:
-                            //                   data.cartDescription.toString(),
-                            //               cartUid: data.cartUid.toString(),
-                            //               cartImage1:
-                            //                   data.cartImage1.toString(),
-                            //               cartShipping: data.cartShipping,
-                            //               cartPrice: data.cartPrice,
-                            //               cartPTAApproved: data.cartPTAApproved,
-                            //               cartShopkeeperUid:
-                            //                   data.cartShopkeeperUid,
-                            //               cartSpecification:
-                            //                   data.cartSpecification,
-                            //             )));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        DynamicLinkProductPage(
+                                          productDocumentId:
+                                              data.cartUid.toString(),
+                                          productCollectionName:
+                                              data.cartCollectionName,
+                                        )));
                           },
                           child: Stack(
                             children: [
@@ -103,13 +95,13 @@ class _WishListState extends State<WishList> {
                                                 fontWeight: FontWeight.bold),
                                           )),
                                           SizedBox(
-                                            height: 2,
+                                            height: 5,
                                           ),
-                                          Text(
-                                            data.cartDescription.toString(),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
+                                          // Text(
+                                          //   data.cartDescription.toString(),
+                                          //   maxLines: 1,
+                                          //   overflow: TextOverflow.ellipsis,
+                                          // ),
                                           Row(
                                             children: [
                                               Text('Price: '),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobidthrift/providers/Cart_Provider.dart';
 import 'package:mobidthrift/providers/Product_Provider.dart';
 import 'package:mobidthrift/providers/Wish_List_Provider.dart';
+import 'package:mobidthrift/providers/all_users_provider.dart';
 import 'package:mobidthrift/providers/chats_provider.dart';
 import 'package:mobidthrift/providers/followers_provider.dart';
 import 'package:mobidthrift/providers/seller_provider.dart';
@@ -58,6 +59,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => SoldProductsProvider()),
         ChangeNotifierProvider(create: (_) => ChatsProvider()),
         ChangeNotifierProvider(create: (_) => FollowersProvider()),
+        ChangeNotifierProvider(create: (_) => AllUsersProvider()),
       ],
       child: MaterialApp(
         title: 'Mobid Thrift',

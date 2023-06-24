@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/ui/login/Forgot_password_page.dart';
 import 'package:mobidthrift/ui/login/Signup_page.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/App_texts.dart';
+import '../../providers/all_users_provider.dart';
 import '../../utils/utils.dart';
 import '../bottom_navigation_bar.dart';
 import 'Verify_Page.dart';
@@ -36,8 +38,20 @@ class _LoginPageState extends State<LoginPage> {
     _passwordController.dispose();
   }
 
+  AllUsersProvider usersProvider = AllUsersProvider();
+
+  @override
+  void initState() {
+    AllUsersProvider userProvider = Provider.of(context, listen: false);
+    userProvider.getUsersData();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    usersProvider = Provider.of(context);
+    usersProvider.getUsersData();
     Future<bool> showExitPopup() async {
       return await showDialog(
             context: context,
@@ -173,9 +187,15 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             AppWidgets().myElevatedBTN(
                                 loading: _loading,
-                                onPressed: () {
+                                onPressed: () async {
                                   if (_myFormKey.currentState!.validate()) {
-                                    myLogin();
+                                    if (await checkEmailInDocuments(
+                                        _emailController.text)) {
+                                      myLogin();
+                                    } else {
+                                      Utils.flutterToast(
+                                          'The Email ${_emailController.text} data is Not found as a user');
+                                    }
                                   }
                                 },
                                 btnText: 'Login'),
@@ -208,6 +228,31 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  /// checkEmailInDocuments
+
+  Future<bool> checkEmailInDocuments(String email) async {
+    bool emailFound = false;
+
+    for (var document in usersProvider.getUsersDataList) {
+      // Assuming the email field is called 'email' within each document
+      String userEmail = email;
+
+      if (userEmail == document.email) {
+        print('Email found in document: ${userEmail}');
+        emailFound = true;
+        // Do additional actions if needed
+        break;
+      }
+    }
+
+    if (!emailFound) {
+      print('Email not found in any document.');
+      // Perform alternative actions or show appropriate message
+    }
+    return emailFound;
+  }
+
+  /// myLogin
   myLogin() {
     setState(() {
       _loading = true;

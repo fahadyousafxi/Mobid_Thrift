@@ -43,7 +43,6 @@ class _MyDrawerState extends State<MyDrawer> {
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser?.uid)
       .get();
-
   File? pickedImage;
   bool showLocalImage = false;
   pickImageFrom(ImageSource fromGalleryOrCamera) async {

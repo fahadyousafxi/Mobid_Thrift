@@ -5,9 +5,9 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-import 'package:mobidthrift/chat_module/Chating/chats.dart';
 import 'package:mobidthrift/ui/shipping/main_page.dart';
 
+import '../Chating/chats.dart';
 import 'My_Home_Page.dart';
 import 'deep_linking/dynamic_link_Product_page.dart';
 import 'deep_linking/dynamic_link_Product_page_for_gust.dart';

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobidthrift/chat_module/Chating/chat_room.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
 import 'package:mobidthrift/ui/Extra_Pages/sellers_reviews_page.dart';
 import 'package:mobidthrift/ui/Seller_Shop_Products.dart';
@@ -10,6 +9,7 @@ import 'package:mobidthrift/ui/appbar/My_appbar.dart';
 import 'package:mobidthrift/utils/utils.dart';
 import 'package:ndialog/ndialog.dart';
 
+import '../Chating/chat_room.dart';
 import '../constants/App_widgets.dart';
 import '../utils/guest_direction_to_login.dart';
 
@@ -52,17 +52,29 @@ class _SellerProfileState extends State<SellerProfile> {
   late bool uidExists;
   bool loading = false;
 
+  /// old function
+  // String chatRoomId(String user1Uid, String user2Uid) {
+  //   if (user1Uid[0].toLowerCase().codeUnits[0] >
+  //       user2Uid[0].toLowerCase().codeUnits[0]) {
+  //     return '${user1Uid.toString().substring(0, 6)}${user2Uid.toString().substring(0, 6)}';
+  //   }
+  //   // else if (user1Uid[0].toLowerCase().codeUnits[0] ==
+  //   //     user2Uid[0].toLowerCase().codeUnits[0]) {
+  //   //   return '${user1Uid.toString().substring(0, 6)}${user2Uid.toString().substring(0, 6)}equal';
+  //   // }
+  //   else {
+  //     return '${user2Uid.toString().substring(0, 6)}${user1Uid.toString().substring(0, 6)}';
+  //   }
+  // }
+
+  /// New function
+
   String chatRoomId(String user1Uid, String user2Uid) {
     if (user1Uid[0].toLowerCase().codeUnits[0] >
         user2Uid[0].toLowerCase().codeUnits[0]) {
-      return '${user1Uid.toString().substring(0, 6)}${user2Uid.toString().substring(0, 6)}';
-    }
-    // else if (user1Uid[0].toLowerCase().codeUnits[0] ==
-    //     user2Uid[0].toLowerCase().codeUnits[0]) {
-    //   return '${user1Uid.toString().substring(0, 6)}${user2Uid.toString().substring(0, 6)}equal';
-    // }
-    else {
-      return '${user2Uid.toString().substring(0, 6)}${user1Uid.toString().substring(0, 6)}';
+      return '${user1Uid.toString().substring(0, 10)}${user2Uid.toString().substring(0, 10)}';
+    } else {
+      return '${user2Uid.toString().substring(0, 10)}${user1Uid.toString().substring(0, 10)}';
     }
   }
 
@@ -96,40 +108,106 @@ class _SellerProfileState extends State<SellerProfile> {
                     .collection('ChatUsers')
                     .doc(roomId)
                     .set({
-                  'buyerName': _auth?.displayName.toString(),
-                  'sellerName': widget.name,
-                  'sellerUid': widget.uId,
-                  'buyerUid': _auth?.uid,
-                  'buyerPhoto': _auth?.photoURL,
-                  'sellerPhoto': '${widget.profileImage}',
+                  // 'buyerName': _auth?.displayName.toString(),
+                  'adminName': widget.name,
+                  'adminUid': widget.uId.toString(),
+                  'userUid': _auth?.uid,
+                  // 'userPhoto': _auth?.photoURL,
+                  'sellerPhoto': widget.profileImage,
+                  // 'sellerPhoto': '${widget.profileImage}',
                   'roomUId': roomId,
                   'userEmail': _auth?.email,
-                  'sellerEmail': widget.email
+                  'adminEmail': widget.email
                 });
+
+                _fireStoreInstance
+                    .collection('SellerCenterUsers')
+                    .doc(widget.uId.toString())
+                    .collection('ChatUsers')
+                    .doc(roomId)
+                    .set({
+                  // 'sellerName': _firebaseAuth.currentUser?.displayName.toString(),
+                  'adminName': _auth?.displayName,
+                  'adminUid': _auth?.uid,
+                  'userUid': widget.uId,
+                  'userPhoto': _auth?.photoURL,
+                  // 'sellerPhoto': widget.profileImage,
+                  'roomUId': roomId,
+                  'userEmail': widget.email,
+                  'adminEmail': _auth?.email,
+                  'seenMessage': true,
+                  'lastMessage': '',
+                  // 'sellerEmail': _firebaseAuth.currentUser?.email
+                });
+
                 _fireStoreInstance.collection('ChatRoom').doc(roomId).set({
-                  'buyerName': _auth?.displayName.toString(),
-                  'sellerName': widget.name,
-                  'sellerUid': widget.uId,
-                  'buyerUid': _auth?.uid,
-                  'buyerPhoto': _auth?.photoURL,
-                  'sellerPhoto': '${widget.profileImage}',
+                  'userName': _auth?.displayName.toString(),
+                  'adminName': widget.name,
+                  'adminUid': widget.uId,
+                  'userUid': _auth?.uid,
+                  'userPhoto': _auth?.photoURL,
+                  'roomUId': roomId,
                   'userEmail': _auth?.email,
-                  'sellerEmail': widget.email
+                  'adminEmail': widget.email,
+                  'seenMessage': true,
+                  'lastMessage': '',
+                }).then((value) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChatRoom(
+                              chatRoomId: roomId,
+                              receiverEmail: widget.email,
+                              receiverUid: widget.uId,
+                              receiverPhoto: widget.profileImage.toString(),
+                              receiverName: widget.name,
+                            )),
+                  );
+                }).onError((error, stackTrace) {
+                  Utils.flutterToast(error.toString());
                 });
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChatRoom(
-                      chatRoomId: roomId,
-                      sellerEmail: widget.email,
-                      sellerName: widget.name, sellerUid: widget.uId,
-                      sellerPhoto: '${widget.profileImage}',
-                      // name: widget.name,
-                      // uId: widget.uId,
-                      // key: widget.key,
-                    ),
-                  ),
-                );
+
+                // String roomId = chatRoomId(_auth!.uid, widget.uId.toString());
+                // _fireStoreInstance
+                //     .collection('users')
+                //     .doc(_auth!.uid)
+                //     .collection('ChatUsers')
+                //     .doc(roomId)
+                //     .set({
+                //   'buyerName': _auth?.displayName.toString(),
+                //   'sellerName': widget.name,
+                //   'sellerUid': widget.uId,
+                //   'buyerUid': _auth?.uid,
+                //   'buyerPhoto': _auth?.photoURL,
+                //   'sellerPhoto': '${widget.profileImage}',
+                //   'roomUId': roomId,
+                //   'userEmail': _auth?.email,
+                //   'sellerEmail': widget.email
+                // });
+                // _fireStoreInstance.collection('ChatRoom').doc(roomId).set({
+                //   'buyerName': _auth?.displayName.toString(),
+                //   'sellerName': widget.name,
+                //   'sellerUid': widget.uId,
+                //   'buyerUid': _auth?.uid,
+                //   'buyerPhoto': _auth?.photoURL,
+                //   'sellerPhoto': '${widget.profileImage}',
+                //   'userEmail': _auth?.email,
+                //   'sellerEmail': widget.email
+                // });
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => ChatRoom(
+                //       chatRoomId: roomId,
+                //       sellerEmail: widget.email,
+                //       sellerName: widget.name, sellerUid: widget.uId,
+                //       sellerPhoto: '${widget.profileImage}',
+                //       // name: widget.name,
+                //       // uId: widget.uId,
+                //       // key: widget.key,
+                //     ),
+                //   ),
+                // );
               },
               icon: Icon(
                 Icons.chat,

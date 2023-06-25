@@ -7,7 +7,6 @@ import 'package:mobidthrift/constants/App_colors.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/providers/Cart_Provider.dart';
 import 'package:mobidthrift/providers/Wish_List_Provider.dart';
-import 'package:mobidthrift/providers/seller_provider.dart';
 import 'package:mobidthrift/ui/Seller_Profile.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
 import 'package:mobidthrift/utils/utils.dart';
@@ -75,7 +74,7 @@ class _ProductPageState extends State<ProductPage> {
 
   CartProvider cartProvider = CartProvider();
   WishListProvider wishListProvider = WishListProvider();
-  SellerProvider _sellerProvider = SellerProvider();
+  // SellerProvider _sellerProvider = SellerProvider();
 
   var currentBid = 0;
   var myBid = 0;
@@ -89,9 +88,9 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   void initState() {
-    SellerProvider sellerProviders = Provider.of(context, listen: false);
+    // SellerProvider sellerProviders = Provider.of(context, listen: false);
 
-    sellerProviders.getSellerData(widget.productShopkeeperUid.toString());
+    // sellerProviders.getSellerData(widget.productShopkeeperUid.toString());
 
     super.initState();
   }
@@ -99,7 +98,7 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     final _fireStoreSnapshot = FirebaseFirestore.instance;
-    _sellerProvider = Provider.of(context);
+    // _sellerProvider = Provider.of(context);
     // _sellerProvider.getSellerData(widget.productShopkeeperUid.toString());
 
     cartProvider = Provider.of(context);

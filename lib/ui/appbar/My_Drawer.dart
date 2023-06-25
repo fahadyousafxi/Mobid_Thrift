@@ -5,12 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobidthrift/chat_module/Chating/chats.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/ui/Profile_Screen.dart';
 import 'package:mobidthrift/ui/login/Signup_page.dart';
 import 'package:ndialog/ndialog.dart';
 
+import '../../Chating/chats.dart';
 import '../../constants/App_colors.dart';
 import '../../utils/guest_direction_to_login.dart';
 import '../../utils/utils.dart';

@@ -5,10 +5,12 @@ import 'package:provider/provider.dart';
 
 import '../../providers/Cart_Provider.dart';
 import '../../utils/utils.dart';
+import '../appbar/My_appbar.dart';
 import '../deep_linking/dynamic_link_Product_page.dart';
 
 class WishList extends StatefulWidget {
-  const WishList({Key? key}) : super(key: key);
+  final bool? appBar;
+  const WishList({Key? key, this.appBar = false}) : super(key: key);
 
   @override
   State<WishList> createState() => _WishListState();
@@ -23,7 +25,10 @@ class _WishListState extends State<WishList> {
     cartProvider = Provider.of(context);
     cartProvider.getWishListData();
     return Scaffold(
-      // appBar: MyAppbar().mySimpleAppBar(context, title: 'Your Cart'),
+      appBar: widget.appBar == true
+          ? MyAppbar()
+              .mySimpleAppBar(context, title: 'My Wishlist', showCart: false)
+          : null,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

@@ -204,8 +204,12 @@ class _MainPageState extends State<MainPage> {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => WishList()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WishList(
+                                    appBar: true,
+                                  )));
                     },
                     child: myContainer(
                         number: cartProvider.getWishListDataList.length,

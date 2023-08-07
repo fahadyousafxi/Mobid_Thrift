@@ -305,7 +305,7 @@ class _ToBeReviewedState extends State<ToBeReviewed> {
                                                                                 context,
                                                                                 MaterialPageRoute(
                                                                                     builder: (context) => ReviewPage(
-                                                                                          reviews: snapshot.data!['Total_Review_Rating'],
+                                                                                          reviews: double.parse(snapshot.data!['Total_Review_Rating'].toString()),
                                                                                           totalNoOfReviews: snapshot.data!['Total_Number_of_Reviews'],
                                                                                           sellerUid: data.cartShopkeeperUid,
                                                                                           cartUid: data.cartUid,

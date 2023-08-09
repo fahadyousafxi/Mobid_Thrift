@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/ui/Product_page.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
@@ -18,6 +19,8 @@ class MoreSmartWatches extends StatefulWidget {
 class _MoreSmartWatchesState extends State<MoreSmartWatches> {
   ProductsProvider cellPhonesProductProvider = ProductsProvider();
 
+  int currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+  var f = NumberFormat('00', 'en_US');
   @override
   void initState() {
     ProductsProvider cellPhonesProductProvider =
@@ -154,9 +157,18 @@ class _MoreSmartWatchesState extends State<MoreSmartWatches> {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                Text(
-                                    'Rs.${data.productCurrentBid.toString()}  is current bid '),
-                                Text('1 Day time left '),
+                                data.isStartingBid == true
+                                    ? Text(
+                                        'Rs.${data.productCurrentBid.toString()}  is current bid ')
+                                    : SizedBox(),
+                                data.isStartingBid == false
+                                    ? Text('Not on Auction')
+                                    : (data.bidEndTimeInSeconds! -
+                                                currentTime) >=
+                                            0
+                                        ? Text(
+                                            '${((data.bidEndTimeInSeconds! - currentTime) ~/ 86400)}Days  ${f.format(((data.bidEndTimeInSeconds! - currentTime) % 86400) ~/ 3600)}hr time left ')
+                                        : Text('Time Up')
                               ],
                             ),
                           )),

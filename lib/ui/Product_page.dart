@@ -475,6 +475,8 @@ class _ProductPageState extends State<ProductPage> {
                                     cartName: widget.productName,
                                     cartCurrentBid: currentBid,
                                     cartUid: widget.productUid,
+                                    cartCollectionName:
+                                        widget.productCollectionName,
                                   );
                                   await FirebaseFirestore.instance
                                       .collection(widget.productCollectionName

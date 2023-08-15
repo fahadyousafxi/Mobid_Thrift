@@ -25,6 +25,7 @@ class DynamicLinkProductPage extends StatefulWidget {
   // String? productImage6;
   String? productCollectionName;
   String? productDocumentId;
+  bool? backToSplash;
   // String? productName;
   // String? productDescription;
   // String? productSpecification;
@@ -49,6 +50,7 @@ class DynamicLinkProductPage extends StatefulWidget {
       // this.productImage6,
       required this.productDocumentId,
       required this.productCollectionName,
+      this.backToSplash,
       // this.productName,
       // this.productDescription,
       // this.productSpecification,
@@ -109,14 +111,18 @@ class _DynamicLinkProductPageState extends State<DynamicLinkProductPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SplashScreen(
-                            path: null,
-                          )));
-            },
+            onPressed: widget.backToSplash == false
+                ? () {
+                    Navigator.pop(context);
+                  }
+                : () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SplashScreen(
+                                  path: null,
+                                )));
+                  },
             icon: Icon(Icons.arrow_back_ios_new)),
         backgroundColor: Colors.black,
         title: const Text("MobidThrift"),

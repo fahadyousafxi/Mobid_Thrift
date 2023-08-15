@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobidthrift/providers/Cart_Provider.dart';
+import 'package:mobidthrift/ui/deep_linking/dynamic_link_Product_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/utils.dart';
-import '../Product_Page_of_Cart.dart';
 
 class YourBidding extends StatefulWidget {
   const YourBidding({Key? key}) : super(key: key);
@@ -52,22 +52,33 @@ class _YourBiddingState extends State<YourBidding> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ProductPageOfCart(
-                                          cartName: data.cartName.toString(),
-                                          cartCurrentBid: data.cartCurrentBid,
-                                          cartDescription:
-                                              data.cartDescription.toString(),
-                                          cartUid: data.cartUid.toString(),
-                                          cartImage1:
-                                              data.cartImage1.toString(),
-                                          cartShipping: data.cartShipping,
-                                          cartPrice: data.cartPrice,
-                                          cartPTAApproved: data.cartPTAApproved,
-                                          cartShopkeeperUid:
-                                              data.cartShopkeeperUid,
-                                          cartSpecification:
-                                              data.cartSpecification,
+                                    builder: (context) =>
+                                        DynamicLinkProductPage(
+                                          productDocumentId:
+                                              data.cartUid.toString(),
+                                          productCollectionName:
+                                              data.cartCollectionName,
+                                          backToSplash: false,
                                         )));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => ProductPageOfCart(
+                            //               cartName: data.cartName.toString(),
+                            //               cartCurrentBid: data.cartCurrentBid,
+                            //               cartDescription:
+                            //                   data.cartDescription.toString(),
+                            //               cartUid: data.cartUid.toString(),
+                            //               cartImage1:
+                            //                   data.cartImage1.toString(),
+                            //               cartShipping: data.cartShipping,
+                            //               cartPrice: data.cartPrice,
+                            //               cartPTAApproved: data.cartPTAApproved,
+                            //               cartShopkeeperUid:
+                            //                   data.cartShopkeeperUid,
+                            //               cartSpecification:
+                            //                   data.cartSpecification,
+                            //             )));
                           },
                           child: Stack(
                             children: [

@@ -42,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     ProductsProvider productsProvider = Provider.of(context, listen: false);
+    productsProvider.searchProductsList.clear();
     productsProvider.fitchCellPhonesProducts();
     productsProvider.fitchPadsTabletsProducts();
     productsProvider.fitchLaptopsProducts();

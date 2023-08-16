@@ -50,16 +50,19 @@ class _WishListState extends State<WishList> {
                             ),
                             child: GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              DynamicLinkProductPage(
-                                                productDocumentId:
-                                                    data.cartUid.toString(),
-                                                productCollectionName:
-                                                    data.cartCollectionName,
-                                              )));
+                                  if (data.cartCollectionName != null) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                DynamicLinkProductPage(
+                                                  productDocumentId:
+                                                      data.cartUid.toString(),
+                                                  productCollectionName:
+                                                      data.cartCollectionName,
+                                                  backToSplash: false,
+                                                )));
+                                  }
                                 },
                                 child: Stack(
                                   children: [

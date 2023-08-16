@@ -49,17 +49,19 @@ class _YourBiddingState extends State<YourBidding> {
                       ),
                       child: GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        DynamicLinkProductPage(
-                                          productDocumentId:
-                                              data.cartUid.toString(),
-                                          productCollectionName:
-                                              data.cartCollectionName,
-                                          backToSplash: false,
-                                        )));
+                            if (data.cartCollectionName != null) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DynamicLinkProductPage(
+                                            productDocumentId:
+                                                data.cartUid.toString(),
+                                            productCollectionName:
+                                                data.cartCollectionName,
+                                            backToSplash: false,
+                                          )));
+                            }
                             // Navigator.push(
                             //     context,
                             //     MaterialPageRoute(

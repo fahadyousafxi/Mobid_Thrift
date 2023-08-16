@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mobidthrift/models/Product_Model.dart';
 import 'package:mobidthrift/providers/Product_Provider.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
@@ -30,12 +31,24 @@ class _SearchPageState extends State<SearchPage> {
   //   return searchingItem;
   // }
   searchItem(String query) {
-    List<ProductModel> searchingItem =
-        productsProvider.getSearchProductsList.where((element) {
-      return element.productName!.toLowerCase().contains(query);
-    }).toList();
+    List<ProductModel> searchingItem = productsProvider.getSearchProductsList
+        .where((element) {
+          return element.productName!.toLowerCase().contains(query);
+        })
+        .toList()
+        .where((element) {
+          return element.productPTAApproved != ptaNotApproved ||
+              element.productPTAApproved != ptaApproved;
+        })
+        .toList();
     return searchingItem;
   }
+
+  bool ptaApproved = true;
+  bool ptaNotApproved = false;
+
+  var f = NumberFormat('00', 'en_US');
+  int currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
   @override
   void initState() {
@@ -78,7 +91,55 @@ class _SearchPageState extends State<SearchPage> {
               style: TextStyle(fontSize: 16),
             ),
           ),
-          // SizedBox(height: 11,),
+          SizedBox(
+            height: 11,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    ptaNotApproved = !ptaNotApproved;
+                    ptaApproved = true;
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: ptaNotApproved == false
+                          ? Colors.grey
+                          : Colors.redAccent.withOpacity(0.7),
+                      borderRadius: BorderRadius.circular(22)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(child: Text('PTA Not Approved')),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 11,
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    ptaApproved = !ptaApproved;
+                    ptaNotApproved = false;
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: ptaApproved == true
+                          ? Colors.grey
+                          : Colors.greenAccent.withOpacity(0.7),
+                      borderRadius: BorderRadius.circular(22)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(child: Text('PTA Approved')),
+                  ),
+                ),
+              ),
+            ],
+          ),
           productsProvider.getCellPhonesProductsList.isEmpty
               ? Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -203,9 +264,18 @@ class _SearchPageState extends State<SearchPage> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    Text(
-                                        'Rs.${data.productCurrentBid.toString()}  is current bid '),
-                                    Text('1 Day time left '),
+                                    data.isStartingBid == true
+                                        ? Text(
+                                            'Rs.${data.productCurrentBid.toString()}  is current bid ')
+                                        : SizedBox(),
+                                    data.isStartingBid == false
+                                        ? Text('Not on Auction')
+                                        : (data.bidEndTimeInSeconds! -
+                                                    currentTime) >=
+                                                0
+                                            ? Text(
+                                                '${((data.bidEndTimeInSeconds! - currentTime) ~/ 86400)}Days  ${f.format(((data.bidEndTimeInSeconds! - currentTime) % 86400) ~/ 3600)}hr time left ')
+                                            : Text('Time Up')
                                   ],
                                 ),
                               )),

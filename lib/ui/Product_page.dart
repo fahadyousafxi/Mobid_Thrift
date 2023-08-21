@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -6,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:mobidthrift/constants/App_colors.dart';
 import 'package:mobidthrift/constants/App_widgets.dart';
 import 'package:mobidthrift/providers/Cart_Provider.dart';
+import 'package:mobidthrift/providers/Product_Provider.dart';
 import 'package:mobidthrift/providers/Wish_List_Provider.dart';
 import 'package:mobidthrift/ui/Seller_Profile.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
@@ -93,6 +96,104 @@ class _ProductPageState extends State<ProductPage> {
     // sellerProviders.getSellerData(widget.productShopkeeperUid.toString());
 
     super.initState();
+  }
+
+  void changingBidding(var yourBid) {
+    ProductsProvider productsProvider = Provider.of(context, listen: false);
+    productsProvider.searchProductsList.clear();
+    productsProvider.fitchCellPhonesProducts();
+    productsProvider.fitchPadsTabletsProducts();
+    productsProvider.fitchLaptopsProducts();
+    productsProvider.fitchSmartWatchesProducts();
+    productsProvider.fitchDesktopsProducts();
+    productsProvider.fitchAccessoriesProducts();
+    productsProvider.fitchPartsProducts();
+    log('********************   changingBidding ');
+    // if (widget.productCollectionName == 'CellPhonesProducts') {
+    //   for (int i = 0;
+    //       i < ProductsProvider().cellPhonesProductsList.length;
+    //       i++) {
+    //     if (ProductsProvider().cellPhonesProductsList[i].productUid ==
+    //         widget.productUid) {
+    //       ProductsProvider().cellPhonesProductsList[i].productCurrentBid =
+    //           yourBid;
+    //       break; // Stop the loop once the item is found and updated
+    //     }
+    //   }
+    // } else if (widget.productCollectionName == 'SmartWatches') {
+    //   for (int i = 0;
+    //       i < ProductsProvider().smartWatchesProductsList.length;
+    //       i++) {
+    //     if (ProductsProvider().smartWatchesProductsList[i].productUid ==
+    //         widget.productUid) {
+    //       ProductsProvider().smartWatchesProductsList[i].productCurrentBid =
+    //           yourBid;
+    //       break; // Stop the loop once the item is found and updated
+    //     }
+    //   }
+    // } else if (widget.productCollectionName == 'PadsAndTabletsProducts') {
+    //   for (int i = 0;
+    //       i < ProductsProvider().padsTabletsProductsList.length;
+    //       i++) {
+    //     if (ProductsProvider().padsTabletsProductsList[i].productUid ==
+    //         widget.productUid) {
+    //       ProductsProvider().padsTabletsProductsList[i].productCurrentBid =
+    //           yourBid;
+    //       break; // Stop the loop once the item is found and updated
+    //     }
+    //   }
+    // } else if (widget.productCollectionName == 'LaptopsProducts') {
+    //   for (int i = 0; i < ProductsProvider().laptopsProductsList.length; i++) {
+    //     if (ProductsProvider().laptopsProductsList[i].productUid ==
+    //         widget.productUid) {
+    //       ProductsProvider().laptopsProductsList[i].productCurrentBid = yourBid;
+    //       break; // Stop the loop once the item is found and updated
+    //     }
+    //   }
+    // } else if (widget.productCollectionName == 'Desktops') {
+    //   for (int i = 0; i < ProductsProvider().desktopsProductsList.length; i++) {
+    //     if (ProductsProvider().desktopsProductsList[i].productUid ==
+    //         widget.productUid) {
+    //       ProductsProvider().desktopsProductsList[i].productCurrentBid =
+    //           yourBid;
+    //       break; // Stop the loop once the item is found and updated
+    //     }
+    //   }
+    // } else if (widget.productCollectionName == 'Parts') {
+    //   log('**** Parts **');
+    //   ProductsProvider().partsProductsList.clear();
+    //   for (int i = 0; i < ProductsProvider().partsProductsList.length; i++) {
+    //     if (ProductsProvider().partsProductsList[i].productUid.toString() ==
+    //         widget.productUid.toString()) {
+    //       log('**** Parts Uid = uid');
+    //       ProductsProvider().partsProductsList[i].productCurrentBid = yourBid;
+    //       break; // Stop the loop once the item is found and updated
+    //     }
+    //   }
+    // } else if (widget.productCollectionName == 'Accessories') {
+    //   for (int i = 0;
+    //       i < ProductsProvider().accessoriesProductsList.length;
+    //       i++) {
+    //     if (ProductsProvider().accessoriesProductsList[i].productUid ==
+    //         widget.productUid) {
+    //       ProductsProvider().accessoriesProductsList[i].productCurrentBid =
+    //           yourBid;
+    //       break; // Stop the loop once the item is found and updated
+    //     }
+    //   }
+    // } else {
+    //   log('no collection pound');
+    // }
+    //
+    // for (int i = 0; i < ProductsProvider().searchProductsList.length; i++) {
+    //   if (ProductsProvider().searchProductsList[i].productUid ==
+    //       widget.productUid) {
+    //     ProductsProvider().searchProductsList[i].productCurrentBid = yourBid;
+    //     break; // Stop the loop once the item is found and updated
+    //   }
+    // }
+
+    ///
   }
 
   @override
@@ -490,6 +591,7 @@ class _ProductPageState extends State<ProductPage> {
                                   }).then((value) {
                                     progressDialog2.dismiss();
                                     Utils.flutterToast('Your Bid is Created!');
+                                    changingBidding(currentBid);
                                   });
                                 } catch (e) {
                                   progressDialog2.dismiss();

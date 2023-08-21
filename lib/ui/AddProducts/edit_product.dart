@@ -15,15 +15,18 @@ import '../../utils/utils.dart';
 import '../Trade_Your_Product.dart';
 import '../appbar/My_appbar.dart';
 
-class AddProduct extends StatefulWidget {
+class EditProduct extends StatefulWidget {
   var productCollectionName;
-  AddProduct({required this.productCollectionName, Key? key}) : super(key: key);
+  String productUid;
+  EditProduct(
+      {required this.productCollectionName, required this.productUid, Key? key})
+      : super(key: key);
 
   @override
-  State<AddProduct> createState() => _AddProductState();
+  State<EditProduct> createState() => _EditProductState();
 }
 
-class _AddProductState extends State<AddProduct> {
+class _EditProductState extends State<EditProduct> {
   final ImagePicker _picker = ImagePicker();
   List<XFile> _selectedFiles = [];
   FirebaseStorage _storageRef = FirebaseStorage.instance;
@@ -422,16 +425,14 @@ class _AddProductState extends State<AddProduct> {
                               setState(() {
                                 progressDialog.show();
                               });
-                              var docUid = DateTime.now()
-                                  .millisecondsSinceEpoch
-                                  .toString();
+                              var docUid = widget.productUid;
 
                               _fireStore
                                   .collection('TradeInProducts')
                                   .doc('FrY6ftMAx233dpQTwZac')
                                   .collection(collectionName)
                                   .doc(docUid)
-                                  .set({
+                                  .update({
                                 'productImages': _imagesUrls,
                                 'productImage1': _imagesUrls[0],
                                 'IsStartingBid': isStartingBid,

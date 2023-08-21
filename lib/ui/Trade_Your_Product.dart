@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../constants/App_colors.dart';
 import '../constants/App_widgets.dart';
 import '../providers/trade_in_provider.dart';
+import 'AddProducts/edit_product.dart';
 
 class TradeYourProduct extends StatefulWidget {
   const TradeYourProduct({Key? key}) : super(key: key);
@@ -31,6 +33,7 @@ class _TradeYourProductState extends State<TradeYourProduct> {
 
   @override
   void initState() {
+    productProvider.getSearchProductsList.clear();
     TradeInProvider productsProvider = Provider.of(context, listen: false);
     productsProvider.fitchCellPhonesProducts();
     productsProvider.fitchPadsTabletsProducts();
@@ -49,6 +52,8 @@ class _TradeYourProductState extends State<TradeYourProduct> {
     productProvider.getSearchProductsList.clear();
     super.dispose();
   }
+
+  final _firebaseStorage = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -95,83 +100,200 @@ class _TradeYourProductState extends State<TradeYourProduct> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(11.0),
                             ),
-                            child: GestureDetector(
-                                onTap: () {
-                                  print(productProvider
-                                      .getSearchProductsList.length);
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) => ProductPage(
-                                  //           productName: data.productName
-                                  //               .toString(),
-                                  //           productCurrentBid:
-                                  //           data.productCurrentBid,
-                                  //           productDescription: data
-                                  //               .productDescription
-                                  //               .toString(),
-                                  //           productUid: data.productUid
-                                  //               .toString(),
-                                  //           productImage1: data
-                                  //               .productImage1
-                                  //               .toString(),
-                                  //           productShipping:
-                                  //           data.productShipping,
-                                  //           productPrice:
-                                  //           data.productPrice,
-                                  //           productPTAApproved:
-                                  //           data.productPTAApproved,
-                                  //           productShopkeeperUid:
-                                  //           data.productShopkeeperUid,
-                                  //           productSpecification:
-                                  //           data.productSpecification,
-                                  //         )));
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: SizedBox(
-                                    width: 178,
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          // width: 155,
-                                          height: 120,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(11),
-                                            child: Image(
-                                              // The Data will be loaded from firebse
-                                              image: NetworkImage(data
-                                                  .productImage1
-                                                  .toString()),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          data.productName.toString(),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(
-                                          height: 2,
-                                        ),
-                                        Text(
-                                          data.productDescription.toString(),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        Text(
-                                            'Price: Rs.${data.productPrice.toString()}'),
-                                        // Text('1 Day time left '),
-                                        Text(' '),
-                                      ],
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title:
+                                                  const Text('Conformation!!'),
+                                              //Are you sure to delete the following recrods from the lists
+                                              content: Text(
+                                                  'Are you sure to delete'),
+                                              actions: [
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text('No')),
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+
+                                                      _firebaseStorage
+                                                          .collection(
+                                                              'TradeInProducts')
+                                                          .doc(
+                                                              'FrY6ftMAx233dpQTwZac')
+                                                          .collection(data
+                                                              .productCollectionName
+                                                              .toString())
+                                                          .doc(data.productUid)
+                                                          .delete();
+                                                      // setState(() {
+                                                      //   uidChecking = data
+                                                      //       .productUid
+                                                      //       .toString();
+                                                      // });
+                                                      productProvider
+                                                          .getSearchProductsList
+                                                          .clear();
+                                                      productProvider
+                                                          .fitchCellPhonesProducts();
+                                                      productProvider
+                                                          .fitchPadsTabletsProducts();
+                                                      productProvider
+                                                          .fitchLaptopsProducts();
+                                                      productProvider
+                                                          .fitchSmartWatchesProducts();
+                                                      productProvider
+                                                          .fitchDesktopsProducts();
+                                                      productProvider
+                                                          .fitchAccessoriesProducts();
+                                                      productProvider
+                                                          .fitchPartsProducts();
+                                                    },
+                                                    child: Text('Yes'))
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: Text('Remove'),
                                     ),
-                                  ),
-                                )),
+                                    TextButton(
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title:
+                                                  const Text('Conformation!!'),
+                                              //Are you sure to delete the following recrods from the lists
+                                              content: Text(
+                                                  'Are you sure to edit all details'),
+                                              actions: [
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text('No')),
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (context) =>
+                                                                      EditProduct(
+                                                                        productCollectionName: data
+                                                                            .productCollectionName
+                                                                            .toString(),
+                                                                        productUid: data
+                                                                            .productUid
+                                                                            .toString(),
+                                                                      )));
+                                                    },
+                                                    child: Text('Yes'))
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: Text('Edit'),
+                                    ),
+                                  ],
+                                ),
+                                GestureDetector(
+                                    onTap: () {
+                                      print(productProvider
+                                          .getSearchProductsList.length);
+                                      // Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) => ProductPage(
+                                      //           productName: data.productName
+                                      //               .toString(),
+                                      //           productCurrentBid:
+                                      //           data.productCurrentBid,
+                                      //           productDescription: data
+                                      //               .productDescription
+                                      //               .toString(),
+                                      //           productUid: data.productUid
+                                      //               .toString(),
+                                      //           productImage1: data
+                                      //               .productImage1
+                                      //               .toString(),
+                                      //           productShipping:
+                                      //           data.productShipping,
+                                      //           productPrice:
+                                      //           data.productPrice,
+                                      //           productPTAApproved:
+                                      //           data.productPTAApproved,
+                                      //           productShopkeeperUid:
+                                      //           data.productShopkeeperUid,
+                                      //           productSpecification:
+                                      //           data.productSpecification,
+                                      //         )));
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: SizedBox(
+                                        width: 178,
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                              // width: 155,
+                                              height: 120,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(11),
+                                                child: Image(
+                                                  // The Data will be loaded from firebse
+                                                  image: NetworkImage(data
+                                                      .productImage1
+                                                      .toString()),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(
+                                              data.productName.toString(),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            SizedBox(
+                                              height: 2,
+                                            ),
+                                            Text(
+                                              data.productDescription
+                                                  .toString(),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Text(
+                                                'Price: Rs.${data.productPrice.toString()}'),
+                                            // Text('1 Day time left '),
+                                            Text(' '),
+                                          ],
+                                        ),
+                                      ),
+                                    )),
+                              ],
+                            ),
                           );
                         }),
                   ),

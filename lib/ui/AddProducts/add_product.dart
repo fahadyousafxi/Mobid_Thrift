@@ -12,7 +12,6 @@ import 'package:ndialog/ndialog.dart';
 import '../../constants/App_colors.dart';
 import '../../constants/App_widgets.dart';
 import '../../utils/utils.dart';
-import '../Trade_Your_Product.dart';
 import '../appbar/My_appbar.dart';
 
 class AddProduct extends StatefulWidget {
@@ -453,11 +452,13 @@ class _AddProductState extends State<AddProduct> {
                                   progressDialog.dismiss();
                                 });
                                 Utils.flutterToast('Product has been uploaded');
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const TradeYourProduct()));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             const TradeYourProduct()));
+                                Navigator.pop(context);
+                                Navigator.pop(context);
                               }).onError((error, stackTrace) {
                                 Utils.flutterToast(error.toString());
                                 setState(() {

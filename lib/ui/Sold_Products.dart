@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobidthrift/providers/sold_products_provider.dart';
 import 'package:mobidthrift/ui/appbar/My_appbar.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/Product_Provider.dart';
 
 class SoldProducts extends StatefulWidget {
   const SoldProducts({Key? key}) : super(key: key);
@@ -11,12 +12,13 @@ class SoldProducts extends StatefulWidget {
 }
 
 class _SoldProductsState extends State<SoldProducts> {
-  SoldProductsProvider soldProductsProvider = SoldProductsProvider();
+  // SoldProductsProvider soldProductsProvider = SoldProductsProvider();
+  ProductsProvider soldProductsProvider = ProductsProvider();
 
   @override
   void initState() {
-    SoldProductsProvider soldProductsProvider =
-        Provider.of(context, listen: false);
+    ProductsProvider soldProductsProvider = Provider.of(context, listen: false);
+    soldProductsProvider.getSearchProductsList;
     // TODO: implement initState
     super.initState();
   }
@@ -24,16 +26,16 @@ class _SoldProductsState extends State<SoldProducts> {
   @override
   Widget build(BuildContext context) {
     soldProductsProvider = Provider.of(context);
-    soldProductsProvider.getSoldProductsData();
+    // soldProductsProvider.getSoldProductsData();
     return Scaffold(
       appBar: MyAppbar().mySimpleAppBar(context, title: 'Sold Products'),
       body: Padding(
         padding: const EdgeInsets.all(28.0),
         child: ListView.builder(
           shrinkWrap: true,
-          itemCount: soldProductsProvider.getSoldProductsDataList.length,
+          itemCount: soldProductsProvider.getSearchProductsList.length,
           itemBuilder: (BuildContext context, int index) {
-            var data = soldProductsProvider.getSoldProductsDataList[index];
+            var data = soldProductsProvider.getSearchProductsList[index];
 
             return Padding(
               padding: const EdgeInsets.only(top: 3, right: 0, left: 0),
@@ -81,7 +83,7 @@ class _SoldProductsState extends State<SoldProducts> {
                         maxLines: 1,
                       ),
                       Text('Price: Rs.${data.productPrice!}'),
-                      Text(data.sellerStatus!.toString()),
+                      // Text(data.sellerStatus!.toString()),
                     ],
                   ),
                 ),

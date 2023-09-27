@@ -1,6 +1,6 @@
 # mobidthrift
 
-A new Flutter project name as MobidThrift for ecommerce.
+A new Flutter project name as MobidThrift for ecommerce. 
 
 ## Getting Started
 

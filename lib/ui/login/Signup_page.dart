@@ -87,11 +87,16 @@ class _SignupPageState extends State<SignupPage> {
                         labelText: 'Full Name',
                         controller: _nameController,
                         validator: (String? txt) {
+                          bool isNameValid =
+                              RegExp(r'^[a-zA-Z\s]+$').hasMatch(txt!);
                           if (txt == null || txt.isEmpty) {
                             return "Please provide your name";
                           }
-                          // islamiat = int.parse(txt);
-                          return null;
+
+                          if (isNameValid) {
+                            return null;
+                          }
+                          return 'Name Should be in alphabetic';
                         },
                       ),
                       SizedBox(
@@ -139,9 +144,12 @@ class _SignupPageState extends State<SignupPage> {
                         controller: _phoneNumberController,
                         validator: (String? txt) {
                           if (txt == null || txt.isEmpty) {
-                            return "Please provide Phone Number";
+                            return "Please provide your phone number";
                           }
-                          return null;
+                          if (txt.length == 11) {
+                            return null;
+                          }
+                          return 'Phone Number should be 11 digits';
                         },
                       ),
                       SizedBox(

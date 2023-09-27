@@ -231,11 +231,17 @@ class _AddProductState extends State<AddProduct> {
                       labelText: 'Title',
                       controller: _titleController,
                       validator: (String? txt) {
+                        bool isTitleValid =
+                            RegExp(r'^[a-zA-Z\s]+[0-9]*$').hasMatch(txt!);
+
+                        if (isTitleValid) {
+                          return null;
+                        }
                         if (txt == null || txt.isEmpty) {
                           return "Please provide the title";
                         }
 
-                        return null;
+                        return 'Should be a valid name of the device';
                       },
                       fillColor: Colors.grey.shade300,
                       labelColor: Colors.black,
@@ -345,7 +351,7 @@ class _AddProductState extends State<AddProduct> {
                     borderSideColor: Colors.black,
                     textColor: Colors.black,
                     validator: (String? txt) {
-                      if (txt == null || txt.isEmpty) {
+                      if (txt == null || txt.isEmpty || txt.length > 9999999) {
                         return "Please provide price";
                       }
 
@@ -367,7 +373,7 @@ class _AddProductState extends State<AddProduct> {
                     borderSideColor: Colors.black,
                     textColor: Colors.black,
                     validator: (String? txt) {
-                      if (txt == null || txt.isEmpty) {
+                      if (txt == null || txt.isEmpty || txt.length > 99999) {
                         return "Please provide shipping price";
                       }
 
